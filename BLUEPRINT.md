@@ -42,13 +42,13 @@ Redirections : `/club-boxe-muret`, `/boxe-muret`, `/club-mma-muret`, `/salle-mma
 | _046 | `kick-boxing-muret.webp` | kick-boxing | Un jeune boxeur en garde, cordes rouges, drapeaux |
 | _049 | `preparation-physique-muret.webp` | fitness / échauffement | Shadow boxing avec haltères légers |
 | _044 | `club-boxe-gala-muret.webp` | secondaire | Deux pratiquants devant l'affiche du gala de boxe professionnel |
-Légende de toutes : « Boxing Center Portet-sur-Garonne ». Complément : les 6 non-utilisées de Colomiers (Minimes, à légender comme telles).
+Légende : « … — Boxing Center Portet-sur-Garonne » (photos prises au club de destination : on le nomme). Complément : les 6 non-utilisées de Colomiers, légendées « … — Boxing Center » sans nommer de salle (loi commune §8).
 
 ## Système visuel — sous-famille Portet
-Papier chaud `#f3efe6` · encre navy `#1e2044` · accent **cuivre** `#7a3d16` (aplats, cotes, très gros titres ; petit texte via `--signal-texte` mesuré). Hero selon la direction retenue (A L'Éole recommandé : la route Muret→Portet en dessin coté qui se trace — 23 km · 600 m² · 21h30 · 9 disciplines — l'aile de l'Éole en trait). Type : Bricolage Grotesque + Instrument Sans + JetBrains Mono.
+Papier chaud `#f3efe6` · encre navy `#1e2044` · accent **cuivre** `#7a3d16` (aplats, cotes, très gros titres ; petit texte via `--signal-texte` mesuré). Hero **A — L'Éole** (tranché) : la route Muret→Portet en dessin coté qui se trace, cotes = 23 km par la route (Wikipédia) · 600 m² · 10h–21h30 · 9 disciplines · A64 sortie Portet ; l'aile de l'Éole en un trait, avant la route (loi commune §13.1). Type : Bricolage Grotesque + Instrument Sans + JetBrains Mono (§13.4).
 
 ## Concurrence à relever avant d'écrire
 « club de boxe Muret », « MMA Muret », « boxe thaï Muret » — 3 premiers résultats chacun → `.recherche/concurrence-muret.md`.
 
 ## Bloquants
-Direction du hero · distance gare Portet-Saint-Simon → salle.
+Distance gare Portet-Saint-Simon → salle (ne pas écrire « en train » avant vérification sur carte).
