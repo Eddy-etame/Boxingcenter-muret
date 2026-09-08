@@ -33,16 +33,16 @@ Redirections : `/club-boxe-muret`, `/boxe-muret`, `/club-mma-muret`, `/salle-mma
 ## Images (9 Portet, 6720×4480, dossier WeTransfer) — nommage SEO
 | Source | Nom | Usage | Alt (ce qu'on voit) |
 |---|---|---|---|
-| _051 | `club-boxe-muret-boxing-center-01.jpg` | **hero** | Un boxeur en garde devant le « Boxing Center » peint sur le mur bleu de la salle |
-| _050 | `salle-mma-muret-cage-boxing-center-02.jpg` | /mma/ hero | Une pratiquante en shadow boxing derrière le grillage de la cage MMA |
-| _038 | `sac-de-frappe-boxe-muret-boxing-center-03.jpg` | H02 / boxe anglaise | Un pratiquant en sweat Boxing Center frappe un sac de cuir brun |
-| _016 | `cours-boxe-muret-pattes-ours-boxing-center-04.jpg` | première séance | Une pratiquante face à un coach qui tient les pattes d'ours, dans le ring |
-| _032 | `boxe-anglaise-muret-boxing-center-05.jpg` | boxe anglaise | Deux boxeurs à l'entraînement, un coup qui touche, drapeaux au plafond |
-| _026 | `entrainement-boxe-muret-boxing-center-06.jpg` | horaires / calme | Un boxeur casqué de dos, débardeur blanc, horloge au mur |
-| _046 | `kick-boxing-muret-boxing-center-07.jpg` | kick-boxing | Un jeune boxeur en garde, cordes rouges, drapeaux |
-| _049 | `preparation-physique-muret-boxing-center-08.jpg` | fitness / échauffement | Shadow boxing avec haltères légers |
-| _044 | `club-boxe-muret-gala-boxing-center-09.jpg` | secondaire | Deux pratiquants devant l'affiche du gala de boxe professionnel |
-Légende de toutes : « Boxing Center Portet-sur-Garonne ». Crédit visible « © Axel Derewiany » sur 026, 032, 049 → droits à confirmer. Complément : les 6 non-utilisées de Colomiers (Minimes, à légender comme telles).
+| _051 | `club-boxe-muret.webp` | **hero** | Un boxeur en garde devant le « Boxing Center » peint sur le mur bleu de la salle |
+| _050 | `salle-mma-cage-muret.webp` | /mma/ hero | Une pratiquante en shadow boxing derrière le grillage de la cage MMA |
+| _038 | `sac-de-frappe-boxe-muret.webp` | H02 / boxe anglaise | Un pratiquant en sweat Boxing Center frappe un sac de cuir brun |
+| _016 | `cours-boxe-pattes-ours-muret.webp` | première séance | Une pratiquante face à un coach qui tient les pattes d'ours, dans le ring |
+| _032 | `boxe-anglaise-muret.webp` | boxe anglaise | Deux boxeurs à l'entraînement, un coup qui touche, drapeaux au plafond |
+| _026 | `entrainement-boxe-muret.webp` | horaires / calme | Un boxeur casqué de dos, débardeur blanc, horloge au mur |
+| _046 | `kick-boxing-muret.webp` | kick-boxing | Un jeune boxeur en garde, cordes rouges, drapeaux |
+| _049 | `preparation-physique-muret.webp` | fitness / échauffement | Shadow boxing avec haltères légers |
+| _044 | `club-boxe-gala-muret.webp` | secondaire | Deux pratiquants devant l'affiche du gala de boxe professionnel |
+Légende de toutes : « Boxing Center Portet-sur-Garonne ». Complément : les 6 non-utilisées de Colomiers (Minimes, à légender comme telles).
 
 ## Système visuel — sous-famille Portet
 Papier chaud `#f3efe6` · encre navy `#1e2044` · accent **cuivre** `#7a3d16` (aplats, cotes, très gros titres ; petit texte via `--signal-texte` mesuré). Hero selon la direction retenue (A L'Éole recommandé : la route Muret→Portet en dessin coté qui se trace — 23 km · 600 m² · 21h30 · 9 disciplines — l'aile de l'Éole en trait). Type : Bricolage Grotesque + Instrument Sans + JetBrains Mono.
@@ -51,4 +51,4 @@ Papier chaud `#f3efe6` · encre navy `#1e2044` · accent **cuivre** `#7a3d16` (a
 « club de boxe Muret », « MMA Muret », « boxe thaï Muret » — 3 premiers résultats chacun → `.recherche/concurrence-muret.md`.
 
 ## Bloquants
-Direction du hero · droits photos · distance gare Portet-Saint-Simon → salle.
+Direction du hero · distance gare Portet-Saint-Simon → salle.
