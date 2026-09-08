@@ -14,6 +14,7 @@ import Photo from '../components/Photo.astro';
 import Calque from '../components/Calque.astro';
 import { DESTINATION, SITE, CONTACT } from '../data/verite';
 import { route } from '../data/routes';
+import { ROLES } from '../data/medias';
 
 const AVANT = [
   { titre: 'Une tenue de sport', texte: 'Short ou legging, t-shirt, chaussures propres réservées à la salle. Rien de technique.' },
@@ -64,7 +65,7 @@ const QUESTIONS = [
       ", ou écris-nous, et on te dit exactement comment ça se passe cette semaine.",
   },
   {
-    titre: 'Quelle discipline pour une première séance depuis Muret ?',
+    titre: `Quelle discipline pour une première séance depuis ${SITE.ville} ?`,
     texte:
       "La boxe anglaise est la porte d’entrée la plus simple : quatre coups, une garde, et on progresse vite. Si la frappe t’inquiète, le grappling se pratique sans coup. Si tu veux le plus complet et que tu acceptes de mal faire pendant quelques semaines, le MMA — et il s’entraîne dans la cage.",
   },
@@ -76,14 +77,14 @@ const QUESTIONS = [
 ];
 ---
 
-<Base page="premiere-seance" ogPhoto="pattes-d-ours-muret" faq={QUESTIONS}>
+<Base page="premiere-seance" ogPhoto={ROLES.premiereSeance} faq={QUESTIONS}>
   <section class="section tete" aria-labelledby="t-page">
     <div class="enveloppe tete__inner">
       <nav class="fil mono" aria-label="Fil d’Ariane">
         <a href="/">Accueil</a><span aria-hidden="true">/</span>
         <span aria-current="page">Première séance</span>
       </nav>
-      <h1 id="t-page">Ta première séance de boxe près de Muret, minute par minute.</h1>
+      <h1 id="t-page">Ta première séance de boxe près de {SITE.ville}, minute par minute.</h1>
       <p class="tete__chapeau">
         Tu n’as jamais mis de gants et tu veux savoir exactement ce qui t’attend avant
         de pousser la porte. Voilà le déroulé d’une première séance à
@@ -100,7 +101,7 @@ const QUESTIONS = [
       </div>
     </div>
     <div class="enveloppe">
-      <Calque slug="pattes-d-ours-muret" prioritaire sizes="100vw" ratio="21 / 9" class="tete__photo" />
+      <Calque slug={ROLES.premiereSeance} prioritaire sizes="100vw" ratio="21 / 9" class="tete__photo" />
     </div>
   </section>
 
@@ -142,7 +143,7 @@ const QUESTIONS = [
         </ol>
       </div>
       <div class="pendant__image">
-        <Photo slug="sac-de-frappe-muret" sizes="(max-width: 62rem) 100vw, 42vw" ratio="3 / 4" />
+        <Photo slug={ROLES.effort} sizes="(max-width: 62rem) 100vw, 42vw" ratio="3 / 4" />
       </div>
     </div>
   </section>
@@ -167,7 +168,7 @@ const QUESTIONS = [
         </div>
       </div>
       <div class="ou__photo">
-        <Photo slug="club-boxe-muret" sizes="(max-width: 62rem) 100vw, 40vw" ratio="4 / 3" />
+        <Photo slug={ROLES.hero} sizes="(max-width: 62rem) 100vw, 40vw" ratio="4 / 3" />
       </div>
     </div>
   </section>

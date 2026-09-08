@@ -101,3 +101,20 @@ export function media(slug: MediaSlug): Media {
 }
 
 export const DOSSIER_SOURCE = LOT;
+
+/**
+ * Les photos par RÔLE, pas par nom de fichier.
+ *
+ * Les pages partagées de la famille (contact, première séance, ta séance…)
+ * demandent « la photo de hero » ou « la photo de la première séance » ; c'est
+ * ce manifeste qui dit laquelle. Un site dont le lot n'a pas la même scène
+ * change une ligne ici, et aucune page.
+ */
+export const ROLES = {
+  hero: 'club-boxe-muret',
+  signature: 'cage-mma-muret',
+  premiereSeance: 'pattes-d-ours-muret',
+  effort: 'sac-de-frappe-muret',
+  calme: 'entrainement-boxe-muret',
+  salle: 'club-boxe-muret-2',
+} as const satisfies Record<string, MediaSlug>;

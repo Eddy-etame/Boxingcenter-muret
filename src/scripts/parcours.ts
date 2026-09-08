@@ -16,6 +16,7 @@
  */
 
 import { OFFRES, FAMILLES_PAR_PAGE, type Famille, type PageDiscipline } from '../data/offres';
+import { SITE } from '../data/verite';
 
 export type Creneau = 'midi' | 'apres-midi' | 'soir' | 'samedi';
 
@@ -26,7 +27,9 @@ export type Parcours = {
   t?: number;
 };
 
-const CLE = 'bc-muret-parcours';
+/* La clé porte le domaine : deux sites de la famille ouverts dans le même
+   navigateur ne se marchent jamais dessus. */
+const CLE = `bc-${SITE.ville.toLowerCase().replace(/[^a-z]/g, '')}-parcours`;
 /** Un parcours vieux de plus de trente jours ne dit plus rien d'utile. */
 const PEREMPTION = 30 * 24 * 60 * 60 * 1000;
 
@@ -146,7 +149,7 @@ function peindre() {
     seance: s?.creneau ? s.intitules[0] : '',
   };
 
-  let acquis = 1; // le départ est toujours acquis : Muret
+  let acquis = 1; // le départ est toujours acquis : la ville du site
   for (const [cle, valeur] of Object.entries(valeurs)) {
     const etape = barre.querySelector<HTMLElement>(`[data-etape="${cle}"]`);
     if (!etape) continue;
@@ -189,7 +192,7 @@ export function effacer() {
 
 /** Phrase lisible du parcours, réutilisée telle quelle dans le message envoyé. */
 export function enPhrase(p: Parcours = etat): string {
-  const bouts = ['Je pars de Muret'];
+  const bouts = [`Je pars de ${SITE.ville}`];
   if (p.discipline) bouts.push(`je cherche ${DANS_UNE_PHRASE[p.discipline]}`);
   if (p.creneau) bouts.push(`je peux m’entraîner ${CRENEAU_PHRASE[p.creneau]}`);
   return bouts.join(', ') + '.';

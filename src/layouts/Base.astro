@@ -7,6 +7,7 @@ import Parcours from '../components/Parcours.astro';
 import { route, type RouteId } from '../data/routes';
 import { SITE, CONTACT, DESTINATION, LIMITROPHES } from '../data/verite';
 import { OFFRES } from '../data/offres';
+import { ROLES } from '../data/medias';
 import { DOIT_BLOQUER_LES_ROBOTS } from '../lib/environnement';
 import { derniereModification, fichierDeRoute } from '../lib/dates';
 
@@ -20,14 +21,14 @@ interface Props {
   faq?: readonly { titre: string; texte: string }[];
 }
 
-const { page, discipline, ogPhoto = 'club-boxe-muret', faq } = Astro.props;
+const { page, discipline, ogPhoto = ROLES.hero, faq } = Astro.props;
 const r = route(page);
 const canonique = new URL(r.chemin, SITE.origine).href;
 const og = new URL(`/photos/${ogPhoto}-1440.jpg`, SITE.origine).href;
 
 /**
  * JSON-LD — il confirme le HTML visible, il n'ajoute jamais un fait que la
- * page ne dit pas. Aucun `LocalBusiness` pour Muret : ce serait déclarer un
+ * page ne dit pas. Aucun `LocalBusiness` pour la ville du site : ce serait déclarer un
  * établissement qui n'existe pas. Le club, lui, est une entité réelle, avec
  * son adresse, ses horaires et ses disciplines publiées.
  */

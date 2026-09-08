@@ -10,12 +10,13 @@
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
 import { CONTACT, DESTINATION, SITE } from '../data/verite';
+import { ROLES } from '../data/medias';
 import { OFFRES } from '../data/offres';
 
 const erreur = Astro.url.searchParams.get('erreur') === '1';
 ---
 
-<Base page="contact" ogPhoto="pattes-d-ours-muret">
+<Base page="contact" ogPhoto={ROLES.premiereSeance}>
   <section class="section tete" aria-labelledby="t-contact">
     <div class="enveloppe tete__inner">
       <div>
@@ -24,7 +25,7 @@ const erreur = Astro.url.searchParams.get('erreur') === '1';
         <p class="lead faible tete__intro">
           Il n’y a pas de mauvaise question. «&nbsp;Je n’ai jamais fait de sport&nbsp;»,
           «&nbsp;j’ai 45 ans&nbsp;», «&nbsp;je ne veux pas prendre de coup&nbsp;»,
-          «&nbsp;mon fils a 9 ans&nbsp;», «&nbsp;je pars de Muret le soir&nbsp;» — ce sont
+          «&nbsp;mon fils a 9 ans&nbsp;», «&nbsp;je pars de {SITE.ville} le soir&nbsp;» — ce sont
           les messages qu’on reçoit le plus souvent, et ce sont exactement ceux
           auxquels on sait répondre.
         </p>
@@ -124,7 +125,7 @@ const erreur = Astro.url.searchParams.get('erreur') === '1';
             value={SITE.ville}
             autocomplete="address-level2"
           />
-          <span class="champ__aide">Muret, une commune voisine, ou ailleurs&nbsp;: dis-le-nous, ça change le créneau qu’on te conseille.</span>
+          <span class="champ__aide">{SITE.ville}, une commune voisine, ou ailleurs&nbsp;: dis-le-nous, ça change le créneau qu’on te conseille.</span>
         </p>
 
         <p class="champ">
@@ -144,7 +145,7 @@ const erreur = Astro.url.searchParams.get('erreur') === '1';
       </form>
 
       <aside class="cote">
-        <Photo slug="pattes-d-ours-muret" sizes="(max-width: 62rem) 100vw, 34vw" ratio="4 / 5" />
+        <Photo slug={ROLES.premiereSeance} sizes="(max-width: 62rem) 100vw, 34vw" ratio="4 / 5" />
         <div class="cote__fiche">
           <p class="mono cote__cle">Le club</p>
           <p class="cote__nom">{DESTINATION.nom}</p>

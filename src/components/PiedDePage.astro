@@ -8,7 +8,7 @@
  * « en savoir plus ».
  */
 import { MENU, LIENS_CLUB, route } from '../data/routes';
-import { SITE, CONTACT, DESTINATION, LIMITROPHES } from '../data/verite';
+import { SITE, CONTACT, DESTINATION, LIMITROPHES, NOTE_SECTEUR } from '../data/verite';
 
 const annee = new Date().getFullYear();
 ---
@@ -36,7 +36,7 @@ const annee = new Date().getFullYear();
         <p class="mono pied__cle">Le site</p>
         <ul>
           {MENU.map((r) => (
-            <li><a class="lien" href={r.chemin}>{r.nav}{r.id !== 'accueil' && r.id !== 'contact' && r.id !== 'ta-seance' ? ' près de Muret' : ''}</a></li>
+            <li><a class="lien" href={r.chemin}>{r.nav}{r.id !== 'accueil' && r.id !== 'contact' && r.id !== 'ta-seance' ? ` près de ${SITE.ville}` : ''}</a></li>
           ))}
           <li><a class="lien" href={route('premiere-seance').chemin}>Première séance, débutants</a></li>
         </ul>
@@ -68,10 +68,10 @@ const annee = new Date().getFullYear();
       </div>
     </div>
 
-    {/* Le territoire : Muret et ses douze limitrophes. Utile au lecteur, lu
-        par les robots, et vrai — ce sont les communes qui touchent Muret. */}
+    {/* Le territoire : la ville et ses limitrophes. Utile au lecteur, lu par
+          les robots, et vrai — ce sont les communes qui la touchent. */}
     <div class="pied__secteur">
-      <p class="mono pied__cle">Depuis Muret et ses communes voisines</p>
+      <p class="mono pied__cle">Depuis {SITE.ville} et ses communes voisines</p>
       <p class="pied__communes">
         {LIMITROPHES.map((c, i) => (
           <>
@@ -80,10 +80,7 @@ const annee = new Date().getFullYear();
           </>
         ))}
       </p>
-      <p class="pied__note">
-        Roques touche Portet-sur-Garonne&nbsp;: depuis le sud de Muret, le club est
-        au bout de la même route.
-      </p>
+      {NOTE_SECTEUR && <p class="pied__note">{NOTE_SECTEUR}</p>}
     </div>
 
     <div class="pied__bas">

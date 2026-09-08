@@ -12,6 +12,7 @@ import Seance from '../components/Seance.astro';
 import Photo from '../components/Photo.astro';
 import { DESTINATION, SITE } from '../data/verite';
 import { OFFRES } from '../data/offres';
+import { ROLES } from '../data/medias';
 import { route } from '../data/routes';
 
 const QUESTIONS = [
@@ -38,7 +39,7 @@ const QUESTIONS = [
 ];
 ---
 
-<Base page="ta-seance" ogPhoto="entrainement-boxe-muret" faq={QUESTIONS}>
+<Base page="ta-seance" ogPhoto={ROLES.calme} faq={QUESTIONS}>
   <section class="section tete" aria-labelledby="t-page">
     <div class="enveloppe tete__inner">
       <nav class="fil mono" aria-label="Fil d’Ariane">
@@ -96,7 +97,7 @@ const QUESTIONS = [
       <div>
         <p class="cartouche"><span class="cartouche__num">—</span><span>Questions</span></p>
         <h2 id="t-faq">Choisir son créneau, sans se tromper.</h2>
-        <Photo slug="entrainement-boxe-muret" sizes="(max-width: 62rem) 100vw, 30vw" ratio="4 / 3" class="faq__photo" />
+        <Photo slug={ROLES.calme} sizes="(max-width: 62rem) 100vw, 30vw" ratio="4 / 3" class="faq__photo" />
       </div>
       <div class="faq__liste">
         {QUESTIONS.map((q, i) => (

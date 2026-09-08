@@ -130,6 +130,13 @@ export const VILLE = {
   histoire: WIKI('la bataille de Muret, en 1213'),
 } as const;
 
+/**
+ * La phrase qui relie le secteur au club, quand un fait honnête le permet.
+ * Vide si aucun lien géographique réel n'existe — on n'en invente pas.
+ */
+export const NOTE_SECTEUR =
+  'Roques touche Portet-sur-Garonne : depuis le sud de Muret, le club est au bout de la même route.';
+
 /** Les douze communes limitrophes. Roques touche Portet : c'est le lien. */
 export const LIMITROPHES: readonly { nom: string; note?: string }[] = [
   { nom: 'Lamasquère' },
