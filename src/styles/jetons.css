@@ -76,6 +76,9 @@
   --signal-texte: #7a3d16;
   --signal-profond: #5e2f11;
   --signal-voile: rgba(184, 118, 58, 0.12);
+  /* Le quadrillage du calque posé sur les photos. Il suit la polarité :
+     cuivre sur papier, cuivre pâle sur encre. */
+  --calque-trait: rgba(122, 61, 22, 0.28);
 
   /* Polarité par défaut : papier. Une section peut basculer en encre. */
   --fond: var(--papier);
@@ -147,6 +150,7 @@
 /* Polarité encre — appliquée par section, jamais par préférence système :
    le parcours de couleur est narratif, il n'appartient pas au visiteur. */
 .encre {
+  --calque-trait: rgba(216, 160, 106, 0.26);
   --fond: var(--encre);
   --texte: var(--papier);
   --texte-faible: #a9abc4;

@@ -11,7 +11,6 @@
  */
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
-import Calque from '../components/Calque.astro';
 import { DESTINATION, SITE, CONTACT } from '../data/verite';
 import { route } from '../data/routes';
 import { ROLES } from '../data/medias';
@@ -101,7 +100,7 @@ const QUESTIONS = [
       </div>
     </div>
     <div class="enveloppe">
-      <Calque slug={ROLES.premiereSeance} prioritaire sizes="100vw" ratio="21 / 9" class="tete__photo" />
+      <Photo slug={ROLES.premiereSeance} prioritaire sizes="100vw" ratio="21 / 9" class="tete__photo" />
     </div>
   </section>
 
@@ -155,7 +154,7 @@ const QUESTIONS = [
         <h2 id="t-ou">{DESTINATION.nom}</h2>
         <p class="lead">{DESTINATION.adresse}</p>
         <p class="faible">
-          Depuis {SITE.ville}&nbsp;: {DESTINATION.acces} 23 km par la route.
+          Depuis {SITE.ville}&nbsp;: {DESTINATION.acces} En bus, la 117 Express y va direct.
           {' '}{DESTINATION.singularite} Le club accueille {DESTINATION.horaires.valeur}.
         </p>
         <div class="ou__portes">

@@ -21,6 +21,7 @@ export type RouteId =
   | 'boxing-fitness'
   | 'premiere-seance'
   | 'ta-seance'
+  | 'transports'
   | 'contact'
   | 'merci'
   | 'introuvable'
@@ -37,6 +38,12 @@ export type Route = {
   description: string;
   menu: boolean;
   index: boolean;
+  /**
+   * Page mise en avant : elle sort de la liste de navigation et prend sa
+   * propre pastille, parce qu'elle répond à l'objection numéro un — « c'est
+   * loin » — et qu'une objection ne se range pas au milieu d'un menu.
+   */
+  promo?: true;
 };
 
 export const ROUTES: readonly Route[] = [
@@ -129,6 +136,18 @@ export const ROUTES: readonly Route[] = [
     index: true,
   },
   {
+    id: 'transports',
+    chemin: '/transports/',
+    nav: 'Transports',
+    question: 'Comment j’y vais si je n’ai pas de voiture ?',
+    titre: 'Y aller en bus depuis Muret | Boxing Center',
+    description:
+      'La 117 Express relie la gare de Muret à Portet-sur-Garonne sans correspondance. Bus, métro et TER pour rejoindre Boxing Center depuis Muret sans voiture.',
+    menu: true,
+    index: true,
+    promo: true,
+  },
+  {
     id: 'contact',
     chemin: '/contact/',
     nav: 'Contact',
@@ -188,6 +207,12 @@ export function route(id: RouteId): Route {
 }
 
 export const MENU = ROUTES.filter((r) => r.menu);
+
+/** Les entrées de navigation ordinaires, hors pages mises en avant. */
+export const MENU_SIMPLE = MENU.filter((r) => !r.promo);
+
+/** La page mise en avant, s'il y en a une. */
+export const PROMO = ROUTES.find((r) => r.promo);
 
 /**
  * Plannings et Tarifs vivent chez le club. Ce sont des liens sortants dans la

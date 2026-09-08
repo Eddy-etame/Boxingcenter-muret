@@ -3,23 +3,25 @@ import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Seance from '../components/Seance.astro';
 import Photo from '../components/Photo.astro';
-import Calque from '../components/Calque.astro';
 import { SITE, DESTINATION, VILLE, LIMITROPHES, CONTACT } from '../data/verite';
 import { OFFRES } from '../data/offres';
 import { route } from '../data/routes';
+import { LIGNES, ligne } from '../data/transports';
+
+const principale = ligne('117 Express');
 
 /**
  * Les questions que les Muretains tapent réellement, avec la réponse honnête.
  *
  * Elles portent les requêtes locales — mais parce qu'elles y répondent, pas
- * pour les placer. On dit toujours ce qui existe : un club à 23 km, ce qu'il
+ * pour les placer. On dit toujours ce qui existe : un club au bout d'une ligne, ce qu'il
  * propose, comment on y va. Jamais ce qui manque.
  */
 const QUESTIONS = [
   {
     titre: 'Où faire de la boxe quand on habite Muret ?',
     texte:
-      "Boxing Center accueille les Muretains à Portet-sur-Garonne, à 23 km par la route : 600 m², un ring, une cage MMA, et neuf disciplines publiées — boxe anglaise, kick-boxing, MMA, grappling et jiu-jitsu brésilien, Lady Boxing, préparation physique, Baby boxe, boxe éducative et kick-boxing enfants/ados. On y monte par l’A64, sortie Portet, puis la route d’Espagne.",
+      "Boxing Center accueille les Muretains à Portet-sur-Garonne, au bout de la ligne 117 Express : 600 m², un ring, une cage MMA, et neuf disciplines publiées — boxe anglaise, kick-boxing, MMA, grappling et jiu-jitsu brésilien, Lady Boxing, préparation physique, Baby boxe, boxe éducative et kick-boxing enfants/ados. On y monte par l’A64, sortie Portet, puis la route d’Espagne — ou par la 117 Express, qui part de la gare de Muret.",
   },
   {
     titre: 'Où faire du MMA près de Muret, et y a-t-il une vraie cage ?',
@@ -34,7 +36,7 @@ const QUESTIONS = [
   {
     titre: 'Comment on va de Muret à Portet-sur-Garonne ?',
     texte:
-      "Par l’A64 en direction de Toulouse, sortie Portet, puis la route d’Espagne — le club est au 61. C’est 23 km par la route. On ne t’annonce pas de durée : elle dépend entièrement de l’heure à laquelle tu pars. Regarde plutôt si cet axe est déjà celui de tes trajets : c’est le meilleur indicateur de ce que tu tiendras.",
+      "Par l’A64 en direction de Toulouse, sortie Portet, puis la route d’Espagne — le club est au 61. Sans voiture, la ligne 117 Express part de la gare de Muret et s’arrête à Portet, sans correspondance. On ne t’annonce pas de durée : elle dépend de l’heure à laquelle tu pars. Regarde plutôt si cet axe est déjà celui de tes trajets : c’est le meilleur indicateur de ce que tu tiendras.",
   },
   {
     titre: 'Je n’ai jamais fait de sport de combat. C’est un problème ?',
@@ -87,7 +89,7 @@ const QUESTIONS = [
       </div>
 
       {/* Le calque se lève : le plan devient la salle. */}
-      <Calque
+      <Photo
         slug="club-boxe-muret"
         sizes="(max-width: 62rem) 100vw, 46vw"
         ratio="4 / 5"
@@ -128,8 +130,7 @@ const QUESTIONS = [
       </ol>
 
       <p class="disciplines__source mono">
-        Relevé le 8 septembre 2026 sur
-        <a class="lien" href={DESTINATION.activites} rel="noopener">la page activités du club ↗</a>
+        <a class="lien" href={DESTINATION.activites} rel="noopener">Les neuf disciplines chez le club ↗</a>
       </p>
     </div>
   </section>
@@ -145,7 +146,7 @@ const QUESTIONS = [
       </p>
     </div>
     <div class="enveloppe">
-      <Calque slug="cage-mma-muret" sizes="100vw" ratio="16 / 9" class="preuve__image" />
+      <Photo slug="cage-mma-muret" sizes="100vw" ratio="16 / 9" class="preuve__image" />
       <p class="mono preuve__legende">Dans la cage — {DESTINATION.nom}</p>
     </div>
   </section>
@@ -216,11 +217,50 @@ const QUESTIONS = [
     </div>
   </section>
 
-  {/* ─────────── 08 — LES QUESTIONS ─────────── */}
+  {/* ─────────── 08 — Y ALLER SANS VOITURE ─────────── */}
+  <section class="section trajet" aria-labelledby="t-trajet">
+    <div class="enveloppe trajet__inner">
+      <div class="trajet__texte">
+        <p class="cartouche"><span class="cartouche__num">08</span><span>Y aller</span></p>
+        <h2 id="t-trajet">
+          Pas un nombre de kilomètres.<br />
+          <span class="trajet__accent">Un numéro de ligne.</span>
+        </h2>
+        <p class="lead faible">
+          {principale.parcours}&nbsp;: la {principale.code} dessert {SITE.ville} et
+          s’arrête à {DESTINATION.ville}, {principale.jours}, sans correspondance.
+          C’est la vraie réponse à «&nbsp;c’est loin&nbsp;»&nbsp;— et il y en a
+          quatre autres selon d’où tu pars.
+        </p>
+        <div class="trajet__actions">
+          <a class="bouton bouton--signal" href={route('transports').chemin}>
+            <span>Toutes les lignes</span><span class="fleche" aria-hidden="true">→</span>
+          </a>
+          <a class="bouton" href={DESTINATION.plannings} rel="noopener">
+            <span>Le planning du club</span><span class="fleche" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <ul class="trajet__lignes">
+        {LIGNES.filter((l) => l.direct).map((l, i) => (
+          <li class="reveler" style={`--retard:${i * 80}ms`}>
+            <a href={`${route('transports').chemin}?mode=${l.mode}`}>
+              <span class={`trajet__code trajet__code--${l.mode}`}>{l.code}</span>
+              <span class="trajet__parcours">{l.parcours}</span>
+              <span class="mono trajet__jours">{l.jours}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* ─────────── 09 — LES QUESTIONS ─────────── */}
   <section class="section creuse questions" aria-labelledby="t-questions">
     <div class="enveloppe questions__inner">
       <div class="questions__tete">
-        <p class="cartouche"><span class="cartouche__num">08</span><span>Ce qu’on nous demande</span></p>
+        <p class="cartouche"><span class="cartouche__num">09</span><span>Ce qu’on nous demande</span></p>
         <h2 id="t-questions">Les questions qu’on se pose<br />quand on habite Muret.</h2>
         <p class="lead faible">
           Si tu cherches un club de boxe près de Muret, tu te poses probablement
@@ -241,10 +281,10 @@ const QUESTIONS = [
     </div>
   </section>
 
-  {/* ─────────── 09 — LE SECTEUR ─────────── */}
+  {/* ─────────── 10 — LE SECTEUR ─────────── */}
   <section class="section secteur" aria-labelledby="t-secteur">
     <div class="enveloppe">
-      <p class="cartouche"><span class="cartouche__num">09</span><span>Le secteur</span></p>
+      <p class="cartouche"><span class="cartouche__num">10</span><span>Le secteur</span></p>
       <div class="secteur__tete">
         <h2 id="t-secteur">
           Muret, {SITE.codePostal},<br />
@@ -273,11 +313,11 @@ const QUESTIONS = [
     </div>
   </section>
 
-  {/* ─────────── 10 — ADER, LE FAIT LOCAL ─────────── */}
+  {/* ─────────── 11 — ADER, LE FAIT LOCAL ─────────── */}
   <section class="section encre ader" aria-labelledby="t-ader">
     <div class="enveloppe ader__inner">
       <div>
-        <p class="cartouche"><span class="cartouche__num">10</span><span>Muret</span></p>
+        <p class="cartouche"><span class="cartouche__num">11</span><span>Muret</span></p>
         <h2 id="t-ader">On sait ce qu’on doit à un plan bien tracé.</h2>
         <p class="lead">
           {VILLE.figure.valeur.split(',')[0]} est né ici. L’homme qui a fait décoller
@@ -297,12 +337,12 @@ const QUESTIONS = [
     </div>
   </section>
 
-  {/* ─────────── 11 — CONVERGENCE ─────────── */}
+  {/* ─────────── 12 — CONVERGENCE ─────────── */}
   <section class="section convergence" aria-labelledby="t-convergence">
     <div class="enveloppe convergence__inner">
-      <p class="cartouche"><span class="cartouche__num">11</span><span>Y aller</span></p>
+      <p class="cartouche"><span class="cartouche__num">12</span><span>Décider</span></p>
       <h2 id="t-convergence">
-        23 km, une sortie d’autoroute,<br />
+        Une ligne de bus,<br />
         <span class="convergence__accent">et tu y es.</span>
       </h2>
       <p class="lead convergence__texte">
@@ -445,7 +485,7 @@ const QUESTIONS = [
   .amplitude__args li { display: flex; align-items: baseline; gap: var(--e-3); font-size: var(--t-petit); }
   .amplitude__tiret { flex: none; width: 1.25rem; height: 1px; background: var(--signal-texte); }
 
-  /* ── 08 Questions ──────────────────────────────────────────────────── */
+  /* ── 09 Questions ──────────────────────────────────────────────────── */
   .questions__inner {
     display: grid;
     grid-template-columns: 0.85fr 1.15fr;
@@ -456,7 +496,55 @@ const QUESTIONS = [
   .questions__tete h2 { max-width: 16ch; margin-bottom: var(--e-4); }
   .questions__tete .lead { max-width: 40ch; }
 
-  /* ── 09 Secteur ────────────────────────────────────────────────────── */
+  /* ── 08 Y aller ────────────────────────────────────────────────────── */
+  .trajet__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    gap: var(--e-8);
+    align-items: center;
+  }
+  @media (max-width: 62rem) { .trajet__inner { grid-template-columns: 1fr; gap: var(--e-6); } }
+  .trajet h2 { max-width: 16ch; margin-bottom: var(--e-4); }
+  .trajet__accent { color: var(--signal-texte); }
+  .trajet .lead { max-width: 50ch; }
+  .trajet__actions { display: flex; flex-wrap: wrap; gap: var(--e-3); margin-top: var(--e-6); }
+
+  .trajet__lignes { list-style: none; display: grid; gap: var(--e-3); }
+  .trajet__lignes a {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas: 'code parcours' 'code jours';
+    gap: 0.15rem var(--e-4);
+    align-items: center;
+    padding: var(--e-4) var(--e-5);
+    border: 1px solid var(--trait);
+    border-radius: var(--rayon-1);
+    background: var(--papier-vif);
+    text-decoration: none;
+    transition:
+      border-color var(--d-rapide) var(--e-mecanique),
+      transform var(--d-normal) var(--e-sortie);
+  }
+  .trajet__lignes a:hover { border-color: var(--signal-texte); transform: translateX(4px); }
+  .trajet__code {
+    grid-area: code;
+    display: grid;
+    place-items: center;
+    min-width: 3.2rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.35rem;
+    background: var(--encre);
+    color: var(--papier-vif);
+    font-family: var(--police-mono);
+    font-size: var(--t-petit);
+    font-weight: 700;
+  }
+  .trajet__code--train { background: var(--encre-pale); }
+  .trajet__code--metro { background: var(--signal-texte); }
+  .trajet__parcours { grid-area: parcours; font-weight: 600; font-size: var(--t-petit); }
+  .trajet__jours { grid-area: jours; color: var(--graphite); text-transform: none; letter-spacing: 0.05em; }
+
+  /* ── 10 Secteur ────────────────────────────────────────────────────── */
   .secteur__tete {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -485,7 +573,7 @@ const QUESTIONS = [
   .secteur__note { font-size: var(--t-micro); color: var(--graphite); }
   .secteur__pied { margin-top: var(--e-6); max-width: 68ch; font-size: var(--t-petit); color: var(--texte-faible); }
 
-  /* ── 10 Ader ───────────────────────────────────────────────────────── */
+  /* ── 11 Ader ───────────────────────────────────────────────────────── */
   .ader__inner {
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
@@ -497,7 +585,7 @@ const QUESTIONS = [
   .ader .lead { max-width: 48ch; margin-bottom: var(--e-4); }
   .ader .faible { max-width: 54ch; }
 
-  /* ── 11 Convergence ────────────────────────────────────────────────── */
+  /* ── 12 Convergence ────────────────────────────────────────────────── */
   .convergence { background: var(--papier-creuse); }
   .convergence__inner { max-width: 48rem; }
   .convergence h2 { margin-bottom: var(--e-5); }

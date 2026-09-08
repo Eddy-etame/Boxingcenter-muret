@@ -32,6 +32,9 @@ export default defineConfig({
     '/boxe-pieds-poings-muret': '/kick-boxing/',
     '/boxe-enfant-muret': '/boxe-enfants/',
     '/boxe-femme-muret': '/boxing-fitness/',
+    // L'objection « c'est loin » a son adresse.
+    '/bus-muret-portet': '/transports/',
+    '/acces': '/transports/',
     '/plannings': '/ta-seance/',
     '/tarifs': '/ta-seance/',
   },

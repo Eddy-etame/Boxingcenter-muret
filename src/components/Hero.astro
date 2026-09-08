@@ -40,7 +40,7 @@ const cotes = DESTINATION.faits;
         <h1 id="t-hero" class="hero__titre">
           <span class="hero__ligne">Ton club de boxe</span>
           <span class="hero__ligne">et de MMA</span>
-          <span class="hero__ligne hero__ligne--accent">à 23 km de Muret.</span>
+          <span class="hero__ligne hero__ligne--accent">à une ligne de bus.</span>
         </h1>
 
         <p class="hero__promesse">
@@ -67,8 +67,12 @@ const cotes = DESTINATION.faits;
           <dd>{DESTINATION.horairesCourt}</dd>
         </div>
         <div>
-          <dt class="mono">Depuis Muret</dt>
-          <dd>A64, sortie Portet</dd>
+          <dt class="mono">Depuis {SITE.ville}</dt>
+          <dd>
+            <a class="hero__fait-lien" href={route('transports').chemin}>
+              {SITE.accesCourt}<span class="fleche" aria-hidden="true">→</span>
+            </a>
+          </dd>
         </div>
         <div>
           <dt class="mono">Niveau</dt>
@@ -83,8 +87,9 @@ const cotes = DESTINATION.faits;
     <figure class="plan" data-plan>
       <figcaption class="vh">
         Plan d’accès : de Muret (31600) à Boxing Center Portet-sur-Garonne (31120),
-        23 km par la route, 600 m², un ring et une cage MMA, ouvert de 10h à 21h30
-        six jours sur sept, neuf disciplines publiées.
+        desservi depuis la gare de Muret par la ligne 117 Express, 600 m², un ring
+        et une cage MMA, ouvert de 10h à 21h30 six jours sur sept, neuf
+        disciplines publiées.
       </figcaption>
 
       {/* Tracé horizontal — écrans larges */}
@@ -119,7 +124,7 @@ const cotes = DESTINATION.faits;
           <path class="plan__cote-ligne" d="M 190 382 H 1032" />
           <path class="plan__cote-tick" d="M 190 374 V 390 M 1032 374 V 390" />
           <text class="plan__cote-texte" x="611" y="372" text-anchor="middle">{cotes[0].valeur}</text>
-          <text class="plan__cote-source" x="611" y="406" text-anchor="middle">{cotes[0].source}</text>
+          <text class="plan__cote-source" x="611" y="406" text-anchor="middle">{cotes[0].cle}</text>
         </g>
 
         {/* Cote 2 — la surface, au-dessus de la destination */}
@@ -189,7 +194,6 @@ const cotes = DESTINATION.faits;
           {/* La cote de distance s'écrit le long de sa ligne, comme sur une
               vraie planche : elle ne traverse jamais le tracé. */}
           <text class="plan__cote-texte" transform="rotate(-90 30 368)" x="30" y="368" text-anchor="middle">{cotes[0].valeur}</text>
-          <text class="plan__cote-source" transform="rotate(-90 46 368)" x="46" y="368" text-anchor="middle">{cotes[0].source}</text>
         </g>
 
         <g class="plan__cote" style="--rang:2">
@@ -227,8 +231,8 @@ const cotes = DESTINATION.faits;
       {/* Le cartouche d'une vraie planche : ce qui rend le dessin vérifiable. */}
       <div class="plan__bloc mono">
         <span><b>Boxing Center</b> — plan d’accès n° 01</span>
-        <span>Relevé 09.2026</span>
-        <span class="plan__bloc-src">Sources : boxing-center-portet.fr · Wikipédia</span>
+        <span>Muret → Portet-sur-Garonne</span>
+        <span class="plan__bloc-src">61 route d’Espagne, {DESTINATION.codePostal} {DESTINATION.ville}</span>
       </div>
     </figure>
   </div>
@@ -324,6 +328,17 @@ const cotes = DESTINATION.faits;
   .hero__faits > div:last-child { border-bottom: 1px solid var(--trait); }
   .hero__faits dt { color: var(--graphite); }
   .hero__faits dd { margin: 0; font-size: var(--t-petit); font-weight: 600; }
+  /* Le seul fait cliquable du hero : celui qui lève l'objection « c'est loin ». */
+  .hero__fait-lien {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4em;
+    color: var(--signal-texte);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--d-rapide) var(--e-mecanique);
+  }
+  .hero__fait-lien:hover { border-color: currentColor; }
 
   /* ── Le plan ───────────────────────────────────────────────────────── */
   .plan { position: relative; margin: var(--e-8) 0 0; }

@@ -30,6 +30,17 @@ export const SITE = {
   gentile: 'Muretains',
   departement: 'Haute-Garonne',
   secteur: 'sud toulousain',
+  /**
+   * L'accès en trois mots, pour le pied de hero. Jamais un temps de trajet,
+   * jamais un nombre de kilomètres : un numéro de ligne rapproche, un chiffre
+   * en kilomètres éloigne. Le détail vit sur /transports/.
+   */
+  accesCourt: '117 Express, direct',
+  /**
+   * Le formulaire Inlet de CE site. Chaque site a le sien : une demande
+   * arrive donc déjà triée par ville, sans qu'on ait à le deviner au texte.
+   */
+  formulaire: '9acc7475-7ddb-4cf9-869a-ee5af2054972',
 } as const;
 
 /* ─────────────────────────────  CONTACT  ───────────────────────────── */
@@ -94,7 +105,7 @@ export const CLUBS: readonly Club[] = [
     acces: "Par l'A64 en direction de Toulouse, sortie Portet, puis la route d'Espagne.",
     singularite: 'Le seul club du réseau avec une cage MMA.',
     faits: [
-      { cle: 'Distance', valeur: '23 km par la route', source: 'Wikipédia' },
+      { cle: 'Ligne directe', valeur: '117 Express', source: 'Tisséo' },
       { cle: 'Surface', valeur: '600 m²', source: 'boxing-center-portet.fr' },
       { cle: 'Équipement', valeur: '1 ring, 1 cage MMA', source: 'boxing-center-portet.fr' },
       { cle: 'Accueil', valeur: '10h → 21h30, 6 j/7', source: 'boxing-center-portet.fr' },

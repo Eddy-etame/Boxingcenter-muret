@@ -195,16 +195,36 @@ textarea {
 
 .bouton--plein { width: 100%; }
 
-/* ── Révélation au scroll ─────────────────────────────────────────────── */
-.reveler {
+/* ── Le mouvement ─────────────────────────────────────────────────────
+   Deux classes, une seule grammaire : rien n'arrive posé, tout monte.
+   `.reveler` se balise à la main sur les listes et les cartes ;
+   `.bloc-scene` est posée par `mouvement.ts` sur chaque bloc de section,
+   avec son rang `--i` — c'est ce qui donne le décalage sans qu'aucune page
+   n'ait à s'en occuper. Les deux se rejouent quand on remonte puis
+   redescend : voir `src/scripts/mouvement.ts`. */
+.reveler,
+.bloc-scene {
   opacity: 0;
   transform: translateY(1.25rem);
-  transition: opacity var(--d-lent) var(--e-sortie),
+  transition:
+    opacity var(--d-lent) var(--e-sortie),
     transform var(--d-lent) var(--e-sortie);
   transition-delay: var(--retard, 0ms);
+  will-change: opacity, transform;
 }
-.reveler.vu { opacity: 1; transform: none; }
-.no-js .reveler { opacity: 1; transform: none; }
+.bloc-scene {
+  transform: translateY(1.75rem);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+.reveler.vu,
+.bloc-scene.vu { opacity: 1; transform: none; }
+.no-js .reveler,
+.no-js .bloc-scene { opacity: 1; transform: none; }
+
+/* Une fois arrivé, le bloc rend la main : plus de couche de composition
+   inutile, et le texte retrouve son rendu sous-pixel. */
+.reveler.vu,
+.bloc-scene.vu { will-change: auto; }
 
 /* ── Lien d'évitement ─────────────────────────────────────────────────── */
 .saut {
@@ -284,7 +304,8 @@ textarea {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .reveler { opacity: 1; transform: none; }
+  .reveler,
+  .bloc-scene { opacity: 1; transform: none; }
 }
 
 /* ── Couleurs forcées (Windows high contrast) ─────────────────────────── */

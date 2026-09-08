@@ -34,7 +34,7 @@ export const CONTENUS: readonly Contenu[] = [
     id: 'boxe-anglaise',
     h1: 'Cours de boxe anglaise à proximité de Muret',
     chapeau:
-      "La boxe anglaise se pratique aux poings, avec des gants, dans un cadre encadré. Aucun niveau n'est demandé pour commencer. Depuis Muret, elle se pratique à Boxing Center Portet-sur-Garonne, à 23 km par la route, six jours sur sept de 10h à 21h30.",
+      "La boxe anglaise se pratique aux poings, avec des gants, dans un cadre encadré. Aucun niveau n'est demandé pour commencer. Depuis Muret, elle se pratique à Boxing Center Portet-sur-Garonne, au bout de la ligne 117 Express, six jours sur sept de 10h à 21h30.",
     photoHero: 'boxe-anglaise-muret',
     photoSecondaire: 'sac-de-frappe-muret',
     promesse: 'Apprendre à boxer pour de vrai, encadré, sans avoir rien à prouver à personne.',
@@ -57,7 +57,7 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'Depuis Muret, comment on y va',
         texte:
-          "Par l'A64 en direction de Toulouse, sortie Portet, puis la route d'Espagne : le club est au 61. Vingt-trois kilomètres par la route. Le vrai critère n'est pas la distance, c'est l'habitude : si cet axe est déjà celui de tes trajets, tu iras même les soirs où tu n'en as pas envie. Et c'est cela, et rien d'autre, qui fait qu'on tient en novembre.",
+          "Par l'A64 en direction de Toulouse, sortie Portet, puis la route d'Espagne : le club est au 61. Sans voiture, la 117 Express part de la gare de Muret et suit exactement le même tracé, celui de l'ancienne nationale 117. Le vrai critère n'est jamais la distance, c'est l'habitude : si cet axe est déjà celui de tes trajets, tu iras même les soirs où tu n'en as pas envie. Et c'est cela, et rien d'autre, qui fait qu'on tient en novembre.",
       },
     ],
     seance: [
@@ -225,7 +225,7 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'Ce que ça demande à un parent',
         texte:
-          "Un trajet régulier, et c'est le vrai sujet. Depuis Muret, le club est à 23 km par l'A64, sortie Portet. Regarde le planning avant de t'engager : le bon créneau n'est pas le plus intéressant sur le papier, c'est celui que tu pourras assurer en janvier, quand il fait nuit à 18h.",
+          "Un trajet régulier, et c'est le vrai sujet. Depuis Muret, on y va par l'A64 sortie Portet, ou par la 117 Express qui part de la gare. Regarde le planning avant de t'engager : le bon créneau n'est pas le plus intéressant sur le papier, c'est celui que tu pourras assurer en janvier, quand il fait nuit à 18h.",
       },
     ],
     seance: [

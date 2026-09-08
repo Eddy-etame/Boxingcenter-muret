@@ -11,7 +11,6 @@
  */
 import Base from '../layouts/Base.astro';
 import Photo from '../components/Photo.astro';
-import Calque from '../components/Calque.astro';
 import { contenu } from '../data/contenus';
 import { offresDeLaPage, type PageDiscipline } from '../data/offres';
 import { DESTINATION, SITE, CONTACT } from '../data/verite';
@@ -56,7 +55,7 @@ const autres = ROUTES.filter(
     </div>
 
     <div class="enveloppe">
-      <Calque slug={c.photoHero} prioritaire sizes="100vw" ratio="21 / 9" class="tete__photo" />
+      <Photo slug={c.photoHero} prioritaire sizes="100vw" ratio="21 / 9" class="tete__photo" />
     </div>
   </section>
 
@@ -194,7 +193,7 @@ const autres = ROUTES.filter(
       <p class="cartouche"><span class="cartouche__num">—</span><span>Passer à l’acte</span></p>
       <h2 id="t-conversion">{c.promesse}</h2>
       <p class="lead conversion__texte">
-        23 km depuis {SITE.ville}, {DESTINATION.horaires.valeur}. Si tu sais ce que tu
+        Ligne 117 Express depuis {SITE.ville}, {DESTINATION.horaires.valeur}. Si tu sais ce que tu
         cherches, le planning du club te dira quand venir. Si tu hésites, dis-nous en
         deux lignes ce que tu veux&nbsp;: on te répond avec le créneau qui tient.
       </p>

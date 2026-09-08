@@ -1,0 +1,774 @@
+---
+/**
+ * TRANSPORTS EN COMMUN — la page qui remplace le kilomètre par une ligne.
+ *
+ * Le mécanisme : un sélecteur de mode (métro · bus · train) qui n'est PAS du
+ * JavaScript. Ce sont de vrais boutons radio, et c'est le CSS qui montre le
+ * panneau coché. Résultat : la page fonctionne entière sans script, chaque
+ * onglet est atteignable au clavier, et le lecteur d'écran annonce un vrai
+ * groupe de choix.
+ *
+ * Le dessin : chaque ligne est un schéma de réseau — le rail, les arrêts, et
+ * la commune du club marquée d'une cible. Le rail se RETRACE à chaque bascule
+ * d'onglet, parce que le passage de `display:none` à `display:block` redémarre
+ * les animations CSS. Rien à câbler : le mouvement est une conséquence de la
+ * structure.
+ *
+ * Ce composant est piloté par `src/data/transports.ts`. Un autre site de la
+ * famille change son registre, et sa page est faite.
+ */
+import Photo from './Photo.astro';
+import { SITE, DESTINATION, CONTACT, club } from '../data/verite';
+import { ROLES } from '../data/medias';
+import { route } from '../data/routes';
+import {
+  LIGNES,
+  MODES,
+  MODE_PAR_DEFAUT,
+  MOUVEMENTS,
+  LIBELLE_MODE,
+  RESEAU,
+  AVERTISSEMENT,
+  ligne as ligneParCode,
+} from '../data/transports';
+
+const clubsDe = (l: (typeof LIGNES)[number]) =>
+  l.clubs?.length ? l.clubs.map((id) => club(id as never)) : [DESTINATION];
+
+/** Les communes du club, pour marquer la cible sur le schéma. */
+const VILLES_CLUB = new Set([DESTINATION.ville]);
+---
+
+<section class="section tete" aria-labelledby="t-page" data-sans-scene>
+  <div class="enveloppe tete__inner">
+    <nav class="fil mono" aria-label="Fil d’Ariane">
+      <a href="/">Accueil</a><span aria-hidden="true">/</span>
+      <span aria-current="page">Transports en commun</span>
+    </nav>
+
+    <p class="cartouche"><span class="cartouche__num">—</span><span>Y aller sans voiture</span></p>
+
+    <h1 id="t-page" class="tete__titre">
+      <span class="tete__ligne">Le club n’est pas</span>
+      <span class="tete__ligne">à un nombre de kilomètres.</span>
+      <span class="tete__ligne tete__ligne--accent">Il est à une ligne de bus.</span>
+    </h1>
+
+    <p class="tete__chapeau">
+      Un chiffre en kilomètres éloigne. Un numéro de ligne rapproche — et c’est
+      celui-là qui est vrai quand on part de {SITE.ville}&nbsp;:
+      <strong>{DESTINATION.nom}</strong> est desservi par le réseau {RESEAU.nom},
+      sans changer de réseau et sans quitter le secteur.
+    </p>
+
+    <div class="tete__actions">
+      <a class="bouton bouton--signal" href={DESTINATION.plannings} rel="noopener">
+        <span>Le planning du club</span><span class="fleche" aria-hidden="true">↗</span>
+      </a>
+      <a class="bouton" href={RESEAU.itineraire} rel="noopener">
+        <span>Calculer mon itinéraire</span><span class="fleche" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+{/* ─────────── LE SÉLECTEUR ET LES SCHÉMAS ─────────── */}
+<section class="section creuse modes" aria-labelledby="t-modes">
+  <div class="enveloppe">
+    <h2 id="t-modes" class="modes__titre">Transports en commun</h2>
+    <p class="lead faible modes__intro">
+      Trois familles de lignes mènent au club. Choisis la tienne&nbsp;: le schéma
+      se retrace, et chaque ligne t’emmène directement chez {RESEAU.nom} pour
+      l’horaire du jour.
+    </p>
+
+    {/* De vrais boutons radio : les onglets marchent sans une ligne de script. */}
+    <fieldset class="selecteur" data-selecteur>
+      <legend class="vh">Choisir un mode de transport</legend>
+      {MODES.map((m) => (
+        <>
+          <input
+            type="radio"
+            name="mode"
+            id={`mode-${m}`}
+            value={m}
+            class="selecteur__radio vh"
+            checked={m === MODE_PAR_DEFAUT}
+          />
+          <label class="selecteur__onglet" for={`mode-${m}`}>
+            <span class="selecteur__pastille" aria-hidden="true"></span>
+            <span>{LIBELLE_MODE[m]}</span>
+            <span class="mono selecteur__compte">
+              {LIGNES.filter((l) => l.mode === m).length}
+            </span>
+          </label>
+        </>
+      ))}
+      <span class="selecteur__curseur" aria-hidden="true"></span>
+    </fieldset>
+
+    <div class="panneaux">
+      {MODES.map((m) => (
+        <div class={`panneau panneau--${m}`}>
+          <ul class="lignes">
+            {LIGNES.filter((l) => l.mode === m).map((l, i) => (
+              <li class="ligne" style={`--rang:${i}`}>
+                <div class="ligne__tete">
+                  <span class={`ligne__code ligne__code--${l.mode}`}>{l.code}</span>
+                  <div class="ligne__ident">
+                    <h3 class="ligne__parcours">{l.parcours}</h3>
+                    <p class="mono ligne__meta">
+                      <span class={l.direct ? 'jeton jeton--direct' : 'jeton'}>
+                        {l.direct ? 'Direct' : 'Correspondance'}
+                      </span>
+                      <span>{l.jours}</span>
+                    </p>
+                  </div>
+                  <a class="bouton bouton--mince ligne__horaires" href={l.href} rel="noopener">
+                    <span>Horaires</span><span class="fleche" aria-hidden="true">↗</span>
+                  </a>
+                </div>
+
+                <p class="ligne__role">{l.role}</p>
+
+                {/* Le schéma : le rail se trace, les arrêts se posent. */}
+                <ol class="schema" style={`--arrets:${l.communes.length}`}>
+                  {l.communes.map((c, j) => (
+                    <li
+                      class={VILLES_CLUB.has(c) ? 'arret arret--club' : 'arret'}
+                      style={`--n:${j}`}
+                    >
+                      <span class="arret__point" aria-hidden="true"></span>
+                      <span class="arret__nom">{c}</span>
+                      {VILLES_CLUB.has(c) && (
+                        <span class="mono arret__marque">le club</span>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+
+                <p class="ligne__pied">
+                  {clubsDe(l).map((c) => (
+                    <a class="lien" href={c.site} rel="noopener">
+                      {c.nom} <span aria-hidden="true">↗</span>
+                    </a>
+                  ))}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <p class="modes__note">{AVERTISSEMENT}</p>
+  </div>
+</section>
+
+{/* ─────────── DEPUIS CHEZ TOI ─────────── */}
+<section class="section depuis" aria-labelledby="t-depuis">
+  <div class="enveloppe">
+    <p class="cartouche"><span class="cartouche__num">—</span><span>Depuis chez toi</span></p>
+    <h2 id="t-depuis">Quatre points de départ, quatre façons d’arriver.</h2>
+    <ul class="depuis__liste">
+      {MOUVEMENTS.map((mv, i) => {
+        const l = ligneParCode(mv.ligne);
+        return (
+          <li class="reveler" style={`--retard:${i * 70}ms`}>
+            <div class="depuis__cle">
+              <span class="mono depuis__ville">{mv.depuis}</span>
+              <span class={`ligne__code ligne__code--${l.mode}`}>{l.code}</span>
+            </div>
+            <p class="depuis__texte">{mv.texte}</p>
+            <a class="lien depuis__lien" href={l.href} rel="noopener">
+              Horaires de la ligne {l.code} <span aria-hidden="true">↗</span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+{/* ─────────── ARRIVER AU CLUB ─────────── */}
+<section class="section encre arriver" aria-labelledby="t-arriver">
+  <div class="enveloppe arriver__inner">
+    <div>
+      <p class="cartouche"><span class="cartouche__num">—</span><span>À l’arrivée</span></p>
+      <h2 id="t-arriver">Descendu du bus, il reste la porte à pousser.</h2>
+      <p class="lead">
+        {DESTINATION.nom}, {DESTINATION.adresse}. {DESTINATION.horaires.valeur} —
+        soit onze heures et demie d’ouverture par jour&nbsp;: quelle que soit la
+        ligne que tu prends, il y a un créneau qui tombe bien.
+      </p>
+      <dl class="arriver__faits">
+        <div><dt class="mono">Adresse</dt><dd>{DESTINATION.adresse}</dd></div>
+        <div><dt class="mono">Accueil</dt><dd>{DESTINATION.horairesCourt}</dd></div>
+        <div>
+          <dt class="mono">Le club</dt>
+          <dd><a class="lien" href={`tel:${DESTINATION.telephoneLien}`}>{DESTINATION.telephone}</a></dd>
+        </div>
+      </dl>
+      <div class="arriver__actions">
+        <a class="bouton bouton--signal" href={DESTINATION.site} rel="noopener">
+          <span>Ouvrir le site du club</span><span class="fleche" aria-hidden="true">↗</span>
+        </a>
+        <a class="bouton" href={DESTINATION.tarifs} rel="noopener">
+          <span>Les tarifs</span><span class="fleche" aria-hidden="true">↗</span>
+        </a>
+        <a class="bouton" href={DESTINATION.activites} rel="noopener">
+          <span>Les neuf disciplines</span><span class="fleche" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+    <Photo
+      slug={ROLES.salle}
+      sizes="(max-width: 62rem) 100vw, 40vw"
+      ratio="4 / 5"
+      legende
+      class="arriver__photo"
+    />
+  </div>
+</section>
+
+{/* ─────────── CONVERGENCE ─────────── */}
+<section class="section convergence" aria-labelledby="t-conv">
+  <div class="enveloppe convergence__inner">
+    <p class="cartouche"><span class="cartouche__num">—</span><span>Décider</span></p>
+    <h2 id="t-conv">
+      Tu sais comment y aller.<br />
+      <span class="convergence__accent">Reste à savoir quand.</span>
+    </h2>
+    <p class="lead convergence__texte">
+      Deux réponses sur le moteur du site et tu sais quelle discipline viser et à
+      quel moment de la semaine. Si tu préfères demander, écris-nous&nbsp;: on
+      répond avec un créneau, pas avec une brochure.
+    </p>
+    <div class="convergence__actions">
+      <a class="bouton bouton--signal" href={route('ta-seance').chemin}>
+        <span>Trouver ma séance</span><span class="fleche" aria-hidden="true">→</span>
+      </a>
+      <a class="bouton" href={route('contact').chemin}>
+        <span>Poser ma question</span><span class="fleche" aria-hidden="true">→</span>
+      </a>
+      <a class="bouton" href={`tel:${CONTACT.telephoneLien.valeur}`}>
+        <span>{CONTACT.telephone.valeur}</span><span class="fleche" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+{/* ─────────── L'ENCART ─────────── */}
+{/* Il n'enferme personne : pas de fond noir, pas de piège au clavier, une
+    seule apparition par visite, et Échap le referme. */}
+<aside class="encart" data-encart hidden aria-live="polite">
+  <p class="mono encart__cle">Envie d’en savoir plus&nbsp;?</p>
+  <p class="encart__texte">
+    Le planning, les tarifs et les neuf disciplines sont publiés par
+    <strong>{DESTINATION.nomCourt}</strong>. C’est là que tout se décide.
+  </p>
+  <div class="encart__actions">
+    <a class="bouton bouton--signal bouton--mince" href={DESTINATION.plannings} rel="noopener">
+      <span>Voir le planning</span><span class="fleche" aria-hidden="true">↗</span>
+    </a>
+    <a class="bouton bouton--mince" href={DESTINATION.site} rel="noopener">
+      <span>Le club</span><span class="fleche" aria-hidden="true">↗</span>
+    </a>
+  </div>
+  <button class="encart__fermer" type="button" data-encart-fermer aria-label="Fermer">
+    <span aria-hidden="true">×</span>
+  </button>
+</aside>
+
+<style>
+  /* ── Tête ──────────────────────────────────────────────────────────── */
+  .tete__inner { max-width: 62rem; }
+  .fil { display: flex; gap: var(--e-2); margin-bottom: var(--e-5); }
+  .fil a { color: var(--graphite); text-decoration: none; }
+  .fil a:hover { color: var(--signal-texte); }
+  .fil span[aria-current] { color: var(--encre-pale); }
+
+  .tete__titre { max-width: 20ch; margin: var(--e-4) 0 var(--e-5); }
+  .tete__ligne { display: block; animation: poser 720ms var(--e-sortie) both; }
+  .tete__ligne:nth-child(1) { animation-delay: 40ms; }
+  .tete__ligne:nth-child(2) { animation-delay: 130ms; }
+  .tete__ligne:nth-child(3) { animation-delay: 220ms; }
+  .tete__ligne--accent { color: var(--signal-texte); }
+  @keyframes poser {
+    from { opacity: 0; transform: translateY(0.5em); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .tete__chapeau {
+    max-width: 60ch;
+    padding-left: var(--e-5);
+    border-left: 2px solid var(--signal);
+    font-size: var(--t-lead);
+    line-height: 1.5;
+    color: var(--texte-faible);
+    animation: poser 720ms var(--e-sortie) 320ms both;
+  }
+  .tete__chapeau strong { color: var(--encre); font-weight: 600; }
+  .tete__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-3);
+    margin-top: var(--e-6);
+    animation: poser 720ms var(--e-sortie) 420ms both;
+  }
+
+  /* ── Le sélecteur ──────────────────────────────────────────────────── */
+  .modes__titre { max-width: 20ch; margin-bottom: var(--e-4); }
+  .modes__intro { max-width: 54ch; margin-bottom: var(--e-6); }
+
+  .selecteur {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-2);
+    border: 0;
+    padding: 0;
+    margin: 0 0 var(--e-7);
+  }
+
+  .selecteur__onglet {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--e-3);
+    padding: var(--e-3) var(--e-5);
+    border: 1px solid var(--trait);
+    border-radius: var(--rayon-1);
+    background: var(--papier-vif);
+    font-family: var(--police-mono);
+    font-size: var(--t-petit);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      border-color var(--d-rapide) var(--e-mecanique),
+      color var(--d-rapide) var(--e-mecanique),
+      transform var(--d-normal) var(--e-sortie);
+  }
+  .selecteur__onglet:hover { transform: translateY(-2px); border-color: var(--signal-texte); }
+
+  .selecteur__pastille {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    border: 1px solid var(--graphite);
+    transition:
+      background var(--d-rapide) var(--e-mecanique),
+      border-color var(--d-rapide) var(--e-mecanique),
+      transform var(--d-normal) var(--e-mecanique);
+  }
+  .selecteur__compte { color: var(--graphite); }
+
+  /* L'onglet coché : c'est le CSS qui décide, pas un script. */
+  .selecteur__radio:checked + .selecteur__onglet {
+    border-color: var(--signal-texte);
+    color: var(--signal-texte);
+    background: var(--signal-voile);
+  }
+  .selecteur__radio:checked + .selecteur__onglet .selecteur__pastille {
+    background: var(--signal-texte);
+    border-color: var(--signal-texte);
+    transform: scale(1.35);
+  }
+  .selecteur__radio:checked + .selecteur__onglet .selecteur__compte { color: var(--signal-texte); }
+  .selecteur__radio:focus-visible + .selecteur__onglet {
+    outline: 2px solid var(--signal-texte);
+    outline-offset: 3px;
+  }
+
+  /* ── Les panneaux ──────────────────────────────────────────────────── */
+  .panneau { display: none; }
+  /* Le panneau du mode coché. L'ordre des règles suit l'ordre du registre. */
+  .selecteur:has(#mode-metro:checked) ~ .panneaux .panneau--metro,
+  .selecteur:has(#mode-bus:checked) ~ .panneaux .panneau--bus,
+  .selecteur:has(#mode-tram:checked) ~ .panneaux .panneau--tram,
+  .selecteur:has(#mode-train:checked) ~ .panneaux .panneau--train { display: block; }
+
+  /* Sans :has (navigateurs anciens) et sans script : tout est visible.
+     On ne cache jamais une information derrière une capacité du navigateur. */
+  @supports not selector(:has(*)) {
+    .panneau { display: block; }
+    .selecteur { display: none; }
+  }
+
+  .lignes { list-style: none; display: grid; gap: var(--e-5); }
+
+  .ligne {
+    padding: var(--e-5);
+    border: 1px solid var(--trait);
+    border-radius: var(--rayon-1);
+    background: var(--papier-vif);
+    /* Le panneau passe de display:none à block : l'animation redémarre. */
+    animation: entrer-ligne 620ms var(--e-sortie) both;
+    animation-delay: calc(var(--rang) * 110ms);
+  }
+  @keyframes entrer-ligne {
+    from { opacity: 0; transform: translateY(1.5rem); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .ligne__tete {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--e-4);
+    align-items: center;
+  }
+  @media (max-width: 44rem) {
+    .ligne__tete { grid-template-columns: auto 1fr; }
+    .ligne__horaires { grid-column: 1 / -1; justify-self: start; }
+  }
+
+  .ligne__code {
+    display: grid;
+    place-items: center;
+    min-width: 3.4rem;
+    padding: 0.45rem 0.7rem;
+    border-radius: 0.35rem;
+    background: var(--encre);
+    color: var(--papier-vif);
+    font-family: var(--police-mono);
+    font-size: var(--t-petit);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  .ligne__code--metro { background: var(--signal-texte); }
+  .ligne__code--train { background: var(--encre-pale); }
+
+  .ligne__parcours { font-size: var(--t-h3); letter-spacing: -0.015em; }
+  .ligne__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--e-3);
+    margin-top: 0.3rem;
+    color: var(--graphite);
+    text-transform: none;
+    letter-spacing: 0.05em;
+  }
+  .jeton {
+    padding: 0.1rem 0.5rem;
+    border: 1px solid var(--trait);
+    border-radius: 999px;
+  }
+  .jeton--direct { color: var(--signal-texte); border-color: var(--signal-texte); }
+
+  .ligne__role {
+    margin-top: var(--e-4);
+    max-width: 68ch;
+    font-size: var(--t-petit);
+    color: var(--texte-faible);
+  }
+
+  /* ── Le schéma de ligne ────────────────────────────────────────────── */
+  .schema {
+    position: relative;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(var(--arrets), 1fr);
+    margin: var(--e-6) 0 var(--e-4);
+    padding-top: var(--e-4);
+  }
+  /* Le rail latent. */
+  .schema::before,
+  .schema::after {
+    content: '';
+    position: absolute;
+    top: var(--e-4);
+    left: calc(50% / var(--arrets));
+    right: calc(50% / var(--arrets));
+    height: 2px;
+  }
+  .schema::before { background: var(--trait); }
+  /* Le rail qui se trace — il redémarre à chaque bascule d'onglet. */
+  .schema::after {
+    background: var(--signal-texte);
+    transform-origin: left center;
+    animation: tracer-rail 900ms var(--e-resolution) 260ms both;
+  }
+  @keyframes tracer-rail {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  .arret {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 0.4rem;
+    text-align: center;
+    animation: poser-arret 420ms var(--e-mecanique) both;
+    animation-delay: calc(320ms + var(--n) * 160ms);
+  }
+  @keyframes poser-arret {
+    from { opacity: 0; transform: translateY(0.5rem) scale(0.9); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .arret__point {
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 50%;
+    background: var(--papier-vif);
+    border: 2px solid var(--signal-texte);
+    margin-top: -0.42rem;
+  }
+  .arret__nom {
+    font-size: var(--t-micro);
+    line-height: 1.3;
+    color: var(--texte-faible);
+    max-width: 11ch;
+  }
+  .arret--club .arret__point {
+    background: var(--signal-texte);
+    box-shadow: 0 0 0 4px var(--signal-voile);
+    animation: viser 2.6s var(--e-mecanique) 2s infinite;
+  }
+  @keyframes viser {
+    0%, 74%, 100% { box-shadow: 0 0 0 4px var(--signal-voile); }
+    86% { box-shadow: 0 0 0 10px transparent; }
+  }
+  .arret--club .arret__nom { color: var(--encre); font-weight: 700; }
+  .arret__marque {
+    font-size: 0.62rem;
+    color: var(--signal-texte);
+    letter-spacing: 0.14em;
+  }
+
+  @media (max-width: 44rem) {
+    .schema { grid-template-columns: 1fr; padding-top: 0; padding-left: var(--e-5); }
+    .schema::before,
+    .schema::after {
+      top: calc(50% / var(--arrets));
+      bottom: calc(50% / var(--arrets));
+      left: 0;
+      right: auto;
+      width: 2px;
+      height: auto;
+    }
+    .schema::after { transform-origin: top center; animation-name: tracer-rail-v; }
+    @keyframes tracer-rail-v {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(1); }
+    }
+    .arret {
+      grid-template-columns: auto 1fr auto;
+      justify-items: start;
+      align-items: center;
+      gap: var(--e-3);
+      text-align: left;
+      padding: var(--e-2) 0;
+    }
+    .arret__point { margin: 0 0 0 -1.42rem; }
+    .arret__nom { max-width: none; font-size: var(--t-petit); }
+  }
+
+  .ligne__pied {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-4);
+    padding-top: var(--e-4);
+    border-top: 1px solid var(--trait);
+    font-size: var(--t-petit);
+  }
+
+  .modes__note {
+    margin-top: var(--e-6);
+    max-width: 70ch;
+    font-size: var(--t-micro);
+    color: var(--graphite);
+  }
+
+  /* ── Depuis chez toi ───────────────────────────────────────────────── */
+  .depuis h2 { max-width: 20ch; margin-bottom: var(--e-6); }
+  .depuis__liste {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: var(--e-5);
+  }
+  .depuis__liste li {
+    display: grid;
+    gap: var(--e-3);
+    align-content: start;
+    padding: var(--e-5);
+    border-top: 2px solid var(--signal);
+    background: var(--papier-vif);
+  }
+  .depuis__cle { display: flex; align-items: center; justify-content: space-between; gap: var(--e-3); }
+  .depuis__ville { font-weight: 700; color: var(--encre); letter-spacing: 0.1em; }
+  .depuis__texte { font-size: var(--t-petit); color: var(--texte-faible); }
+  .depuis__lien { font-size: var(--t-micro); }
+
+  /* ── Arriver ───────────────────────────────────────────────────────── */
+  .arriver__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: var(--e-8);
+    align-items: center;
+  }
+  @media (max-width: 62rem) { .arriver__inner { grid-template-columns: 1fr; } }
+  .arriver h2 { max-width: 18ch; margin-bottom: var(--e-4); }
+  .arriver .lead { max-width: 50ch; }
+  .arriver__faits { margin: var(--e-6) 0; }
+  .arriver__faits > div {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: var(--e-3);
+    padding: var(--e-3) 0;
+    border-top: 1px solid var(--trait);
+    font-size: var(--t-petit);
+  }
+  .arriver__faits > div:last-child { border-bottom: 1px solid var(--trait); }
+  @media (max-width: 34rem) { .arriver__faits > div { grid-template-columns: 1fr; gap: 0.2rem; } }
+  .arriver__faits dt { color: var(--graphite); }
+  .arriver__faits dd { margin: 0; }
+  .arriver__actions { display: flex; flex-wrap: wrap; gap: var(--e-3); }
+
+  /* ── Convergence ───────────────────────────────────────────────────── */
+  .convergence { background: var(--papier-creuse); }
+  .convergence__inner { max-width: 48rem; }
+  .convergence h2 { margin-bottom: var(--e-5); }
+  .convergence__accent { color: var(--signal-texte); }
+  .convergence__texte { max-width: 52ch; color: var(--texte-faible); }
+  .convergence__actions { display: flex; flex-wrap: wrap; gap: var(--e-3); margin-top: var(--e-7); }
+
+  /* ── L'encart ──────────────────────────────────────────────────────── */
+  .encart {
+    position: fixed;
+    right: var(--marge);
+    bottom: calc(var(--marge) + 3.5rem);
+    z-index: var(--z-encart, 40);
+    width: min(23rem, calc(100vw - 2 * var(--marge)));
+    padding: var(--e-5) var(--e-5) var(--e-4);
+    background: var(--papier-vif);
+    border: 1px solid var(--signal-texte);
+    border-radius: var(--rayon-1);
+    box-shadow: 0 18px 44px rgba(30, 32, 68, 0.16);
+    animation: monter-encart 620ms var(--e-sortie) both;
+  }
+  @keyframes monter-encart {
+    from { opacity: 0; transform: translateY(1.5rem) scale(0.98); }
+    to { opacity: 1; transform: none; }
+  }
+  .encart[data-part] { animation: descendre-encart 380ms var(--e-mecanique) forwards; }
+  @keyframes descendre-encart {
+    to { opacity: 0; transform: translateY(1rem); }
+  }
+  .encart__cle { color: var(--signal-texte); margin-bottom: var(--e-2); }
+  .encart__texte { font-size: var(--t-petit); color: var(--texte-faible); }
+  .encart__texte strong { color: var(--encre); font-weight: 600; }
+  .encart__actions { display: flex; flex-wrap: wrap; gap: var(--e-2); margin-top: var(--e-4); }
+  .encart__fermer {
+    position: absolute;
+    top: 0.35rem;
+    right: 0.35rem;
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    background: none;
+    border: 0;
+    color: var(--graphite);
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  .encart__fermer:hover { color: var(--signal-texte); background: var(--signal-voile); }
+  @media (max-width: 40rem) {
+    .encart { left: var(--marge); right: var(--marge); width: auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tete__ligne,
+    .tete__chapeau,
+    .tete__actions,
+    .ligne,
+    .arret,
+    .encart { animation: none !important; opacity: 1; transform: none; }
+    .schema::after { animation: none; transform: none; }
+    .arret--club .arret__point { animation: none; }
+  }
+</style>
+
+<script>
+  /**
+   * L'encart : il arrive une fois par visite, quand la personne a lu la moitié
+   * de la page — jamais à l'ouverture, où il ne serait qu'une interruption.
+   * Il se referme au clic, à Échap, et ne revient pas de la session.
+   */
+  const encart = document.querySelector<HTMLElement>('[data-encart]');
+  const CLE = 'bc-encart-transports';
+
+  if (encart) {
+    let vu = false;
+    try {
+      vu = sessionStorage.getItem(CLE) === '1';
+    } catch {
+      /* navigation privée : on montre l'encart, sans mémoire */
+    }
+
+    const fermer = () => {
+      encart.dataset.part = '';
+      try {
+        sessionStorage.setItem(CLE, '1');
+      } catch {
+        /* rien à retenir, tant pis */
+      }
+      window.setTimeout(() => {
+        encart.hidden = true;
+      }, 380);
+      document.removeEventListener('keydown', surEchap);
+    };
+
+    const surEchap = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') fermer();
+    };
+
+    const montrer = () => {
+      if (encart.hidden === false) return;
+      encart.hidden = false;
+      document.addEventListener('keydown', surEchap);
+    };
+
+    if (!vu) {
+      const seuil = () => {
+        const lu = (scrollY + innerHeight) / document.body.scrollHeight;
+        if (lu > 0.45) {
+          montrer();
+          removeEventListener('scroll', seuil);
+        }
+      };
+      addEventListener('scroll', seuil, { passive: true });
+      seuil();
+    }
+
+    encart.querySelector('[data-encart-fermer]')?.addEventListener('click', fermer);
+  }
+
+  /**
+   * Le sélecteur marche sans script — ce sont des radios et du CSS. Le script
+   * n'ajoute qu'une chose : le mode choisi reste dans l'adresse, pour qu'un
+   * lien partagé ouvre le bon onglet.
+   */
+  const selecteur = document.querySelector<HTMLElement>('[data-selecteur]');
+  if (selecteur) {
+    const demande = new URLSearchParams(location.search).get('mode');
+    if (demande) {
+      const cible = document.querySelector<HTMLInputElement>(`#mode-${demande}`);
+      if (cible) cible.checked = true;
+    }
+    selecteur.addEventListener('change', (e) => {
+      const cible = e.target as HTMLInputElement;
+      if (cible?.name !== 'mode') return;
+      const url = new URL(location.href);
+      url.searchParams.set('mode', cible.value);
+      history.replaceState(null, '', url);
+    });
+  }
+</script>

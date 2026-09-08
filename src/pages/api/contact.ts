@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { SITE } from '../../data/verite';
 
 /**
  * Relais du formulaire vers Inlet.
@@ -17,7 +18,8 @@ import type { APIRoute } from 'astro';
 export const prerender = false;
 
 const INLET = 'https://inlett.vercel.app';
-const FORMULAIRE = '615a1cc9-3025-427f-992d-1b6a9ea0a080';
+/** Le formulaire de ce site, lu dans le registre : jamais écrit ici en dur. */
+const FORMULAIRE = SITE.formulaire;
 
 /** Où l'on renvoie le visiteur. Le domaine final le résout en /merci/. */
 const SUCCES = '/merci/';
@@ -101,7 +103,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     // Le parcours suivi sur le site part avec la demande : celui qui répond
     // sait déjà d'où vient la personne et ce qu'elle cherche.
     parcours_sur_le_site: parcours,
-    origine: 'boxingcenter-muret.fr',
+    origine: SITE.origine.replace('https://', ''),
     _lang: 'fr',
     _gotcha: '',
   };

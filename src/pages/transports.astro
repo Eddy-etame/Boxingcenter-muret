@@ -1,0 +1,50 @@
+---
+/**
+ * TRANSPORTS EN COMMUN — la page qui répond à la seule objection sérieuse.
+ *
+ * « C'est loin » n'est presque jamais une question de kilomètres : c'est une
+ * question de « comment j'y vais ». Cette page répond à celle-là, mode par
+ * mode, ligne par ligne, avec un lien vers l'horaire officiel à chaque fois.
+ *
+ * Tout le corps vit dans `components/Transports.astro`, piloté par
+ * `data/transports.ts` : les autres sites de la famille changent leur registre
+ * et héritent de la page.
+ */
+import Base from '../layouts/Base.astro';
+import Transports from '../components/Transports.astro';
+import { SITE, DESTINATION } from '../data/verite';
+import { ligne } from '../data/transports';
+
+const principale = ligne('117 Express');
+
+const QUESTIONS = [
+  {
+    titre: `Quel bus va de ${SITE.ville} à ${DESTINATION.ville} ?`,
+    texte: `La 117 Express du réseau Tisséo, ${principale.parcours}. Elle part de la gare de Muret, suit le tracé de l’ancienne nationale 117, traverse Roques puis ${DESTINATION.ville}, et continue jusqu’au métro à Basso Cambo. Aucune correspondance à faire pour descendre au club.`,
+  },
+  {
+    titre: 'Et en train, depuis la gare de Muret ?',
+    texte:
+      'La gare de Muret et celle de Portet-Saint-Simon sont deux arrêts de la même ligne TER liO, celle de Toulouse à Bayonne. C’est le trajet le plus court en distance de rail entre les deux communes, et il ne dépend d’aucune circulation.',
+  },
+  {
+    titre: 'Il y a un métro qui va au club ?',
+    texte:
+      'Pas jusqu’à la porte : la ligne A s’arrête à Basso Cambo, qui est la plaque tournante du sud toulousain. C’est là que la 117 Express, la 85 et la 58 se retrouvent. Si tu arrives de Toulouse, tu descends à Basso Cambo et tu reprends vers Portet.',
+  },
+  {
+    titre: 'Je pars de Roques ou de Seysses.',
+    texte:
+      'Roques est sur le parcours de la 117 Express et touche directement Portet-sur-Garonne : depuis le nord du secteur, le club est au bout de la même ligne. Depuis Seysses, la 58 remonte vers Basso Cambo, où la 85 et la 117 Express repartent vers Portet.',
+  },
+  {
+    titre: 'Les horaires sont où ?',
+    texte:
+      'Chez Tisséo, et nulle part ailleurs. On ne les recopie pas ici : une grille recopiée devient fausse à la première modification, et une information fausse sur un horaire fait perdre un déplacement. Chaque ligne de cette page ouvre sa fiche officielle.',
+  },
+];
+---
+
+<Base page="transports" faq={QUESTIONS}>
+  <Transports />
+</Base>
