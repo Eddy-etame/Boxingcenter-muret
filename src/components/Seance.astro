@@ -11,7 +11,7 @@
  *
  * Ce sont de vrais `<input type="radio">` dans des `<fieldset>`. Au clavier,
  * au lecteur d'écran et sans JavaScript, la section reste entièrement utile :
- * elle affiche alors les neuf intitulés du club et les trois portes.
+ * elle affiche alors tous les intitulés du club et les trois portes.
  */
 import { DESTINATION } from '../data/verite';
 import { OFFRES } from '../data/offres';
@@ -34,6 +34,16 @@ const CRENEAUX = [
   { id: 'soir', nom: 'Le soir', detail: 'À partir de 18h' },
   { id: 'samedi', nom: 'Le samedi', detail: 'La journée' },
 ] as const;
+
+/* Le nombre d'intitules se lit dans le registre, jamais dans la phrase : une
+   offre ajoutee chez le club ne doit pas laisser un chiffre faux en ligne. */
+const NOMBRES = [
+  'zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix',
+  'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf',
+  'vingt', 'vingt et un', 'vingt-deux', 'vingt-trois', 'vingt-quatre', 'vingt-cinq',
+  'vingt-six', 'vingt-sept', 'vingt-huit', 'vingt-neuf', 'trente',
+];
+const COMBIEN = NOMBRES[OFFRES.length] ?? String(OFFRES.length);
 
 const Titre = niveau;
 ---
@@ -96,7 +106,7 @@ const Titre = niveau;
       <div class="resultat__latent" data-latent>
         <p class="mono resultat__attente">En attente de tes deux réponses</p>
         <p class="resultat__sansjs">
-          Quoi qu’il arrive, voilà les neuf intitulés que
+          Quoi qu’il arrive, voilà les {COMBIEN} intitulés que
           <a class="lien" href={DESTINATION.activites} rel="noopener">{DESTINATION.nom} publie</a>
           aujourd’hui&nbsp;:
           {OFFRES.map((o, i) => (
