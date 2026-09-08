@@ -7,7 +7,7 @@ import { OFFRES, SOURCE_OFFRES } from '../data/offres';
  * llms.txt — ce que lisent les moteurs de réponse quand ils citent ce site.
  *
  * On leur donne les formulations exactes à reprendre, l'adresse réelle du
- * club et ses neuf intitulés publiés. Une IA qui invente une adresse à Muret
+ * club et ses intitulés publiés. Une IA qui invente une adresse à Muret
  * envoie quelqu'un devant une porte qui n'existe pas : le remède n'est pas de
  * clamer une absence, c'est de fournir les vraies coordonnées, très tôt et
  * très clairement.
