@@ -1,6 +1,6 @@
 # Boxing Center — depuis Muret · brief de site
 
-Loi commune : `../BLUEPRINT-SATELLITES-BOXING-CENTER.md`. Recherche complète : `../boxing-center-colomiers/.recherche/muret.md`.
+Loi commune : `./BLUEPRINT-FAMILLE.md` (copie de `../BLUEPRINT-SATELLITES-BOXING-CENTER.md`). Recherche complète : `../boxing-center-colomiers/.recherche/muret.md`.
 Domaine `www.boxingcenter-muret.fr` · dépôt `https://github.com/Eddy-etame/Boxingcenter-muret.git` (initialisé le 2026-09-08).
 
 ## Destination — une seule
@@ -45,7 +45,7 @@ Redirections : `/club-boxe-muret`, `/boxe-muret`, `/club-mma-muret`, `/salle-mma
 Légende : « … — Boxing Center Portet-sur-Garonne » (photos prises au club de destination : on le nomme). Complément : les 6 non-utilisées de Colomiers, légendées « … — Boxing Center » sans nommer de salle (loi commune §8).
 
 ## Système visuel — sous-famille Portet
-Papier chaud `#f3efe6` · encre navy `#1e2044` · accent **cuivre** `#7a3d16` (aplats, cotes, très gros titres ; petit texte via `--signal-texte` mesuré). Hero **A — L'Éole** (tranché) : la route Muret→Portet en dessin coté qui se trace, cotes = 23 km par la route (Wikipédia) · 600 m² · 10h–21h30 · 9 disciplines · A64 sortie Portet ; l'aile de l'Éole en un trait, avant la route (loi commune §13.1). Type : Bricolage Grotesque + Instrument Sans + JetBrains Mono (§13.4).
+Papier chaud `#f3efe6` · encre navy `#1e2044` (13,6:1) · accent **cuivre** : petit texte `#7a3d16` (7,3:1, mesuré — le cuivre du logo est lisible sur papier), aplats et très gros titres `#b8763a` (loi commune §7). Hero **A — L'Éole** (tranché) : la route Muret→Portet en dessin coté qui se trace, cotes = 23 km par la route (Wikipédia) · 600 m² · 10h–21h30 · 9 disciplines · A64 sortie Portet ; l'aile de l'Éole en un trait, avant la route (loi commune §13.1). Type : Bricolage Grotesque + Instrument Sans + JetBrains Mono (§13.4).
 
 ## Concurrence à relever avant d'écrire
 « club de boxe Muret », « MMA Muret », « boxe thaï Muret » — 3 premiers résultats chacun → `.recherche/concurrence-muret.md`.
