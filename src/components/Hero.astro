@@ -30,23 +30,23 @@ const cotes = DESTINATION.faits;
 <section class="hero" aria-labelledby="t-hero">
   <div class="enveloppe">
     <p class="hero__cartouche mono">
-      <span class="hero__planche">Planche 01</span>
+      <span class="hero__planche">Boxing Center</span>
       <span aria-hidden="true">·</span>
-      <span>{SITE.ville} → {DESTINATION.ville}</span>
+      <span>à proximité de {SITE.ville}</span>
     </p>
 
     <div class="hero__haut">
       <div class="hero__texte">
         <h1 id="t-hero" class="hero__titre">
-          <span class="hero__ligne">Un club de boxe et de MMA</span>
-          <span class="hero__ligne">pour les Muretains,</span>
-          <span class="hero__ligne hero__ligne--accent">à Portet-sur-Garonne.</span>
+          <span class="hero__ligne">Ton club de boxe</span>
+          <span class="hero__ligne">et de MMA</span>
+          <span class="hero__ligne hero__ligne--accent">à proximité de {SITE.ville}.</span>
         </h1>
 
         <p class="hero__promesse">
-          <strong>Boxing Center Portet-sur-Garonne</strong> : boxe anglaise, MMA,
-          kick-boxing, grappling et cours enfants. 600 m², un ring, une cage.
-          Ouvert {DESTINATION.horaires.valeur}. Tu peux venir sans avoir jamais boxé.
+          <strong>Boxe anglaise, MMA, kick-boxing, grappling et cours enfants</strong>,
+          au bout d’une seule ligne de bus. 600 m², un ring, une cage. Ouvert
+          {DESTINATION.horaires.valeur}. Tu peux venir sans avoir jamais boxé.
         </p>
 
         <div class="hero__actions">
@@ -62,6 +62,10 @@ const cotes = DESTINATION.faits;
       </div>
 
       <dl class="hero__faits">
+        <div>
+          <dt class="mono">Le club</dt>
+          <dd>{DESTINATION.nomCourt}</dd>
+        </div>
         <div>
           <dt class="mono">Accueil</dt>
           <dd>{DESTINATION.horairesCourt}</dd>

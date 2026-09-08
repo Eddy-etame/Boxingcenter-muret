@@ -205,16 +205,16 @@ textarea {
 .reveler,
 .bloc-scene {
   opacity: 0;
-  transform: translateY(1.25rem);
+  transform: translate3d(var(--mouv-x, 0), var(--mouv-y, 1.25rem), 0)
+    scale(var(--mouv-echelle, 1));
   transition:
-    opacity var(--d-lent) var(--e-sortie),
-    transform var(--d-lent) var(--e-sortie);
+    opacity var(--mouv-duree, var(--d-lent)) var(--mouv-courbe, var(--e-sortie)),
+    transform var(--mouv-duree, var(--d-lent)) var(--mouv-courbe, var(--e-sortie));
   transition-delay: var(--retard, 0ms);
   will-change: opacity, transform;
 }
 .bloc-scene {
-  transform: translateY(1.75rem);
-  transition-delay: calc(var(--i, 0) * 90ms);
+  transition-delay: calc(var(--i, 0) * var(--mouv-decalage, 90ms));
 }
 .reveler.vu,
 .bloc-scene.vu { opacity: 1; transform: none; }

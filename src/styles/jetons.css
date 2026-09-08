@@ -89,6 +89,17 @@
   --nav-fonce: #14162e;
   --nav-ombre: rgba(30, 32, 68, 0.85);
 
+  /* ── Signature de mouvement ─────────────────────────────────────────
+     Muret : la montée franche. Les blocs se posent de bas en haut, serrés.
+     Aucun site de la famille n'entre de la même façon : c'est ce qui
+     empêche deux sites de donner la même sensation au scroll. */
+  --mouv-x: 0rem;
+  --mouv-y: 1.75rem;
+  --mouv-echelle: 1;
+  --mouv-duree: var(--d-lent);
+  --mouv-decalage: 90ms;
+  --mouv-courbe: var(--e-sortie);
+
   /* Polarité par défaut : papier. Une section peut basculer en encre. */
   --fond: var(--papier);
   --texte: var(--encre);
