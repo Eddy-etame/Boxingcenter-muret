@@ -1,0 +1,507 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Seance from '../components/Seance.astro';
+import Photo from '../components/Photo.astro';
+import Calque from '../components/Calque.astro';
+import { SITE, DESTINATION, VILLE, LIMITROPHES, CONTACT } from '../data/verite';
+import { OFFRES } from '../data/offres';
+import { route } from '../data/routes';
+
+/**
+ * Les questions que les Muretains tapent réellement, avec la réponse honnête.
+ *
+ * Elles portent les requêtes locales — mais parce qu'elles y répondent, pas
+ * pour les placer. On dit toujours ce qui existe : un club à 23 km, ce qu'il
+ * propose, comment on y va. Jamais ce qui manque.
+ */
+const QUESTIONS = [
+  {
+    titre: 'Où faire de la boxe quand on habite Muret ?',
+    texte:
+      "Boxing Center accueille les Muretains à Portet-sur-Garonne, à 23 km par la route : 600 m², un ring, une cage MMA, et neuf disciplines publiées — boxe anglaise, kick-boxing, MMA, grappling et jiu-jitsu brésilien, Lady Boxing, préparation physique, Baby boxe, boxe éducative et kick-boxing enfants/ados. On y monte par l’A64, sortie Portet, puis la route d’Espagne.",
+  },
+  {
+    titre: 'Où faire du MMA près de Muret, et y a-t-il une vraie cage ?',
+    texte:
+      "Oui. Le MMA se pratique à Boxing Center Portet-sur-Garonne, et l’entraînement se fait dans la cage. Le club publie aussi le grappling et le jiu-jitsu brésilien, qui sont la porte d’entrée la plus sûre vers le MMA : on n’y prend aucun coup. C’est la salle MMA la plus proche de Muret dans le réseau Boxing Center.",
+  },
+  {
+    titre: 'Un club de boxe thaï ou de kick-boxing près de Muret ?',
+    texte:
+      "Le club publie le kick-boxing — la boxe pieds-poings — pour les adultes comme pour les enfants et les ados. Si tu cherches précisément le Muay Thaï sous ce nom, dis-le-nous : les intitulés exacts et les créneaux appartiennent au club, et on te répond avec ce qui se pratique réellement cette saison plutôt qu’avec une promesse.",
+  },
+  {
+    titre: 'Comment on va de Muret à Portet-sur-Garonne ?',
+    texte:
+      "Par l’A64 en direction de Toulouse, sortie Portet, puis la route d’Espagne — le club est au 61. C’est 23 km par la route. On ne t’annonce pas de durée : elle dépend entièrement de l’heure à laquelle tu pars. Regarde plutôt si cet axe est déjà celui de tes trajets : c’est le meilleur indicateur de ce que tu tiendras.",
+  },
+  {
+    titre: 'Je n’ai jamais fait de sport de combat. C’est un problème ?',
+    texte:
+      "C’est la situation la plus banale d’un club. Aucun test d’entrée, aucune condition physique préalable, et l’opposition n’est jamais le point de départ : une première séance, c’est de l’échauffement, du geste, du sac et des pattes d’ours. Tu frappes, personne ne te frappe.",
+  },
+  {
+    titre: 'Y a-t-il des cours de boxe enfant accessibles depuis Muret ?',
+    texte:
+      "Oui, et sur trois niveaux : la Baby boxe pour la première approche, la boxe éducative — le geste, la règle et le respect du partenaire, en touché contrôlé — puis le kick-boxing enfants/ados pour ceux qui veulent aussi travailler les jambes. Les tranches d’âge exactes dépendent de la saison : demande-les au club avant d’inscrire.",
+  },
+  {
+    titre: 'J’habite Seysses, Eaunes ou Roques. Ça marche aussi ?',
+    texte:
+      "Oui, et parfois mieux. Les douze communes limitrophes de Muret prennent les mêmes axes, et Roques touche directement Portet-sur-Garonne : depuis le nord du secteur, le club est au bout de la même route. Le raisonnement de cette page vaut pour tout le sud toulousain.",
+  },
+];
+---
+
+<Base page="accueil" faq={QUESTIONS}>
+  <Hero />
+
+  {/* ─────────── 02 — LA PROXIMITÉ, PROUVÉE PAR L'IMAGE ─────────── */}
+  <section class="section proximite" aria-labelledby="t-proximite">
+    <div class="enveloppe proximite__inner">
+      <div class="proximite__texte">
+        <p class="cartouche"><span class="cartouche__num">02</span><span>Le club</span></p>
+        <h2 id="t-proximite">
+          600 m², un ring,<br />
+          <span class="proximite__accent">une cage.</span>
+        </h2>
+        <p class="lead">
+          <strong>Boxing Center accueille les {SITE.gentile}</strong> dans son club de
+          {DESTINATION.ville}, sur la route d’Espagne — {DESTINATION.horaires.valeur}.
+        </p>
+        <p class="faible">
+          Ce n’est pas une salle de sport avec des sacs au fond. C’est un club de
+          sports de combat complet&nbsp;: un ring, une cage MMA, des tatamis, et des
+          coachs qui corrigent au geste près. {DESTINATION.singularite}
+        </p>
+        <dl class="proximite__faits">
+          <div><dt class="mono">Adresse</dt><dd>{DESTINATION.adresse}</dd></div>
+          <div><dt class="mono">Depuis Muret</dt><dd>{DESTINATION.acces}</dd></div>
+          <div><dt class="mono">Téléphone</dt><dd><a class="lien" href={`tel:${DESTINATION.telephoneLien}`}>{DESTINATION.telephone}</a></dd></div>
+        </dl>
+        <a class="bouton proximite__lien" href={DESTINATION.site} rel="noopener">
+          <span>Ouvrir le site du club</span>
+          <span class="fleche" aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+      {/* Le calque se lève : le plan devient la salle. */}
+      <Calque
+        slug="club-boxe-muret"
+        sizes="(max-width: 62rem) 100vw, 46vw"
+        ratio="4 / 5"
+        class="proximite__image"
+      />
+    </div>
+  </section>
+
+  {/* ─────────── 03 — LE MOTEUR ─────────── */}
+  <Seance />
+
+  {/* ─────────── 04 — LES NEUF DISCIPLINES, DANS LES MOTS DU CLUB ─────────── */}
+  <section class="section encre disciplines" aria-labelledby="t-disciplines">
+    <div class="enveloppe">
+      <p class="cartouche"><span class="cartouche__num">04</span><span>Neuf disciplines</span></p>
+      <div class="disciplines__tete">
+        <h2 id="t-disciplines">
+          Ce que le club publie,<br />dans ses propres mots.
+        </h2>
+        <p class="lead faible disciplines__intro">
+          Pas « boxe et MMA » en bloc&nbsp;: les neuf intitulés exacts, relevés sur
+          la page activités du club. Si un nom ne figure pas ici, c’est qu’il ne
+          figure pas chez eux.
+        </p>
+      </div>
+
+      <ol class="disciplines__liste">
+        {OFFRES.map((o, i) => (
+          <li class="reveler" style={`--retard:${i * 45}ms`}>
+            <span class="mono disc__num">{String(i + 1).padStart(2, '0')}</span>
+            <div class="disc__corps">
+              <h3 class="disc__nom">{o.intitule}</h3>
+              <p class="disc__detail">{o.detail}</p>
+            </div>
+            {o.ages && <span class="mono disc__age">{o.ages}</span>}
+          </li>
+        ))}
+      </ol>
+
+      <p class="disciplines__source mono">
+        Relevé le 8 septembre 2026 sur
+        <a class="lien" href={DESTINATION.activites} rel="noopener">la page activités du club ↗</a>
+      </p>
+    </div>
+  </section>
+
+  {/* ─────────── 05 — LA PREUVE VISUELLE ─────────── */}
+  <section class="section preuve" aria-labelledby="t-preuve">
+    <div class="enveloppe preuve__tete">
+      <p class="cartouche"><span class="cartouche__num">05</span><span>Sur place</span></p>
+      <h2 id="t-preuve">La cage n’est pas une image de catalogue.</h2>
+      <p class="lead faible">
+        C’est celle où l’on s’entraîne, un mardi soir ordinaire. Aucune photo de ce
+        site n’est achetée&nbsp;: elles ont toutes été prises dans le club.
+      </p>
+    </div>
+    <div class="enveloppe">
+      <Calque slug="cage-mma-muret" sizes="100vw" ratio="16 / 9" class="preuve__image" />
+      <p class="mono preuve__legende">Dans la cage — {DESTINATION.nom}</p>
+    </div>
+  </section>
+
+  {/* ─────────── 06 — LA PREMIÈRE SÉANCE ─────────── */}
+  <section class="section creuse premiere" aria-labelledby="t-premiere">
+    <div class="enveloppe premiere__inner">
+      <div class="premiere__image">
+        <Photo slug="pattes-d-ours-muret" sizes="(max-width: 62rem) 100vw, 40vw" ratio="3 / 4" />
+      </div>
+      <div class="premiere__texte">
+        <p class="cartouche"><span class="cartouche__num">06</span><span>La première fois</span></p>
+        <h2 id="t-premiere">Personne n’est arrivé en sachant boxer.</h2>
+        <ol class="premiere__etapes">
+          <li>
+            <span class="mono">01</span>
+            <p><strong>Tu apportes une tenue de sport et de l’eau.</strong> Rien de technique. Pour les gants et les bandes, les conditions de prêt appartiennent au club&nbsp;: demande-les en arrivant.</p>
+          </li>
+          <li>
+            <span class="mono">02</span>
+            <p><strong>Tu ne combats pas.</strong> Une première séance, c’est de la corde, du geste décomposé, du sac et des pattes d’ours. L’opposition vient bien plus tard, et seulement si tu la veux.</p>
+          </li>
+          <li>
+            <span class="mono">03</span>
+            <p><strong>Tu es le débutant du fond, et personne ne regarde.</strong> Tout le monde l’a été. Chacun est occupé à sa propre séance.</p>
+          </li>
+          <li>
+            <span class="mono">04</span>
+            <p><strong>Tu repars courbaturé, pas humilié.</strong> C’est le seul objectif d’une première séance.</p>
+          </li>
+        </ol>
+        <a class="lien premiere__lien" href={route('premiere-seance').chemin}>
+          Le déroulé complet, minute par minute →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* ─────────── 07 — L'AMPLITUDE ─────────── */}
+  <section class="section amplitude" aria-labelledby="t-amplitude">
+    <div class="enveloppe amplitude__inner">
+      <div>
+        <p class="cartouche"><span class="cartouche__num">07</span><span>L’amplitude</span></p>
+        <p class="amplitude__grand">
+          <span>{DESTINATION.ouvertureTexte}</span>
+          <span class="amplitude__fleche" aria-hidden="true">→</span>
+          <span>{DESTINATION.fermetureTexte}</span>
+        </p>
+        <p class="mono amplitude__jours">six jours sur sept</p>
+      </div>
+      <div class="amplitude__texte">
+        <h2 id="t-amplitude">Onze heures et demie d’ouverture par jour.</h2>
+        <p class="lead faible">
+          C’est la donnée qui compte le plus quand on vient d’une autre commune&nbsp;:
+          elle veut dire que tu n’as pas à faire coïncider ta vie avec un créneau
+          unique. C’est le créneau qui s’adapte à ta semaine, pas l’inverse.
+        </p>
+        <ul class="amplitude__args">
+          <li><span class="amplitude__tiret" aria-hidden="true"></span>Tu viens quand ta journée te le permet</li>
+          <li><span class="amplitude__tiret" aria-hidden="true"></span>Compatible avec un travail, des études, une famille</li>
+          <li><span class="amplitude__tiret" aria-hidden="true"></span>Un rythme régulier reste tenable toute l’année</li>
+        </ul>
+        <a class="bouton" href={DESTINATION.plannings} rel="noopener">
+          <span>Voir le planning détaillé</span>
+          <span class="fleche" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* ─────────── 08 — LES QUESTIONS ─────────── */}
+  <section class="section creuse questions" aria-labelledby="t-questions">
+    <div class="enveloppe questions__inner">
+      <div class="questions__tete">
+        <p class="cartouche"><span class="cartouche__num">08</span><span>Ce qu’on nous demande</span></p>
+        <h2 id="t-questions">Les questions qu’on se pose<br />quand on habite Muret.</h2>
+        <p class="lead faible">
+          Si tu cherches un club de boxe près de Muret, tu te poses probablement
+          l’une de ces sept-là. Les réponses sont courtes et vérifiables.
+        </p>
+      </div>
+      <div class="questions__liste">
+        {QUESTIONS.map((q, i) => (
+          <details class="qr" open={i === 0}>
+            <summary>
+              <span class="qr__q">{q.titre}</span>
+              <span class="qr__signe" aria-hidden="true"></span>
+            </summary>
+            <p class="qr__r">{q.texte}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ─────────── 09 — LE SECTEUR ─────────── */}
+  <section class="section secteur" aria-labelledby="t-secteur">
+    <div class="enveloppe">
+      <p class="cartouche"><span class="cartouche__num">09</span><span>Le secteur</span></p>
+      <div class="secteur__tete">
+        <h2 id="t-secteur">
+          Muret, {SITE.codePostal},<br />
+          <span class="secteur__accent">et ses douze voisines.</span>
+        </h2>
+        <p class="lead faible secteur__intro">
+          {VILLE.statut.valeur.charAt(0).toUpperCase() + VILLE.statut.valeur.slice(1)},
+          {' '}{VILLE.population.valeur}, entre {VILLE.rivieres.valeur}. Le raisonnement de
+          cette page ne s’arrête pas aux limites de la commune&nbsp;: depuis les
+          communes voisines, ce sont les mêmes axes et le même club.
+        </p>
+      </div>
+      <ul class="secteur__liste">
+        {LIMITROPHES.map((c) => (
+          <li class={c.note ? 'secteur__item secteur__item--cle' : 'secteur__item'}>
+            <span class="secteur__nom">{c.nom}</span>
+            {c.note && <span class="secteur__note">{c.note}</span>}
+          </li>
+        ))}
+      </ul>
+      <p class="secteur__pied">
+        Boxing Center accueille les habitants de Muret et du {SITE.secteur} dans son
+        club de {DESTINATION.ville}, en {SITE.departement}. Accès par
+        {' '}{VILLE.routes.valeur}.
+      </p>
+    </div>
+  </section>
+
+  {/* ─────────── 10 — ADER, LE FAIT LOCAL ─────────── */}
+  <section class="section encre ader" aria-labelledby="t-ader">
+    <div class="enveloppe ader__inner">
+      <div>
+        <p class="cartouche"><span class="cartouche__num">10</span><span>Muret</span></p>
+        <h2 id="t-ader">On sait ce qu’on doit à un plan bien tracé.</h2>
+        <p class="lead">
+          {VILLE.figure.valeur.split(',')[0]} est né ici. L’homme qui a fait décoller
+          l’Éole passait ses journées sur des planches cotées, à mesurer ce que
+          personne n’avait encore mesuré.
+        </p>
+        <p class="faible">
+          C’est la raison pour laquelle ce site est un plan et pas une brochure&nbsp;:
+          chaque chiffre qu’on t’avance porte sa source, et rien n’est écrit ici qui
+          ne soit publié par le club ou vérifiable. La distance, la surface, les
+          horaires, les neuf intitulés — tout se recoupe.
+        </p>
+      </div>
+      <div class="ader__photo">
+        <Photo slug="entrainement-boxe-muret" sizes="(max-width: 62rem) 100vw, 42vw" ratio="4 / 3" />
+      </div>
+    </div>
+  </section>
+
+  {/* ─────────── 11 — CONVERGENCE ─────────── */}
+  <section class="section convergence" aria-labelledby="t-convergence">
+    <div class="enveloppe convergence__inner">
+      <p class="cartouche"><span class="cartouche__num">11</span><span>Y aller</span></p>
+      <h2 id="t-convergence">
+        23 km, une sortie d’autoroute,<br />
+        <span class="convergence__accent">et tu y es.</span>
+      </h2>
+      <p class="lead convergence__texte">
+        Si tu sais déjà ce que tu cherches, le planning du club te dira quand venir.
+        Si tu hésites, décris-nous ta semaine en deux lignes — on te répond avec la
+        discipline et le créneau qui tiennent vraiment.
+      </p>
+      <div class="convergence__actions">
+        <a class="bouton bouton--signal" href={route('contact').chemin}>
+          <span>Poser ma question</span>
+          <span class="fleche" aria-hidden="true">→</span>
+        </a>
+        <a class="bouton" href={DESTINATION.plannings} rel="noopener">
+          <span>Voir le planning</span>
+          <span class="fleche" aria-hidden="true">↗</span>
+        </a>
+        <a class="bouton" href={`tel:${CONTACT.telephoneLien.valeur}`}>
+          <span>{CONTACT.telephone.valeur}</span>
+          <span class="fleche" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ── 02 Proximité ──────────────────────────────────────────────────── */
+  .proximite__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+    gap: var(--e-8);
+    align-items: center;
+  }
+  @media (max-width: 62rem) { .proximite__inner { grid-template-columns: 1fr; gap: var(--e-7); } }
+  .proximite h2 { max-width: 12ch; margin-bottom: var(--e-5); }
+  .proximite__accent { color: var(--signal-texte); }
+  .proximite .lead { max-width: 46ch; margin-bottom: var(--e-4); }
+  .proximite .lead strong { font-weight: 600; }
+  .proximite .faible { max-width: 52ch; }
+
+  .proximite__faits { margin: var(--e-6) 0; }
+  .proximite__faits > div {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: var(--e-3);
+    padding: var(--e-3) 0;
+    border-top: 1px solid var(--trait);
+    font-size: var(--t-petit);
+  }
+  .proximite__faits > div:last-child { border-bottom: 1px solid var(--trait); }
+  @media (max-width: 34rem) { .proximite__faits > div { grid-template-columns: 1fr; gap: 0.2rem; } }
+  .proximite__faits dt { color: var(--graphite); padding-top: 0.15em; }
+  .proximite__faits dd { margin: 0; }
+
+  /* ── 04 Disciplines ────────────────────────────────────────────────── */
+  .disciplines__tete {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--e-5) var(--e-8);
+    align-items: end;
+    margin-bottom: var(--e-7);
+  }
+  @media (max-width: 56rem) { .disciplines__tete { grid-template-columns: 1fr; } }
+  .disciplines__intro { max-width: 46ch; }
+
+  .disciplines__liste { list-style: none; counter-reset: none; }
+  .disciplines__liste li {
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    gap: var(--e-4);
+    align-items: baseline;
+    padding: var(--e-4) 0;
+    border-top: 1px solid var(--trait);
+    transition: padding-left var(--d-normal) var(--e-sortie);
+  }
+  .disciplines__liste li:last-child { border-bottom: 1px solid var(--trait); }
+  .disciplines__liste li:hover { padding-left: var(--e-3); }
+  @media (max-width: 44rem) {
+    .disciplines__liste li { grid-template-columns: 2.25rem 1fr; }
+  }
+  .disc__num { color: var(--signal-texte); font-weight: 700; }
+  .disc__nom { font-size: var(--t-h3); margin-bottom: 0.2rem; }
+  .disc__detail { font-size: var(--t-petit); color: var(--texte-faible); max-width: 56ch; }
+  .disc__age { color: var(--graphite); }
+
+  .disciplines__source { margin-top: var(--e-5); color: var(--graphite); text-transform: none; letter-spacing: 0.04em; }
+
+  /* ── 05 Preuve ─────────────────────────────────────────────────────── */
+  .preuve__tete { max-width: 56rem; margin-bottom: var(--e-7); }
+  .preuve h2 { max-width: 18ch; margin-bottom: var(--e-4); }
+  .preuve__legende { margin-top: var(--e-3); color: var(--graphite); text-transform: none; letter-spacing: 0.04em; }
+
+  /* ── 06 Première séance ────────────────────────────────────────────── */
+  .premiere__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--e-8);
+    align-items: center;
+  }
+  @media (max-width: 62rem) { .premiere__inner { grid-template-columns: 1fr; } }
+  .premiere h2 { max-width: 16ch; margin-bottom: var(--e-6); }
+  .premiere__etapes { list-style: none; display: grid; }
+  .premiere__etapes li {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: var(--e-4);
+    padding: var(--e-4) 0;
+    border-top: 1px solid var(--trait);
+  }
+  .premiere__etapes .mono { color: var(--signal-texte); padding-top: 0.3em; font-weight: 700; }
+  .premiere__etapes p { font-size: var(--t-petit); color: var(--texte-faible); max-width: 56ch; }
+  .premiere__etapes strong { color: var(--encre); font-weight: 600; }
+  .premiere__lien { display: inline-block; margin-top: var(--e-5); font-size: var(--t-petit); }
+
+  /* ── 07 Amplitude ──────────────────────────────────────────────────── */
+  .amplitude__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--e-7) var(--e-8);
+    align-items: center;
+  }
+  @media (max-width: 62rem) { .amplitude__inner { grid-template-columns: 1fr; } }
+  .amplitude__grand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3em;
+    font-family: var(--police-titre);
+    font-size: var(--t-display);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    font-variant-numeric: tabular-nums;
+    margin: 0;
+  }
+  .amplitude__fleche { color: var(--signal-texte); font-size: 0.45em; }
+  .amplitude__jours { margin-top: var(--e-3); color: var(--signal-texte); letter-spacing: 0.18em; }
+  .amplitude__texte h2 { max-width: 18ch; margin-bottom: var(--e-4); }
+  .amplitude__texte .lead { max-width: 48ch; }
+  .amplitude__args { list-style: none; display: grid; gap: var(--e-3); margin: var(--e-6) 0; }
+  .amplitude__args li { display: flex; align-items: baseline; gap: var(--e-3); font-size: var(--t-petit); }
+  .amplitude__tiret { flex: none; width: 1.25rem; height: 1px; background: var(--signal-texte); }
+
+  /* ── 08 Questions ──────────────────────────────────────────────────── */
+  .questions__inner {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: var(--e-8);
+    align-items: start;
+  }
+  @media (max-width: 62rem) { .questions__inner { grid-template-columns: 1fr; gap: var(--e-6); } }
+  .questions__tete h2 { max-width: 16ch; margin-bottom: var(--e-4); }
+  .questions__tete .lead { max-width: 40ch; }
+
+  /* ── 09 Secteur ────────────────────────────────────────────────────── */
+  .secteur__tete {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--e-5) var(--e-8);
+    align-items: end;
+    margin-bottom: var(--e-7);
+  }
+  @media (max-width: 62rem) { .secteur__tete { grid-template-columns: 1fr; } }
+  .secteur__accent { color: var(--signal-texte); }
+  .secteur__intro { max-width: 48ch; }
+
+  .secteur__liste {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    border-top: 1px solid var(--trait);
+  }
+  .secteur__item {
+    display: grid;
+    gap: 0.15rem;
+    padding: var(--e-4) var(--e-4) var(--e-4) 0;
+    border-bottom: 1px solid var(--trait);
+  }
+  .secteur__nom { font-weight: 600; font-size: var(--t-petit); }
+  .secteur__item--cle .secteur__nom { color: var(--signal-texte); }
+  .secteur__note { font-size: var(--t-micro); color: var(--graphite); }
+  .secteur__pied { margin-top: var(--e-6); max-width: 68ch; font-size: var(--t-petit); color: var(--texte-faible); }
+
+  /* ── 10 Ader ───────────────────────────────────────────────────────── */
+  .ader__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: var(--e-8);
+    align-items: center;
+  }
+  @media (max-width: 62rem) { .ader__inner { grid-template-columns: 1fr; } }
+  .ader h2 { max-width: 18ch; margin-bottom: var(--e-5); }
+  .ader .lead { max-width: 48ch; margin-bottom: var(--e-4); }
+  .ader .faible { max-width: 54ch; }
+
+  /* ── 11 Convergence ────────────────────────────────────────────────── */
+  .convergence { background: var(--papier-creuse); }
+  .convergence__inner { max-width: 48rem; }
+  .convergence h2 { margin-bottom: var(--e-5); }
+  .convergence__accent { color: var(--signal-texte); }
+  .convergence__texte { max-width: 52ch; color: var(--texte-faible); }
+  .convergence__actions { display: flex; flex-wrap: wrap; gap: var(--e-3); margin-top: var(--e-7); }
+</style>

@@ -1,0 +1,56 @@
+{
+  "club-boxe-muret": {
+    "lqip": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACQAwCdASoUAA0APxF4slEsJ6SisAgBgCIJZwDCgA6vTMPsmbBAAP1D+7VxgDsnlWBV5APN0Po+i+Rxp4HW2yFGvSo4jUwAAAA=",
+    "w": 6720,
+    "h": 4480,
+    "ratio": 1.5
+  },
+  "cage-mma-muret": {
+    "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACQAwCdASoUAA0APxFwsFAsJiSisAgBgCIJYwC7AA/b169nfIcmAP5xPt3fDGROUsb0IBYbsG7Gm+6q/yY1iCKc65AhQTXDM+UPQAAA",
+    "w": 6720,
+    "h": 4480,
+    "ratio": 1.5
+  },
+  "sac-de-frappe-muret": {
+    "lqip": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADwAwCdASoUAA0APxF2sVAsJ6SisAgBgCIJZQCo9B4aR6O46iIXBNeAAP7L1hmblJzOagYrzfD1JMTNzhTI3kiqiG0wAA==",
+    "w": 6720,
+    "h": 4480,
+    "ratio": 1.5
+  },
+  "pattes-d-ours-muret": {
+    "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAABwAwCdASoUAA0APxF2slEsJySisAgBgCIJYwAAXFIr9WC7t4AA/tDNEqeTpRhG0noh7Fs6sC/HUEqpExgkg364+z9pE0Q5ASyxQyAegPDeAAAA",
+    "w": 6720,
+    "h": 4480,
+    "ratio": 1.5
+  },
+  "boxe-anglaise-muret": {
+    "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACwAwCdASoUAA0APxFysVAsJqSisAgBgCIJYwCsACB/5JZ3vaIewAD+6czo/6r1I1XvnL75WpTcpzm/dVkn89Z2huoiyTOqrXbRDAAA",
+    "w": 6720,
+    "h": 4480,
+    "ratio": 1.5
+  },
+  "entrainement-boxe-muret": {
+    "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADQAwCdASoUAA0APxFysVAsJqSisAgBgCIJZwAAWi3tYfDyh3tQkKAA/s1OFBqDLss+yntA2iI1WKVNjcJNoFnByTV+khXI91A8AAAA",
+    "w": 6720,
+    "h": 4480,
+    "ratio": 1.5
+  },
+  "kick-boxing-muret": {
+    "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADQAwCdASoUAA0APxF0slCsJqSisAgBgCIJQBUehDn1puWWj/KpzAAA/tzJ/fv0vEQwaA69DU0QN1L+EU7rOrzUrW+WsBRQhvleAAAA",
+    "w": 6306,
+    "h": 4027,
+    "ratio": 1.5659
+  },
+  "preparation-physique-muret": {
+    "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADwAwCdASoUAA0APxFwsFAsJiSisAgBgCIJZAC1GoACPBAswknLDTg0AP6GOBAGfhZyH1PDutgKt3TrQMjq5qWqfulLEM/gFzEnwAAA",
+    "w": 6720,
+    "h": 4480,
+    "ratio": 1.5
+  },
+  "club-boxe-muret-2": {
+    "lqip": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAACwAwCdASoUAA0APxF0tFEsJqUisAgBgCIJZQC7ABIiMRJ1jog3gAD+ok2TmCHYIxRzNTNMDKNoqpdP1n5IwBU0oOCl5upiheKgAA==",
+    "w": 6720,
+    "h": 4480,
+    "ratio": 1.5
+  }
+}

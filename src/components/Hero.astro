@@ -1,0 +1,510 @@
+---
+/**
+ * LE HERO — « L'Éole ».
+ *
+ * Muret est la ville de Clément Ader. Le hero est donc un plan d'ingénieur qui
+ * se trace : l'aile de l'Éole d'abord, en un seul trait, puis la route de Muret
+ * vers le club, puis les cotes — et chaque cote porte un fait réel avec sa
+ * source. Le cartouche en bas à droite est celui d'une planche technique :
+ * numéro, date de relevé, échelle, sources.
+ *
+ * Pourquoi ça, et pas une photo plein écran : une photo dit « voilà une
+ * salle » ; ce plan dit « voilà exactement ce qui t'attend, et voilà d'où
+ * viennent les chiffres ». La photo arrive juste après, sur sa plaque.
+ *
+ * Le trait de route partage `--tension` avec la barre de parcours : quand le
+ * visiteur décide, la ligne se tend. Le hero est l'instrument de mesure de sa
+ * propre certitude.
+ *
+ * Tout est en SVG inline : aucun canvas, aucune bibliothèque, aucune requête.
+ * Sans JavaScript, le plan est déjà à son état final. En mouvement réduit,
+ * aussi. Deux tracés existent — horizontal et vertical — parce qu'un plan
+ * s'adapte au format de sa feuille : le mobile n'est pas le bureau écrasé.
+ */
+import { SITE, DESTINATION, VILLE } from '../data/verite';
+import { route } from '../data/routes';
+
+const cotes = DESTINATION.faits;
+---
+
+<section class="hero" aria-labelledby="t-hero">
+  <div class="enveloppe">
+    <p class="hero__cartouche mono">
+      <span class="hero__planche">Planche 01</span>
+      <span aria-hidden="true">·</span>
+      <span>{SITE.ville} → {DESTINATION.ville}</span>
+    </p>
+
+    <div class="hero__haut">
+      <div class="hero__texte">
+        <h1 id="t-hero" class="hero__titre">
+          <span class="hero__ligne">Ton club de boxe</span>
+          <span class="hero__ligne">et de MMA</span>
+          <span class="hero__ligne hero__ligne--accent">à 23 km de Muret.</span>
+        </h1>
+
+        <p class="hero__promesse">
+          <strong>Boxing Center Portet-sur-Garonne</strong> accueille les Muretains
+          en boxe anglaise, MMA, kick-boxing, grappling et boxe enfants.
+          600 m², un ring, une cage — {DESTINATION.horaires.valeur}.
+        </p>
+
+        <div class="hero__actions">
+          <a class="bouton bouton--signal" href={route('ta-seance').chemin}>
+            <span>Trouver ma séance</span>
+            <span class="fleche" aria-hidden="true">→</span>
+          </a>
+          <a class="bouton" href={DESTINATION.site} rel="noopener">
+            <span>Le site du club</span>
+            <span class="fleche" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <dl class="hero__faits">
+        <div>
+          <dt class="mono">Accueil</dt>
+          <dd>{DESTINATION.horairesCourt}</dd>
+        </div>
+        <div>
+          <dt class="mono">Depuis Muret</dt>
+          <dd>A64, sortie Portet</dd>
+        </div>
+        <div>
+          <dt class="mono">Niveau</dt>
+          <dd>Débutant à compétiteur</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  {/* ─────────────── LE PLAN ─────────────── */}
+  <div class="enveloppe">
+    <figure class="plan" data-plan>
+      <figcaption class="vh">
+        Plan d’accès : de Muret (31600) à Boxing Center Portet-sur-Garonne (31120),
+        23 km par la route, 600 m², un ring et une cage MMA, ouvert de 10h à 21h30
+        six jours sur sept, neuf disciplines publiées.
+      </figcaption>
+
+      {/* Tracé horizontal — écrans larges */}
+      <svg
+        class="plan__svg plan__svg--h"
+        viewBox="0 0 1200 440"
+        role="img"
+        aria-hidden="true"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        {/* L'aile de l'Éole : un seul trait, tracé à la main d'après la
+            machine d'Ader — le fait local devient la structure du dessin. */}
+        <path
+          class="plan__aile"
+          d="M170 300 C 268 214, 412 132, 604 100
+             C 586 138, 560 168, 528 192
+             C 556 214, 560 236, 538 254
+             C 494 258, 456 258, 424 254
+             C 452 278, 456 300, 434 316
+             C 390 320, 350 318, 316 312
+             C 342 338, 344 360, 320 374
+             C 268 372, 214 348, 170 300 Z"
+          fill="none"
+        />
+
+        {/* La route : un seul coude. Trait latent, puis trait qui se tend. */}
+        <path class="plan__trait" d="M 190 316 H 690 L 1032 206" fill="none" />
+        <path class="plan__trait plan__trait--tendu" d="M 190 316 H 690 L 1032 206" fill="none" pathLength="100" />
+
+        {/* Cote 1 — la distance, sous tout le parcours */}
+        <g class="plan__cote" style="--rang:1">
+          <path class="plan__cote-ligne" d="M 190 382 H 1032" />
+          <path class="plan__cote-tick" d="M 190 374 V 390 M 1032 374 V 390" />
+          <text class="plan__cote-texte" x="611" y="372" text-anchor="middle">{cotes[0].valeur}</text>
+          <text class="plan__cote-source" x="611" y="406" text-anchor="middle">{cotes[0].source}</text>
+        </g>
+
+        {/* Cote 2 — la surface, au-dessus de la destination */}
+        <g class="plan__cote" style="--rang:2">
+          <path class="plan__cote-ligne" d="M 1032 206 V 128" />
+          <path class="plan__cote-tick" d="M 1024 128 H 1040" />
+          <text class="plan__cote-texte" x="1032" y="112" text-anchor="middle">{cotes[1].valeur}</text>
+        </g>
+
+        {/* Cote 3 — l'équipement, au coude */}
+        <g class="plan__cote" style="--rang:3">
+          <path class="plan__cote-ligne" d="M 690 316 V 244" />
+          <path class="plan__cote-tick" d="M 682 244 H 698" />
+          <text class="plan__cote-texte" x="690" y="228" text-anchor="middle">{cotes[2].valeur}</text>
+        </g>
+
+        {/* Cote 4 — l'amplitude, près de l'origine */}
+        <g class="plan__cote" style="--rang:4">
+          <path class="plan__cote-ligne" d="M 392 316 V 262" />
+          <path class="plan__cote-tick" d="M 384 262 H 400" />
+          <text class="plan__cote-texte" x="392" y="246" text-anchor="middle">{cotes[3].valeur}</text>
+        </g>
+
+        {/* Nœud d'origine — Muret */}
+        <g class="plan__noeud plan__noeud--origine">
+          <circle cx="190" cy="316" r="7" />
+          <text class="plan__noeud-nom" x="190" y="348" text-anchor="middle">MURET</text>
+          <text class="plan__noeud-cp" x="190" y="366" text-anchor="middle">31600</text>
+        </g>
+
+        {/* Nœud de destination — le club. Cible, pas point. */}
+        <g class="plan__noeud plan__noeud--fin">
+          <circle class="plan__cible" cx="1032" cy="206" r="15" />
+          <circle cx="1032" cy="206" r="6" />
+          <text class="plan__noeud-nom" x="1032" y="248" text-anchor="middle">PORTET-SUR-GARONNE</text>
+          <text class="plan__noeud-cp" x="1032" y="266" text-anchor="middle">31120 · 9 disciplines</text>
+        </g>
+      </svg>
+
+      {/* Tracé vertical — téléphones. Même plan, autre feuille. */}
+      <svg
+        class="plan__svg plan__svg--v"
+        viewBox="0 0 360 620"
+        role="img"
+        aria-hidden="true"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <path
+          class="plan__aile"
+          d="M88 152 C 138 110, 210 68, 306 52
+             C 297 71, 284 86, 268 98
+             C 282 109, 284 120, 273 129
+             C 251 131, 232 131, 216 129
+             C 230 141, 232 152, 221 160
+             C 199 162, 179 161, 162 158
+             C 175 171, 176 182, 164 189
+             C 138 188, 111 176, 88 152 Z"
+          fill="none"
+        />
+
+        <path class="plan__trait" d="M 96 196 V 452 L 268 540" fill="none" />
+        <path class="plan__trait plan__trait--tendu" d="M 96 196 V 452 L 268 540" fill="none" pathLength="100" />
+
+        <g class="plan__cote" style="--rang:1">
+          <path class="plan__cote-ligne" d="M 40 196 V 540" />
+          <path class="plan__cote-tick" d="M 32 196 H 48 M 32 540 H 48" />
+          {/* La cote de distance s'écrit le long de sa ligne, comme sur une
+              vraie planche : elle ne traverse jamais le tracé. */}
+          <text class="plan__cote-texte" transform="rotate(-90 30 368)" x="30" y="368" text-anchor="middle">{cotes[0].valeur}</text>
+          <text class="plan__cote-source" transform="rotate(-90 46 368)" x="46" y="368" text-anchor="middle">{cotes[0].source}</text>
+        </g>
+
+        <g class="plan__cote" style="--rang:2">
+          <path class="plan__cote-ligne" d="M 96 300 H 176" />
+          <path class="plan__cote-tick" d="M 176 292 V 308" />
+          <text class="plan__cote-texte" x="186" y="305" text-anchor="start">{cotes[3].valeur}</text>
+        </g>
+
+        <g class="plan__cote" style="--rang:3">
+          <path class="plan__cote-ligne" d="M 96 388 H 176" />
+          <path class="plan__cote-tick" d="M 176 380 V 396" />
+          <text class="plan__cote-texte" x="186" y="393" text-anchor="start">{cotes[2].valeur}</text>
+        </g>
+
+        <g class="plan__cote" style="--rang:4">
+          <path class="plan__cote-ligne" d="M 268 540 H 320" />
+          <path class="plan__cote-tick" d="M 320 532 V 548" />
+          <text class="plan__cote-texte" x="316" y="522" text-anchor="end">{cotes[1].valeur}</text>
+        </g>
+
+        <g class="plan__noeud plan__noeud--origine">
+          <circle cx="96" cy="196" r="7" />
+          <text class="plan__noeud-nom" x="112" y="192" text-anchor="start">MURET</text>
+          <text class="plan__noeud-cp" x="112" y="210" text-anchor="start">31600</text>
+        </g>
+
+        <g class="plan__noeud plan__noeud--fin">
+          <circle class="plan__cible" cx="268" cy="540" r="14" />
+          <circle cx="268" cy="540" r="6" />
+          <text class="plan__noeud-nom" x="252" y="578" text-anchor="end">PORTET-SUR-GARONNE</text>
+          <text class="plan__noeud-cp" x="252" y="596" text-anchor="end">31120</text>
+        </g>
+      </svg>
+
+      {/* Le cartouche d'une vraie planche : ce qui rend le dessin vérifiable. */}
+      <div class="plan__bloc mono">
+        <span><b>Boxing Center</b> — plan d’accès n° 01</span>
+        <span>Relevé 09.2026</span>
+        <span class="plan__bloc-src">Sources : boxing-center-portet.fr · Wikipédia</span>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: clamp(2rem, 1rem + 4vw, 4.5rem) clamp(3rem, 2rem + 4vw, 5rem);
+    background: var(--papier);
+    overflow: hidden;
+  }
+
+  /* Le papier a un grain de calque : des lignes de trame très pâles, comme
+     une feuille millimétrée qu'on aurait presque effacée. */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, var(--trait-faible) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--trait-faible) 1px, transparent 1px);
+    background-size: 3.5rem 3.5rem;
+    mask-image: radial-gradient(120% 90% at 70% 40%, #000 0%, transparent 78%);
+    opacity: 0.55;
+  }
+  .hero > * { position: relative; }
+
+  .hero__cartouche {
+    display: flex;
+    gap: var(--e-3);
+    align-items: center;
+    padding-bottom: var(--e-4);
+    border-bottom: 1px solid var(--trait);
+    margin-bottom: var(--e-7);
+  }
+  .hero__planche { color: var(--signal-texte); font-weight: 700; }
+
+  .hero__haut {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+    gap: var(--e-6) var(--e-8);
+    align-items: end;
+  }
+  @media (max-width: 62rem) {
+    .hero__haut { grid-template-columns: 1fr; align-items: start; }
+  }
+
+  .hero__titre { max-width: 15ch; margin-bottom: var(--e-5); }
+  .hero__ligne { display: block; }
+  /* La dernière ligne est cuivre : c'est la seule affirmation chiffrée du
+     titre, et c'est elle que le plan prouve juste en dessous. */
+  .hero__ligne--accent { color: var(--signal-texte); }
+
+  /* Chaque ligne du titre monte comme une feuille qu'on pose. */
+  .hero__ligne {
+    animation: poser 720ms var(--e-sortie) both;
+    animation-delay: calc(var(--i, 0) * 90ms);
+  }
+  .hero__ligne:nth-child(1) { --i: 0; }
+  .hero__ligne:nth-child(2) { --i: 1; }
+  .hero__ligne:nth-child(3) { --i: 2; }
+  @keyframes poser {
+    from { opacity: 0; transform: translateY(0.5em); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .hero__promesse {
+    max-width: 52ch;
+    font-size: var(--t-lead);
+    line-height: 1.45;
+    color: var(--texte-faible);
+    padding-left: var(--e-5);
+    border-left: 2px solid var(--signal);
+  }
+  .hero__promesse strong { color: var(--encre); font-weight: 600; }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-3);
+    margin-top: var(--e-6);
+  }
+
+  .hero__faits { display: grid; gap: 0; margin: 0; }
+  .hero__faits > div {
+    display: grid;
+    gap: 0.15rem;
+    padding: var(--e-3) 0;
+    border-top: 1px solid var(--trait);
+  }
+  .hero__faits > div:last-child { border-bottom: 1px solid var(--trait); }
+  .hero__faits dt { color: var(--graphite); }
+  .hero__faits dd { margin: 0; font-size: var(--t-petit); font-weight: 600; }
+
+  /* ── Le plan ───────────────────────────────────────────────────────── */
+  .plan { position: relative; margin: var(--e-8) 0 0; }
+
+  .plan__svg { width: 100%; height: auto; overflow: visible; }
+  .plan__svg--v { display: none; }
+  @media (max-width: 48rem) {
+    .plan__svg--h { display: none; }
+    .plan__svg--v { display: block; max-width: 22rem; margin-inline: auto; }
+  }
+
+  /* L'aile : dessinée en premier, puis reculée derrière le reste. */
+  .plan__aile {
+    stroke: var(--signal);
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    opacity: 0;
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
+    animation:
+      tracer 1100ms var(--e-resolution) 200ms forwards,
+      reculer 500ms var(--e-sortie) 1300ms forwards;
+  }
+  @keyframes tracer { to { stroke-dashoffset: 0; } }
+  @keyframes reculer { from { opacity: 1; } to { opacity: 0.34; } }
+  /* L'aile n'a d'opacité qu'une fois qu'elle commence à se tracer. */
+  .plan__aile { animation-fill-mode: forwards; }
+  .plan__svg .plan__aile { opacity: 1; }
+
+  /* La route : le trait latent, toujours là. */
+  .plan__trait {
+    stroke: var(--graphite);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.45;
+  }
+
+  /* Le trait tendu : il se trace au chargement, puis suit --tension, la même
+     variable que la barre de parcours. Décider tend la ligne. */
+  .plan__trait--tendu {
+    stroke: var(--signal-texte);
+    stroke-width: 2;
+    opacity: 1;
+    stroke-dasharray: 100;
+    stroke-dashoffset: calc(100 - 100 * var(--trace, 0));
+    animation: tendre var(--d-trace) var(--e-resolution) 900ms forwards;
+    transition: stroke-dashoffset var(--d-trace) var(--e-resolution);
+  }
+  @keyframes tendre { to { --trace: 1; } }
+  @property --trace {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0;
+  }
+
+  /* Les cotes arrivent l'une après l'autre, après la route. */
+  .plan__cote {
+    opacity: 0;
+    animation: coter 420ms var(--e-sortie) forwards;
+    animation-delay: calc(1500ms + var(--rang) * 130ms);
+  }
+  @keyframes coter { to { opacity: 1; } }
+
+  .plan__cote-ligne,
+  .plan__cote-tick {
+    stroke: var(--graphite);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+    fill: none;
+    opacity: 0.7;
+  }
+  .plan__cote-ligne { stroke-dasharray: 4 4; }
+
+  .plan__cote-texte {
+    font-family: var(--police-mono);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    fill: var(--signal-texte);
+  }
+  .plan__cote-source {
+    font-family: var(--police-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    fill: var(--graphite);
+    text-transform: uppercase;
+  }
+
+  /* Les nœuds : le départ est un point, l'arrivée est une cible. */
+  .plan__noeud circle { fill: var(--encre); }
+  .plan__noeud {
+    opacity: 0;
+    animation: coter 380ms var(--e-sortie) forwards;
+  }
+  .plan__noeud--origine { animation-delay: 980ms; }
+  .plan__noeud--fin { animation-delay: 1700ms; }
+
+  .plan__cible {
+    fill: none;
+    stroke: var(--signal-texte);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: viser 2.6s var(--e-mecanique) 2s infinite;
+  }
+  /* La cible respire une fois toutes les 2,6 s : le seul mouvement continu du
+     hero, et il dit « c'est là que ça se passe ». */
+  @keyframes viser {
+    0%, 72%, 100% { transform: scale(1); opacity: 1; }
+    84% { transform: scale(1.28); opacity: 0.35; }
+  }
+  .plan__noeud--fin circle:last-of-type { fill: var(--signal-texte); }
+
+  .plan__noeud-nom {
+    font-family: var(--police-mono);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    fill: var(--encre);
+  }
+  .plan__noeud-cp {
+    font-family: var(--police-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    fill: var(--graphite);
+  }
+
+  /* Le cartouche de la planche. */
+  .plan__bloc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-2) var(--e-5);
+    margin-top: var(--e-5);
+    padding-top: var(--e-3);
+    border-top: 1px solid var(--trait);
+    text-transform: none;
+    letter-spacing: 0.05em;
+    color: var(--graphite);
+  }
+  .plan__bloc b { color: var(--encre); font-weight: 700; }
+  .plan__bloc-src { margin-left: auto; }
+  @media (max-width: 48rem) { .plan__bloc-src { margin-left: 0; } }
+
+  /* ── Sans script, et en mouvement réduit : le plan est déjà fini. ──── */
+  :global(.no-js) .plan__aile,
+  :global(.no-js) .plan__cote,
+  :global(.no-js) .plan__noeud,
+  :global(.no-js) .hero__ligne { animation: none; opacity: 1; }
+  :global(.no-js) .plan__aile { opacity: 0.34; stroke-dashoffset: 0; }
+  :global(.no-js) .plan__trait--tendu { stroke-dashoffset: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .plan__aile,
+    .plan__cote,
+    .plan__noeud,
+    .plan__cible,
+    .hero__ligne { animation: none !important; opacity: 1; }
+    .plan__aile { opacity: 0.34; stroke-dashoffset: 0; }
+    .plan__trait--tendu { stroke-dashoffset: 0; animation: none; }
+  }
+</style>
+
+<script>
+  /**
+   * Le trait de route suit la certitude du visiteur : dès qu'un choix est
+   * fait, la ligne se tend un peu plus. On lit la même variable que la barre
+   * de parcours pour qu'il n'existe qu'une seule source de vérité.
+   */
+  const plan = document.querySelector<HTMLElement>('[data-plan]');
+  if (plan) {
+    const suivre = () => {
+      const barre = document.querySelector<HTMLElement>('[data-parcours]');
+      const t = barre ? getComputedStyle(barre).getPropertyValue('--tension').trim() : '';
+      const v = Number(t);
+      // Sous le quart, on garde le tracé complet du chargement : le plan ne
+      // se rétracte jamais sous les yeux de quelqu'un qui n'a rien décidé.
+      if (Number.isFinite(v) && v > 0.25) plan.style.setProperty('--trace', String(v));
+    };
+    document.addEventListener('parcours:maj', suivre);
+    suivre();
+  }
+</script>

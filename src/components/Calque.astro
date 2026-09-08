@@ -1,0 +1,113 @@
+---
+/**
+ * LE CALQUE — le dessin devient la photographie.
+ *
+ * Le site est une planche technique. Une photo posée dessus sans transition
+ * serait une pièce rapportée. Alors la photo arrive comme sur une table à
+ * dessin : d'abord le calque — l'image réduite au trait, en cuivre sur papier,
+ * quadrillée — puis le calque se lève et la vraie salle apparaît dessous.
+ *
+ * Le procédé est entièrement CSS : un filtre de contraste extrême et de
+ * teinte cuivre sur l'image, qu'on relâche quand la section entre à l'écran.
+ * Aucune deuxième image, aucun canvas, aucun octet de plus — c'est la même
+ * photographie, vue à travers un calque qu'on retire.
+ *
+ * Sans script et en mouvement réduit : le calque est déjà levé.
+ */
+import Photo from './Photo.astro';
+import type { MediaSlug } from '../data/medias';
+
+interface Props {
+  slug: MediaSlug;
+  sizes?: string;
+  ratio?: string;
+  prioritaire?: boolean;
+  class?: string;
+}
+const { slug, sizes = '100vw', ratio, prioritaire = false, class: classe = '' } = Astro.props;
+---
+
+<div class:list={['calque', classe]} data-calque>
+  <Photo slug={slug} sizes={sizes} ratio={ratio} prioritaire={prioritaire} />
+  <span class="calque__grille" aria-hidden="true"></span>
+</div>
+
+<style>
+  .calque { position: relative; overflow: hidden; }
+
+  /* Le calque : contraste poussé, teinte cuivre, image réduite au trait. */
+  .calque :global(picture) {
+    filter: grayscale(1) contrast(1.75) brightness(1.08) sepia(0.55) hue-rotate(-8deg)
+      saturate(1.6);
+    transition:
+      filter 1.4s var(--e-resolution),
+      transform 1.6s var(--e-sortie);
+    transform: scale(1.04);
+  }
+  .calque.vu :global(picture) {
+    filter: none;
+    transform: none;
+  }
+
+  /* Le quadrillage du calque, qui s'efface avec lui. */
+  .calque__grille {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, rgba(122, 61, 22, 0.28) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(122, 61, 22, 0.28) 1px, transparent 1px);
+    background-size: 2.5rem 2.5rem;
+    opacity: 1;
+    transition: opacity 1s var(--e-sortie);
+  }
+  .calque.vu .calque__grille { opacity: 0; }
+
+  /* Le trait cuivre qui balaie au moment où le calque se lève : la même
+     direction que le tracé du plan, gauche → droite. */
+  .calque::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--signal-texte);
+    left: 0;
+    opacity: 0;
+  }
+  .calque.vu::after { animation: balayer 1.4s var(--e-resolution) forwards; }
+  @keyframes balayer {
+    0% { left: 0; opacity: 1; }
+    92% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+
+  :global(.no-js) .calque :global(picture) { filter: none; transform: none; }
+  :global(.no-js) .calque__grille { opacity: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .calque :global(picture) { filter: none; transform: none; transition: none; }
+    .calque__grille { opacity: 0; }
+    .calque::after { display: none; }
+  }
+</style>
+
+<script>
+  // Le calque se lève quand la section entre à l'écran, une seule fois.
+  const calques = document.querySelectorAll<HTMLElement>('[data-calque]');
+  if (calques.length && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const obs = new IntersectionObserver(
+      (entrees) => {
+        for (const e of entrees) {
+          if (!e.isIntersecting) continue;
+          e.target.classList.add('vu');
+          obs.unobserve(e.target);
+        }
+      },
+      { rootMargin: '0px 0px -18% 0px' }
+    );
+    calques.forEach((c) => obs.observe(c));
+  } else {
+    calques.forEach((c) => c.classList.add('vu'));
+  }
+</script>

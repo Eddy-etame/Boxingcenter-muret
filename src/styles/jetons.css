@@ -1,0 +1,169 @@
+/*
+  JETONS — Boxing Center depuis Muret. Sous-famille Portet.
+
+  Thèse : LE PLAN ET LA SUEUR.
+  L'interface est un dessin d'ingénieur — papier, encre, cotes, traits fins.
+  La photographie apporte le cuir, la sueur et le bruit. Le plan sait où on va ;
+  la photo dit ce qu'on y trouve. Ni l'un ni l'autre ne cède.
+
+  Muret est la ville de Clément Ader : le trait coté n'est pas une décoration,
+  c'est la langue de l'endroit.
+
+  LOI DE COULEUR : le cuivre est la seconde couleur du logo Boxing Center et
+  n'appartient à aucune salle. Ici il ne veut pas dire « boxe » — il dit
+  « ce point est établi ». Il se tend à mesure que le visiteur décide.
+
+  CONTRASTES MESURÉS (formule WCAG, 2026-09-08) :
+    encre #1e2044 sur papier #f3efe6 ...... 13,6:1
+    cuivre texte #7a3d16 sur papier ....... 7,3:1   (AA, y compris petit texte)
+    cuivre aplat #b8763a sur papier ....... 3,2:1   (aplats et très gros titres seulement)
+*/
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('/fonts/bricolage-grotesque-latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 200 800;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('/fonts/instrument-sans-latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 400 700;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* ── Couleur ───────────────────────────────────────────────────────── */
+  --papier: #f3efe6;      /* le fond, chaud — jamais le blanc d'une page de logiciel */
+  --papier-creuse: #eae4d7; /* la deuxième teinte du papier : plaques, tableaux */
+  --papier-vif: #fbf8f2;  /* les cartes qui se détachent du papier */
+  --encre: #1e2044;       /* le navy Boxing Center, la couleur du trait */
+  --encre-pale: #4a4d6b;  /* texte secondaire, 7,4:1 sur papier */
+  /* Le graphite porte TOUTES les étiquettes du site : cotes, clés de fiche,
+     cartouches, légendes. Mesuré : 5,38:1 sur papier et 4,88:1 sur papier
+     creusé — AA y compris en 12 px, parce qu'ici le petit texte EST le
+     contenu, pas de la décoration. */
+  --graphite: #5f5f79;
+  --trait: rgba(30, 32, 68, 0.16);
+  --trait-faible: rgba(30, 32, 68, 0.08);
+
+  /* Le cuivre. --signal-texte pour les mots, --signal pour les aplats. */
+  --signal: #b8763a;
+  --signal-texte: #7a3d16;
+  --signal-profond: #5e2f11;
+  --signal-voile: rgba(184, 118, 58, 0.12);
+
+  /* Polarité par défaut : papier. Une section peut basculer en encre. */
+  --fond: var(--papier);
+  --texte: var(--encre);
+  --texte-faible: var(--encre-pale);
+
+  /* ── Typographie ───────────────────────────────────────────────────── */
+  --police-titre: 'Bricolage Grotesque', 'Instrument Sans', system-ui, sans-serif;
+  --police-texte: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --police-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  --t-micro: clamp(0.6875rem, 0.66rem + 0.14vw, 0.75rem);
+  --t-petit: clamp(0.8125rem, 0.79rem + 0.12vw, 0.875rem);
+  --t-base: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --t-lead: clamp(1.125rem, 1.02rem + 0.52vw, 1.5rem);
+  --t-h3: clamp(1.25rem, 1.09rem + 0.8vw, 1.75rem);
+  --t-h2: clamp(1.75rem, 1.32rem + 2.1vw, 3rem);
+  --t-h1: clamp(2.25rem, 1.3rem + 4.8vw, 5.25rem);
+  --t-display: clamp(3rem, 0.9rem + 10.5vw, 9rem);
+
+  /* ── Espace ────────────────────────────────────────────────────────── */
+  --e-1: 0.25rem;
+  --e-2: 0.5rem;
+  --e-3: 0.75rem;
+  --e-4: 1rem;
+  --e-5: 1.5rem;
+  --e-6: 2rem;
+  --e-7: 3rem;
+  --e-8: 4rem;
+  --e-9: 6rem;
+  --e-10: 8rem;
+  --section-y: clamp(4rem, 3rem + 6vw, 9rem);
+
+  /* ── Grille ────────────────────────────────────────────────────────── */
+  --marge: clamp(1.25rem, 0.7rem + 2.6vw, 4rem);
+  --largeur-max: 84rem;
+  --largeur-lecture: 38rem;
+
+  /* ── Rayons — presque rien. Un plan n'a pas de coins arrondis. ─────── */
+  --rayon-0: 0;
+  --rayon-1: 2px;
+  --rayon-2: 3px;
+  --rayon-rond: 999px;
+
+  /* ── Trait de plan ─────────────────────────────────────────────────── */
+  --trait-fin: 1px;
+  --trait-normal: 1.5px;
+  --trait-epais: 2.5px;
+
+  /* ── Mouvement ─────────────────────────────────────────────────────── */
+  --d-instant: 90ms;
+  --d-rapide: 180ms;
+  --d-normal: 320ms;
+  --d-lent: 620ms;
+  --d-trace: 900ms;   /* le temps qu'un trait met à se dessiner */
+
+  --e-sortie: cubic-bezier(0.22, 1, 0.36, 1);
+  --e-mecanique: cubic-bezier(0.65, 0, 0.35, 1);
+  --e-resolution: cubic-bezier(0.16, 0.84, 0.24, 1);
+
+  --z-fond: 0;
+  --z-contenu: 10;
+  --z-colle: 100;
+  --z-entete: 200;
+  --z-menu: 300;
+  --z-saut: 400;
+}
+
+/* Polarité encre — appliquée par section, jamais par préférence système :
+   le parcours de couleur est narratif, il n'appartient pas au visiteur. */
+.encre {
+  --fond: var(--encre);
+  --texte: var(--papier);
+  --texte-faible: #a9abc4;
+  --trait: rgba(243, 239, 230, 0.18);
+  --trait-faible: rgba(243, 239, 230, 0.09);
+  /* Sur encre, le graphite s'éclaircit symétriquement : 5,00:1, mesuré. */
+  --graphite: #8d90ae;
+  /* Sur encre, le cuivre doit s'éclaircir pour rester lisible : #d8a06a
+     donne 6,9:1 sur #1e2044, mesuré. */
+  --signal-texte: #d8a06a;
+  --signal: #c98a4c;
+  --papier-vif: #262a52;
+  --papier-creuse: #171930;
+}
+
+/* Polarité papier creusé — pour poser une plaque sans changer de monde. */
+.creuse {
+  --fond: var(--papier-creuse);
+  --papier-vif: var(--papier);
+}
