@@ -42,7 +42,7 @@ Redirections : `/club-boxe-muret`, `/boxe-muret`, `/club-mma-muret`, `/salle-mma
 | _046 | `kick-boxing-muret.webp` | kick-boxing | Un jeune boxeur en garde, cordes rouges, drapeaux |
 | _049 | `preparation-physique-muret.webp` | fitness / échauffement | Shadow boxing avec haltères légers |
 | _044 | `club-boxe-gala-muret.webp` | secondaire | Deux pratiquants devant l'affiche du gala de boxe professionnel |
-Légende : « … — Boxing Center Portet-sur-Garonne » (photos prises au club de destination : on le nomme). Complément : les 6 non-utilisées de Colomiers, légendées « … — Boxing Center » sans nommer de salle (loi commune §8).
+Légende : « … — Boxing Center Portet-sur-Garonne » (photos prises au club de destination : on le nomme). Complément : les 6 non-utilisées de Colomiers, légendées elles aussi « … — Boxing Center Portet-sur-Garonne » (loi commune §8 : le club de destination, toujours).
 
 ## Système visuel — sous-famille Portet
 Papier chaud `#f3efe6` · encre navy `#1e2044` (13,6:1) · accent **cuivre** : petit texte `#7a3d16` (7,3:1, mesuré — le cuivre du logo est lisible sur papier), aplats et très gros titres `#b8763a` (loi commune §7). Hero **A — L'Éole** (tranché) : la route Muret→Portet en dessin coté qui se trace, cotes = 23 km par la route (Wikipédia) · 600 m² · 10h–21h30 · 9 disciplines · A64 sortie Portet ; l'aile de l'Éole en un trait, avant la route (loi commune §13.1). Type : Bricolage Grotesque + Instrument Sans + JetBrains Mono (§13.4).
