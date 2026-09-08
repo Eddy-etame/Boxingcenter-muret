@@ -47,7 +47,7 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'Est-ce que je vais prendre des coups dès le premier jour',
         texte:
-          "Non. L'opposition n'est pas le point de départ, c'est une étape qui arrive plus tard, et seulement pour celles et ceux qui la souhaitent. Un débutant travaille au sac, à la corde, aux pattes d'ours avec un coach, et sur le déplacement à vide. Beaucoup de pratiquants s'entraînent des mois sans jamais faire d'opposition — et progressent énormément.",
+          "L'opposition arrive plus tard, et seulement pour celles et ceux qui la souhaitent. Un débutant travaille au sac, à la corde, aux pattes d'ours avec un coach, et sur le déplacement à vide. Beaucoup de pratiquants s'entraînent des mois sans jamais faire d'opposition — et progressent énormément.",
       },
       {
         titre: 'Ce que ça change dans une semaine ordinaire',
@@ -76,7 +76,7 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'J’ai plus de 40 ans, c’est trop tard ?',
         texte:
-          "Non. La boxe se pratique à l'intensité qu'on lui donne. Un coach adapte le volume au pratiquant qu'il a devant lui, et la salle accueille des profils très différents dans la même séance.",
+          "La boxe se pratique à l'intensité qu'on lui donne. Un coach adapte le volume au pratiquant qu'il a devant lui, et la salle accueille des profils très différents dans la même séance.",
       },
       {
         titre: 'Je ne suis vraiment pas en forme. Je vais être ridicule ?',
@@ -101,7 +101,7 @@ export const CONTENUS: readonly Contenu[] = [
           "L'image publique du MMA vient des combats professionnels : une cage, deux athlètes préparés, et une intensité qui n'a rien à voir avec un entraînement. Un cours en club, c'est autre chose : de la technique décomposée, des répétitions à vitesse lente, du travail de placement, et une progression par étapes. Ce qu'on voit à la télévision est le sommet d'une pyramide dont la base est un cours d'apprentissage tout à fait ordinaire.",
       },
       {
-        titre: 'La cage n’est pas un décor',
+        titre: 'La paroi fait partie du jeu',
         texte:
           "Elle change la façon dont on travaille. Contre un grillage, il n'y a pas de sortie latérale : on apprend à gérer le dos au mur, les appuis, les relevés. C'est une compétence en soi, et c'est le genre de détail qui sépare un club qui publie « MMA » d'un club qui le pratique vraiment. Portet-sur-Garonne a la seule cage du réseau Boxing Center.",
       },
@@ -127,12 +127,12 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'Faut-il déjà savoir boxer ou lutter ?',
         texte:
-          "Non, et c'est même plus simple de partir de zéro : rien à désapprendre. Ce qu'il faut, c'est accepter de mal faire pendant plusieurs semaines. Le MMA est la discipline où la sensation d'incompétence dure le plus longtemps, parce qu'il y a le plus de choses à intégrer — et c'est aussi celle où les progrès sont les plus visibles une fois le cap passé.",
+          "Partir de zéro est même plus simple : il n'y a rien à désapprendre. Ce qu'il faut, c'est accepter de mal faire pendant plusieurs semaines. Le MMA est la discipline où la sensation d'incompétence dure le plus longtemps, parce qu'il y a le plus de choses à intégrer — et c'est aussi celle où les progrès sont les plus visibles une fois le cap passé.",
       },
       {
         titre: 'Est-ce qu’on se bat vraiment à l’entraînement ?',
         texte:
-          "Pas au début, et jamais sans que tu l'aies choisi. Les situations d'opposition arrivent progressivement, encadrées, à intensité contrôlée. Un club sérieux ne met jamais un débutant en difficulté : il n'y a rien à y gagner, et un blessé de plus ne revient pas.",
+          "Les situations d'opposition arrivent progressivement, encadrées, à intensité contrôlée, et seulement quand tu les choisis. Un club sérieux ne met jamais un débutant en difficulté : il n'y a rien à y gagner, et un blessé de plus ne revient pas.",
       },
       {
         titre: 'Quelle différence entre MMA, grappling et JJB ?',
@@ -164,7 +164,7 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'Je ne suis pas souple. C’est éliminatoire ?',
         texte:
-          "Non. La souplesse est une conséquence de la pratique, pas une condition d'entrée. Les premiers coups de pied sont bas : dans la cuisse, dans le tibia, à hauteur de hanche. La hauteur vient toute seule, et beaucoup de pratiquants confirmés ne montent jamais très haut — ils frappent fort et juste, ce qui vaut mieux.",
+          "La souplesse est une conséquence de la pratique, et elle vient avec les séances. Les premiers coups de pied sont bas : dans la cuisse, dans le tibia, à hauteur de hanche. La hauteur vient toute seule, et beaucoup de pratiquants confirmés ne montent jamais très haut — ils frappent fort et juste, ce qui vaut mieux.",
       },
       {
         titre: 'Pour les enfants et les ados',
@@ -295,7 +295,7 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'Est-ce qu’il y aura de l’opposition, même un peu ?',
         texte:
-          "Non. Le boxing fitness se pratique sans partenaire d'opposition : sac, pattes d'ours avec un coach, travail à vide. Si un jour tu veux essayer autre chose, le club a d'autres créneaux — mais rien ne t'y amène contre ton gré.",
+          "Le boxing fitness se pratique sans partenaire d'opposition : sac, pattes d'ours avec un coach, travail à vide. Si un jour tu veux essayer autre chose, le club a d'autres créneaux — mais rien ne t'y amène contre ton gré.",
       },
       {
         titre: 'Je n’ai jamais mis de gants. Ça se voit ?',

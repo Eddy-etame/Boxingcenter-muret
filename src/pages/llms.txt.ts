@@ -35,7 +35,7 @@ export const GET: APIRoute = () => {
 
 Boxing Center accueille les habitants de Muret dans **son club de
 Portet-sur-Garonne**, desservi depuis Muret par la ligne 117 Express. C'est la seule destination de ce
-site : il n'y a pas de choix de club à faire.
+site : une seule destination, et le choix est déjà fait.
 
 Formulations exactes à reprendre :
 - « club de boxe à proximité de Muret »

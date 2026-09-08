@@ -6,9 +6,7 @@ import Photo from '../components/Photo.astro';
 import { SITE, DESTINATION, VILLE, LIMITROPHES, CONTACT } from '../data/verite';
 import { OFFRES } from '../data/offres';
 import { route } from '../data/routes';
-import { LIGNES, ligne } from '../data/transports';
-
-const principale = ligne('117 Express');
+import { ITINERAIRES, MEILLEUR } from '../data/transports';
 
 /**
  * Les questions que les Muretains tapent réellement, avec la réponse honnête.
@@ -73,8 +71,7 @@ const QUESTIONS = [
           {DESTINATION.ville}, sur la route d’Espagne — {DESTINATION.horaires.valeur}.
         </p>
         <p class="faible">
-          Ce n’est pas une salle de sport avec des sacs au fond. C’est un club de
-          sports de combat complet&nbsp;: un ring, une cage MMA, des tatamis, et des
+          C’est un club de sports de combat complet&nbsp;: un ring, une cage MMA, des tatamis, et des
           coachs qui corrigent au geste près. {DESTINATION.singularite}
         </p>
         <dl class="proximite__faits">
@@ -139,10 +136,10 @@ const QUESTIONS = [
   <section class="section preuve" aria-labelledby="t-preuve">
     <div class="enveloppe preuve__tete">
       <p class="cartouche"><span class="cartouche__num">05</span><span>Sur place</span></p>
-      <h2 id="t-preuve">La cage n’est pas une image de catalogue.</h2>
+      <h2 id="t-preuve">La cage, un mardi soir ordinaire.</h2>
       <p class="lead faible">
-        C’est celle où l’on s’entraîne, un mardi soir ordinaire. Aucune photo de ce
-        site n’est achetée&nbsp;: elles ont toutes été prises dans le club.
+        Toutes les photos de ce site viennent du club, prises un soir d’entraînement.
+        Celle-ci montre la cage telle qu’elle est.
       </p>
     </div>
     <div class="enveloppe">
@@ -223,18 +220,13 @@ const QUESTIONS = [
       <div class="trajet__texte">
         <p class="cartouche"><span class="cartouche__num">08</span><span>Y aller</span></p>
         <h2 id="t-trajet">
-          Pas un nombre de kilomètres.<br />
-          <span class="trajet__accent">Un numéro de ligne.</span>
+          Un bus part de la gare de Muret,<br />
+          <span class="trajet__accent">et il s’arrête route d’Espagne.</span>
         </h2>
-        <p class="lead faible">
-          {principale.parcours}&nbsp;: la {principale.code} dessert {SITE.ville} et
-          s’arrête à {DESTINATION.ville}, {principale.jours}, sans correspondance.
-          C’est la vraie réponse à «&nbsp;c’est loin&nbsp;»&nbsp;— et il y en a
-          quatre autres selon d’où tu pars.
-        </p>
+        <p class="lead faible">{MEILLEUR.resume}</p>
         <div class="trajet__actions">
           <a class="bouton bouton--signal" href={route('transports').chemin}>
-            <span>Toutes les lignes</span><span class="fleche" aria-hidden="true">→</span>
+            <span>Le trajet, arrêt par arrêt</span><span class="fleche" aria-hidden="true">→</span>
           </a>
           <a class="bouton" href={DESTINATION.plannings} rel="noopener">
             <span>Le planning du club</span><span class="fleche" aria-hidden="true">↗</span>
@@ -242,17 +234,19 @@ const QUESTIONS = [
         </div>
       </div>
 
-      <ul class="trajet__lignes">
-        {LIGNES.filter((l) => l.direct).map((l, i) => (
+      <ol class="trajet__lignes">
+        {ITINERAIRES.map((it, i) => (
           <li class="reveler" style={`--retard:${i * 80}ms`}>
-            <a href={`${route('transports').chemin}?mode=${l.mode}`}>
-              <span class={`trajet__code trajet__code--${l.mode}`}>{l.code}</span>
-              <span class="trajet__parcours">{l.parcours}</span>
-              <span class="mono trajet__jours">{l.jours}</span>
+            <a href={`${route('transports').chemin}?trajet=${it.id}`}>
+              <span class={`trajet__code trajet__code--${it.etapes[0].mode}`}>{it.etapes[0].code}</span>
+              <span class="trajet__parcours">{it.onglet}</span>
+              <span class="mono trajet__jours">
+                {it.etapes.length === 1 ? 'direct' : `correspondance à ${it.etapes[0].a}`}
+              </span>
             </a>
           </li>
         ))}
-      </ul>
+      </ol>
     </div>
   </section>
 
