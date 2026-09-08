@@ -16,7 +16,7 @@
  */
 
 import { OFFRES, FAMILLES_PAR_PAGE, type Famille, type PageDiscipline } from '../data/offres';
-import { SITE } from '../data/verite';
+import { SITE, DESTINATION } from '../data/verite';
 
 export type Creneau = 'midi' | 'apres-midi' | 'soir' | 'samedi';
 
@@ -126,7 +126,7 @@ export function seance(p: Parcours): Seance | null {
   const quand = CRENEAU_PHRASE[p.creneau];
   const pourquoi =
     p.creneau === 'soir'
-      ? `C’est le moment le plus fréquenté, et le plus vivant : ${quand}, il y a du monde à qui se mesurer. Le club ferme à 21h30.`
+      ? `C’est le moment le plus fréquenté, et le plus vivant : ${quand}, il y a du monde à qui se mesurer.${DESTINATION.fermetureTexte ? ` Le club ferme à ${DESTINATION.fermetureTexte}.` : ''}`
       : p.creneau === 'midi'
         ? `${LIBELLE_CRENEAU.midi} est le créneau le plus calme du club — la meilleure façon de débuter sans public.`
         : p.creneau === 'samedi'
