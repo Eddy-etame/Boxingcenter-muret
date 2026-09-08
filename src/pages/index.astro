@@ -17,39 +17,44 @@ import { ITINERAIRES, MEILLEUR } from '../data/transports';
  */
 const QUESTIONS = [
   {
-    titre: 'Où faire de la boxe quand on habite Muret ?',
+    titre: 'Où est le club de boxe le plus proche de Muret ?',
     texte:
-      "Boxing Center accueille les Muretains à Portet-sur-Garonne, au bout de la ligne 117 Express : 600 m², un ring, une cage MMA, et neuf disciplines publiées — boxe anglaise, kick-boxing, MMA, grappling et jiu-jitsu brésilien, Lady Boxing, préparation physique, Baby boxe, boxe éducative et kick-boxing enfants/ados. On y monte par l’A64, sortie Portet, puis la route d’Espagne — ou par la 117 Express, qui part de la gare de Muret.",
+      "Au 61 route d’Espagne, à Portet-sur-Garonne. Boxing Center y tient 600 m² avec un ring et une cage MMA. En voiture, tu prends l’A64 direction Toulouse, sortie Portet. En bus, la 117 Express part de la gare de Muret et s’arrête dans la rue du club.",
   },
   {
-    titre: 'Où faire du MMA près de Muret, et y a-t-il une vraie cage ?',
+    titre: 'Qu’est-ce qu’on peut y pratiquer ?',
     texte:
-      "Oui. Le MMA se pratique à Boxing Center Portet-sur-Garonne, et l’entraînement se fait dans la cage. Le club publie aussi le grappling et le jiu-jitsu brésilien, qui sont la porte d’entrée la plus sûre vers le MMA : on n’y prend aucun coup. C’est la salle MMA la plus proche de Muret dans le réseau Boxing Center.",
+      "Neuf cours : boxe anglaise, kick-boxing, MMA, grappling et jiu-jitsu brésilien, Lady Boxing, préparation physique, Baby boxe, boxe éducative et kick-boxing enfants/ados. Tu peux changer en cours d’année.",
   },
   {
-    titre: 'Un club de boxe thaï ou de kick-boxing près de Muret ?',
+    titre: 'Je n’ai jamais fait de sport de combat. Je peux venir ?',
     texte:
-      "Le club publie le kick-boxing — la boxe pieds-poings — pour les adultes comme pour les enfants et les ados. Si tu cherches précisément le Muay Thaï sous ce nom, dis-le-nous : les intitulés exacts et les créneaux appartiennent au club, et on te répond avec ce qui se pratique réellement cette saison plutôt qu’avec une promesse.",
+      "Oui, c’est le cas de la plupart des gens qui s’inscrivent. Pas de test à l’entrée, pas de niveau demandé. Une première séance, c’est de l’échauffement, un geste travaillé lentement, du sac et des pattes d’ours. Tu frappes, personne ne te frappe.",
   },
   {
-    titre: 'Comment on va de Muret à Portet-sur-Garonne ?',
+    titre: 'Il y a une vraie cage pour le MMA ?',
     texte:
-      "Par l’A64 en direction de Toulouse, sortie Portet, puis la route d’Espagne — le club est au 61. Sans voiture, la ligne 117 Express part de la gare de Muret et s’arrête à Portet, sans correspondance. On ne t’annonce pas de durée : elle dépend de l’heure à laquelle tu pars. Regarde plutôt si cet axe est déjà celui de tes trajets : c’est le meilleur indicateur de ce que tu tiendras.",
+      "Oui, et l’entraînement se fait dedans. C’est la seule du réseau Boxing Center, donc la salle MMA à viser depuis Muret. Le grappling et le jiu-jitsu brésilien sont des cours à part, sans aucune frappe.",
   },
   {
-    titre: 'Je n’ai jamais fait de sport de combat. C’est un problème ?',
+    titre: 'Et la boxe thaï ?',
     texte:
-      "C’est la situation la plus banale d’un club. Aucun test d’entrée, aucune condition physique préalable, et l’opposition n’est jamais le point de départ : une première séance, c’est de l’échauffement, du geste, du sac et des pattes d’ours. Tu frappes, personne ne te frappe.",
+      "Le club publie le kick-boxing — la boxe pieds-poings — pour les adultes comme pour les enfants et les ados. La boxe thaï autorise en plus les coudes et les genoux : si c’est bien elle que tu cherches, dis-le dans ton message et on te dit où elle se pratique dans le réseau.",
   },
   {
-    titre: 'Y a-t-il des cours de boxe enfant accessibles depuis Muret ?',
+    titre: 'Comment on y va sans voiture ?',
     texte:
-      "Oui, et sur trois niveaux : la Baby boxe pour la première approche, la boxe éducative — le geste, la règle et le respect du partenaire, en touché contrôlé — puis le kick-boxing enfants/ados pour ceux qui veulent aussi travailler les jambes. Les tranches d’âge exactes dépendent de la saison : demande-les au club avant d’inscrire.",
+      "La 117 Express part de la gare de Muret, suit l’ancienne nationale 117 et s’arrête deux fois sur la route d’Espagne, à Portet. Descends à « Jean Jaurès » : le club est au 61. Il y a aussi le train, avec la gare de Portet-Saint-Simon et la L5 pour finir.",
   },
   {
-    titre: 'J’habite Seysses, Eaunes ou Roques. Ça marche aussi ?',
+    titre: 'Mon enfant peut s’inscrire ?',
     texte:
-      "Oui, et parfois mieux. Les douze communes limitrophes de Muret prennent les mêmes axes, et Roques touche directement Portet-sur-Garonne : depuis le nord du secteur, le club est au bout de la même route. Le raisonnement de cette page vaut pour tout le sud toulousain.",
+      "Oui, sur trois niveaux : la Baby boxe pour commencer, la boxe éducative, puis le kick-boxing enfants/ados. Tout se fait en touché contrôlé. Les âges exacts sont sur le planning du club.",
+  },
+  {
+    titre: 'J’habite Seysses, Eaunes ou Roques.',
+    texte:
+      "Ça marche pareil. Les douze communes autour de Muret prennent les mêmes axes, et Roques est sur le parcours de la 117 Express : tu montes en route et tu descends au club.",
   },
 ];
 ---
@@ -136,10 +141,10 @@ const QUESTIONS = [
   <section class="section preuve" aria-labelledby="t-preuve">
     <div class="enveloppe preuve__tete">
       <p class="cartouche"><span class="cartouche__num">05</span><span>Sur place</span></p>
-      <h2 id="t-preuve">La cage, un mardi soir ordinaire.</h2>
+      <h2 id="t-preuve">Voilà la salle.</h2>
       <p class="lead faible">
-        Toutes les photos de ce site viennent du club, prises un soir d’entraînement.
-        Celle-ci montre la cage telle qu’elle est.
+        La cage, un soir de semaine. Toutes les photos de ce site ont été prises
+        au club.
       </p>
     </div>
     <div class="enveloppe">
@@ -255,10 +260,10 @@ const QUESTIONS = [
     <div class="enveloppe questions__inner">
       <div class="questions__tete">
         <p class="cartouche"><span class="cartouche__num">09</span><span>Ce qu’on nous demande</span></p>
-        <h2 id="t-questions">Les questions qu’on se pose<br />quand on habite Muret.</h2>
+        <h2 id="t-questions">Les questions qu’on nous pose<br />le plus souvent.</h2>
         <p class="lead faible">
-          Si tu cherches un club de boxe près de Muret, tu te poses probablement
-          l’une de ces sept-là. Les réponses sont courtes et vérifiables.
+          Les réponses sont courtes. Si la tienne n’y est pas, écris-nous&nbsp;:
+          on répond vite.
         </p>
       </div>
       <div class="questions__liste">
@@ -312,17 +317,18 @@ const QUESTIONS = [
     <div class="enveloppe ader__inner">
       <div>
         <p class="cartouche"><span class="cartouche__num">11</span><span>Muret</span></p>
-        <h2 id="t-ader">On sait ce qu’on doit à un plan bien tracé.</h2>
+        <h2 id="t-ader">Muret, et le club à Portet.</h2>
         <p class="lead">
-          {VILLE.figure.valeur.split(',')[0]} est né ici. L’homme qui a fait décoller
-          l’Éole passait ses journées sur des planches cotées, à mesurer ce que
-          personne n’avait encore mesuré.
+          Muret compte {VILLE.population.valeur.replace(' (2023)', '')} et c’est la
+          sous-préfecture de la Haute-Garonne. Le club, lui, est à
+          Portet-sur-Garonne, sur la route d’Espagne.
         </p>
         <p class="faible">
-          C’est la raison pour laquelle ce site est un plan et pas une brochure&nbsp;:
-          chaque chiffre qu’on t’avance porte sa source, et rien n’est écrit ici qui
-          ne soit publié par le club ou vérifiable. La distance, la surface, les
-          horaires, les neuf intitulés — tout se recoupe.
+          En voiture, tu prends l’A64 direction Toulouse et tu sors à Portet. En
+          bus, la 117 Express part de la gare et s’arrête dans la rue du club. En
+          train, la gare de Portet-Saint-Simon est sur la même ligne que celle de
+          Muret. Le club est ouvert du lundi au samedi, de 10h à 21h30 : tu
+          trouveras un créneau qui rentre dans ta semaine.
         </p>
       </div>
       <div class="ader__photo">

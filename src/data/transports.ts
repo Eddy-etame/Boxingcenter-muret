@@ -58,27 +58,27 @@ export const LIBELLE_MODE: Record<Mode, string> = { bus: 'Bus', train: 'Train' }
 export const ARRIVEE = {
   arret: 'Jean Jaurès',
   rue: 'route d’Espagne',
-  phrase: 'Le bus s’arrête route d’Espagne. Le club est au 61.',
+  phrase: 'Tu descends à « Jean Jaurès », sur la route d’Espagne. Le club est au 61.',
 } as const;
 
 /** Le titre de la page, ligne par ligne. La dernière porte l'accent. */
 export const TITRE = [
-  'Un bus part de la gare de Muret',
-  'et s’arrête route d’Espagne.',
-  'Le club est au 61.',
+  'Y aller en bus,',
+  'c’est une seule ligne :',
+  'la 117 Express.',
 ] as const;
 
 /** Le chapeau : ce que fait le meilleur trajet, en une phrase. */
 export const CHAPEAU =
-  'La 117 Express suit l’ancienne nationale 117, de la gare de Muret au cœur de Portet-sur-Garonne, et marque deux arrêts sur la route d’Espagne. Boxing Center Portet-sur-Garonne t’attend au 61 de cette rue, du lundi au samedi de 10h à 21h30.';
+  'Tu la prends à la gare de Muret et tu descends à l’arrêt « Jean Jaurès », sur la route d’Espagne. Le club est au 61, dans la même rue. Une seule ligne, toute la semaine, sans changement.';
 
 export const ITINERAIRES: readonly Itineraire[] = [
   {
     id: 'express',
     onglet: 'La 117 Express',
-    titre: 'Un bus part de la gare de Muret et s’arrête route d’Espagne.',
+    titre: 'La 117 Express, sans changement.',
     resume:
-      'La 117 Express relie la gare de Muret à Portet-sur-Garonne en suivant l’ancienne nationale 117 — la route que tu prendrais en voiture. Elle marque deux arrêts sur la route d’Espagne, « Ax » et « Jean Jaurès ». Le club est au 61 de cette rue.',
+      'Elle part de la gare de Muret et suit la même route que tu prendrais en voiture. À Portet, elle s’arrête deux fois sur la route d’Espagne : « Ax » et « Jean Jaurès ». Descends au second, le club est au 61.',
     mode: 'bus',
     meilleur: true,
     etapes: [
@@ -96,9 +96,9 @@ export const ITINERAIRES: readonly Itineraire[] = [
   {
     id: 'train',
     onglet: 'Le train, puis la L5',
-    titre: 'Deux gares sur la même ligne, et un Linéo pour finir.',
+    titre: 'Le train, puis la L5.',
     resume:
-      'La gare de Muret et celle de Portet-Saint-Simon se suivent sur la ligne de Toulouse à Bayonne. À Portet, la Linéo 5 part de la gare et dessert l’arrêt « Route d’Espagne ». Le trajet se fait entièrement sur rail puis sur site propre, à l’abri de la circulation.',
+      'Muret et Portet-Saint-Simon sont deux gares de la même ligne. Tu descends à Portet, tu prends la L5 sur le parvis, et tu t’arrêtes route d’Espagne. Utile si tu habites près de la gare.',
     mode: 'train',
     etapes: [
       {
@@ -142,22 +142,22 @@ export const DEPARTS: readonly Depart[] = [
     depuis: 'Muret',
     itineraire: 'express',
     texte:
-      'Monte à la gare de Muret, descends à « Jean Jaurès ». Un seul bus, et il te laisse dans la rue du club.',
+      'Tu montes à la gare, tu descends à « Jean Jaurès ». Un seul bus, et il te laisse dans la rue du club.',
   },
   {
     depuis: 'La gare de Muret',
     itineraire: 'train',
     texte:
-      'Le TER te dépose à Portet-Saint-Simon. La Linéo 5 attend sur le parvis et file vers la route d’Espagne.',
+      'Le train te dépose à Portet-Saint-Simon. La L5 part du parvis et t’arrête route d’Espagne.',
   },
   {
     depuis: 'Roques',
     itineraire: 'express',
     texte:
-      'Roques est sur le parcours de la 117 Express, entre Muret et Portet. Depuis le nord du secteur, tu montes en route et tu descends au club.',
+      'Roques est sur le parcours de la 117 Express. Tu montes en route et tu descends au club.',
   },
 ];
 
 /** Le rappel honnête : les horaires appartiennent au réseau. */
 export const AVERTISSEMENT =
-  'Tisséo publie les horaires, les fréquences et les arrêts, et les met à jour à chaque saison. Cette page te dit quel bus prendre ; Tisséo te dit à quelle heure il passe.';
+  'Les horaires changent d’une saison à l’autre. On te dit quel bus prendre ; pour l’heure exacte, ouvre la fiche Tisséo de la ligne — le lien est juste à côté de chaque étape.';

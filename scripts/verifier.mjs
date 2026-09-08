@@ -47,7 +47,9 @@ const extraireListe = (src, nom) => {
 };
 
 const VILLE = /ville:\s*'([^']+)'/.exec(verite)?.[1] ?? '';
-const FERMETURE = /fermetureTexte:\s*'([^']+)'/.exec(verite)?.[1] ?? '';
+/** Toutes les heures de fermeture du registre : un site peut viser deux clubs. */
+const FERMETURES = [...verite.matchAll(/fermetureTexte:\s*'([^']+)'/g)].map((m) => m[1]);
+const FERMETURE = FERMETURES.join(' ou ');
 const INTERDIT = extraireListe(verite, 'INTERDIT');
 const VENTE_NEGATIVE = extraireListe(verite, 'VENTE_NEGATIVE');
 
@@ -58,7 +60,7 @@ const TARIFS = [...verite.matchAll(/tarifs:\s*'(https?:\/\/[^']+)'/g)].map((m) =
 
 /** Les heures de fermeture qui ne sont PAS celle du registre. */
 const HEURES_INTERDITES = ['21h00', '21h15', '21h30', '21h45', '22h00', '22h30'].filter(
-  (h) => h !== FERMETURE && h.replace('h00', 'h') !== FERMETURE
+  (h) => !FERMETURES.includes(h) && !FERMETURES.includes(h.replace('h00', 'h'))
 );
 
 /** Les routes déclarées, pour vérifier les liens internes. */

@@ -106,7 +106,7 @@ const { actuelle } = Astro.props;
     color: var(--papier);
     transition: box-shadow var(--d-normal) var(--e-mecanique);
   }
-  .entete[data-compresse] { box-shadow: 0 10px 30px -22px rgba(30, 32, 68, 0.85); }
+  .entete[data-compresse] { box-shadow: 0 10px 30px -22px var(--nav-ombre); }
 
   .entete__inner {
     display: flex;
@@ -115,7 +115,7 @@ const { actuelle } = Astro.props;
     min-height: 4.25rem;
   }
 
-  .entete :focus-visible { outline-color: #d8a06a; }
+  .entete :focus-visible { outline-color: var(--nav-accent); }
 
   .entete__marque {
     display: flex;
@@ -159,16 +159,16 @@ const { actuelle } = Astro.props;
     right: 0;
     bottom: 0;
     height: 1.5px;
-    background: #d8a06a;
+    background: var(--nav-accent);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform var(--d-normal) var(--e-sortie);
   }
   .entete__lien:hover::after,
   .entete__lien[aria-current='page']::after { transform: scaleX(1); }
-  .entete__lien[aria-current='page'] { color: #d8a06a; }
+  .entete__lien[aria-current='page'] { color: var(--nav-accent); }
 
-  .entete__lien--sortant { color: #a9abc4; }
+  .entete__lien--sortant { color: var(--nav-faible); }
   .entete__fleche { font-size: 0.8em; margin-left: 0.25em; }
 
   /* La pastille Transports : elle répond à l'objection « c'est loin » avant
@@ -180,9 +180,9 @@ const { actuelle } = Astro.props;
     align-items: center;
     gap: 0.5rem;
     padding: 0.4rem 0.8rem 0.4rem 0.7rem;
-    border: 1px solid #d8a06a;
+    border: 1px solid var(--nav-accent);
     border-radius: 999px;
-    color: #d8a06a;
+    color: var(--nav-accent);
     text-decoration: none;
     font-size: var(--t-micro);
     font-weight: 700;
@@ -193,7 +193,7 @@ const { actuelle } = Astro.props;
       color var(--d-rapide) var(--e-mecanique);
   }
   .entete__pastille:hover,
-  .entete__pastille[aria-current='page'] { background: #d8a06a; color: #14162e; }
+  .entete__pastille[aria-current='page'] { background: var(--nav-accent); color: var(--nav-fonce); }
 
   .entete__bus {
     position: relative;
@@ -234,7 +234,7 @@ const { actuelle } = Astro.props;
     border-radius: var(--rayon-1);
     transition: border-color var(--d-rapide) var(--e-mecanique), color var(--d-rapide) var(--e-mecanique);
   }
-  .entete__tel:hover { border-color: #d8a06a; color: #d8a06a; }
+  .entete__tel:hover { border-color: var(--nav-accent); color: var(--nav-accent); }
   @media (max-width: 52rem) { .entete__tel { display: none; } }
 
   .entete__bascule {
@@ -297,15 +297,15 @@ const { actuelle } = Astro.props;
     font-weight: 700;
     letter-spacing: -0.015em;
   }
-  .menu__q { text-transform: none; letter-spacing: 0.03em; color: #8d90ae; }
-  .menu__liste a[aria-current='page'] .menu__nom { color: #d8a06a; }
+  .menu__q { text-transform: none; letter-spacing: 0.03em; color: var(--nav-gris); }
+  .menu__liste a[aria-current='page'] .menu__nom { color: var(--nav-accent); }
 
   .menu__club { list-style: none; display: grid; gap: var(--e-2); margin: var(--e-6) 0; }
-  .menu__cle { color: #8d90ae; margin-bottom: var(--e-1); }
+  .menu__cle { color: var(--nav-gris); margin-bottom: var(--e-1); }
   .menu__club a { font-size: var(--t-petit); }
-  .menu .lien:hover { color: #d8a06a; }
+  .menu .lien:hover { color: var(--nav-accent); }
   /* Dans le menu, le bouton cuivre reste lisible sur l'encre. */
-  .menu .bouton--signal { background: #d8a06a; border-color: #d8a06a; color: var(--encre); }
+  .menu .bouton--signal { background: var(--nav-accent); border-color: var(--nav-accent); color: var(--encre); }
   .menu .bouton--signal::before { background: var(--papier); }
   .menu .bouton--signal:hover { color: var(--encre); }
 </style>

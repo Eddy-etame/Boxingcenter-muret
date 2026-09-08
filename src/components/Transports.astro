@@ -80,9 +80,8 @@ const noeuds = (it: (typeof ITINERAIRES)[number]) => [
   <div class="enveloppe">
     <h2 id="t-modes" class="modes__titre">Transports en commun</h2>
     <p class="lead faible modes__intro">
-      Chaque trajet ci-dessous mène au 61 route d’Espagne, arrêt par arrêt.
-      Choisis le tien&nbsp;: la bande se retrace, et chaque ligne t’ouvre son
-      horaire du jour chez {RESEAU.nom}.
+      Deux trajets possibles. Choisis le tien&nbsp;: tu verras les arrêts dans
+      l’ordre, et le lien vers les horaires du jour.
     </p>
 
     {/* De vrais boutons radio : les onglets marchent sans une ligne de script. */}
@@ -181,7 +180,7 @@ const noeuds = (it: (typeof ITINERAIRES)[number]) => [
 <section class="section depuis" aria-labelledby="t-depuis">
   <div class="enveloppe">
     <p class="cartouche"><span class="cartouche__num">—</span><span>Depuis chez toi</span></p>
-    <h2 id="t-depuis">Le même club, quel que soit ton point de départ.</h2>
+    <h2 id="t-depuis">D’où tu pars, et ce que tu prends.</h2>
     <ul class="depuis__liste">
       {DEPARTS.map((d, i) => {
         const it = itineraireParId(d.itineraire);
@@ -207,11 +206,11 @@ const noeuds = (it: (typeof ITINERAIRES)[number]) => [
   <div class="enveloppe arriver__inner">
     <div>
       <p class="cartouche"><span class="cartouche__num">—</span><span>À l’arrivée</span></p>
-      <h2 id="t-arriver">Descendu du bus, il reste la porte à pousser.</h2>
+      <h2 id="t-arriver">Une fois sur place.</h2>
       <p class="lead">
-        {DESTINATION.nom}, {DESTINATION.adresse}. Le club accueille
-        {' '}{DESTINATION.horaires.valeur} — onze heures et demie par jour&nbsp;:
-        quel que soit le bus que tu prends, il y a un créneau qui tombe bien.
+        {DESTINATION.nom}, {DESTINATION.adresse}. Le club est ouvert
+        {' '}{DESTINATION.horaires.valeur}. Tu entres, tu dis que c’est ta première
+        fois, et quelqu’un s’occupe de toi.
       </p>
       <dl class="arriver__faits">
         <div><dt class="mono">Adresse</dt><dd>{DESTINATION.adresse}</dd></div>
@@ -248,13 +247,13 @@ const noeuds = (it: (typeof ITINERAIRES)[number]) => [
   <div class="enveloppe convergence__inner">
     <p class="cartouche"><span class="cartouche__num">—</span><span>Décider</span></p>
     <h2 id="t-conv">
-      Tu sais quel bus prendre.<br />
-      <span class="convergence__accent">Reste à savoir quand.</span>
+      Tu sais comment y aller.<br />
+      <span class="convergence__accent">Reste à choisir ton cours.</span>
     </h2>
     <p class="lead convergence__texte">
-      Deux réponses sur le moteur du site et tu sais quelle discipline viser et à
-      quel moment de la semaine. Si tu préfères demander, écris-nous&nbsp;: on
-      répond avec un créneau.
+      Réponds à deux questions et on te dit quelle discipline viser et à quel
+      moment venir. Si tu préfères demander, écris-nous en deux lignes&nbsp;: on
+      te répond avec un créneau.
     </p>
     <div class="convergence__actions">
       <a class="bouton bouton--signal" href={route('ta-seance').chemin}>
@@ -276,8 +275,8 @@ const noeuds = (it: (typeof ITINERAIRES)[number]) => [
 <aside class="encart" data-encart hidden aria-live="polite">
   <p class="mono encart__cle">Envie d’en savoir plus&nbsp;?</p>
   <p class="encart__texte">
-    Le planning, les tarifs et les neuf disciplines sont publiés par
-    <strong>{DESTINATION.nomCourt}</strong>. C’est là que tout se décide.
+    Les horaires, les tarifs et les neuf cours sont sur le site du club,
+    <strong>{DESTINATION.nomCourt}</strong>. C’est là que tu trouveras tout.
   </p>
   <div class="encart__actions">
     <a class="bouton bouton--signal bouton--mince" href={DESTINATION.plannings} rel="noopener">

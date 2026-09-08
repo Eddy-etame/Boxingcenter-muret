@@ -80,6 +80,15 @@
      cuivre sur papier, cuivre pâle sur encre. */
   --calque-trait: rgba(122, 61, 22, 0.28);
 
+  /* La barre de navigation reste sombre quelle que soit la polarité de la
+     section : elle a donc ses propres jetons, pour suivre la couleur du
+     site sans dépendre du contexte où elle se trouve. */
+  --nav-accent: #d8a06a;
+  --nav-gris: #8d90ae;
+  --nav-faible: #a9abc4;
+  --nav-fonce: #14162e;
+  --nav-ombre: rgba(30, 32, 68, 0.85);
+
   /* Polarité par défaut : papier. Une section peut basculer en encre. */
   --fond: var(--papier);
   --texte: var(--encre);
