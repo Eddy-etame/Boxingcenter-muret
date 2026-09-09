@@ -81,7 +81,7 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'Je ne suis vraiment pas en forme. Je vais être ridicule ?',
         texte:
-          "Tout le monde a été le débutant essoufflé du fond de la salle. C'est même la situation la plus banale d'un club de boxe : personne ne regarde, chacun est occupé à sa propre séance.",
+          "Tout le monde a été le débutant essoufflé du fond de la salle. C'est même la situation la plus banale d'un club de boxe : chacun est occupé à sa propre séance, chacun est occupé à sa propre séance.",
       },
     ],
   },

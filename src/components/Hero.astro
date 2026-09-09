@@ -39,8 +39,7 @@ const cotes = DESTINATION.faits;
       <div class="hero__texte">
         <h1 id="t-hero" class="hero__titre">
           <span class="hero__ligne">Ton club de boxe</span>
-          <span class="hero__ligne">et de MMA</span>
-          <span class="hero__ligne hero__ligne--accent">à proximité de {SITE.ville}.</span>
+          <span class="hero__ligne hero__ligne--accent">proche de {SITE.ville}.</span>
         </h1>
 
         <p class="hero__promesse">
@@ -50,7 +49,11 @@ const cotes = DESTINATION.faits;
         </p>
 
         <div class="hero__actions">
-          <a class="bouton bouton--signal" href={route('ta-seance').chemin}>
+          <a class="bouton bouton--signal" href={DESTINATION.tarifs} rel="noopener">
+            <span>Réserver ma séance d’essai</span>
+            <span class="fleche" aria-hidden="true">↗</span>
+          </a>
+          <a class="bouton" href={route('ta-seance').chemin}>
             <span>Trouver ma séance</span>
             <span class="fleche" aria-hidden="true">→</span>
           </a>

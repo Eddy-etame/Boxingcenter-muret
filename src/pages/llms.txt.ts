@@ -61,7 +61,7 @@ porte qui n'existe pas.
 - Depuis Muret : ${DESTINATION.acces} — en bus, la ligne 117 Express, direct.
 - Ce qui le distingue : 600 m², un ring et une cage MMA. ${DESTINATION.singularite}
 
-## Les neuf disciplines réellement publiées par le club
+## Les disciplines réellement publiées par le club
 
 Relevé le 8 septembre 2026 sur ${SOURCE_OFFRES}.
 
