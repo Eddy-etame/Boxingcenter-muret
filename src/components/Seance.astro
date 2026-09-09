@@ -17,8 +17,8 @@ import { DESTINATION } from '../data/verite';
 import { OFFRES } from '../data/offres';
 import { route } from '../data/routes';
 
-interface Props { titre?: string; niveau?: 'h2' | 'h1' }
-const { titre = 'Dis-nous deux choses.\nOn te dit quoi viser.', niveau = 'h2' } = Astro.props;
+interface Props { titre?: string; niveau?: 'h2' | 'h1'; numero?: string }
+const { titre = 'Dis-nous deux choses.\nOn te dit quoi viser.', niveau = 'h2', numero = '03' } = Astro.props;
 
 const DISCIPLINES = [
   { id: 'boxe-anglaise', nom: 'Boxe anglaise', detail: 'Les poings, la garde, les déplacements' },
@@ -50,7 +50,7 @@ const Titre = niveau;
 
 <section class="section moteur" id="ta-seance" aria-labelledby="t-moteur">
   <div class="enveloppe">
-    <p class="cartouche"><span class="cartouche__num">03</span><span>Ta séance</span></p>
+    <p class="cartouche"><span class="cartouche__num">{numero}</span><span>Ta séance</span></p>
 
     <div class="moteur__tete">
       <Titre id="t-moteur" class="moteur__titre" set:html={titre.replace('\n', '<br />')} />

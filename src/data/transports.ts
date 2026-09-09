@@ -114,8 +114,8 @@ export const ITINERAIRES: readonly Itineraire[] = [
         mode: 'bus',
         code: 'L5',
         de: 'Portet Gare SNCF',
-        a: 'Route d’Espagne',
-        precision: 'le Linéo part du parvis de la gare',
+        a: 'Jean Jaurès',
+        precision: 'le Linéo part du parvis de la gare ; premier arrêt',
         jours: 'sept jours sur sept',
         href: 'https://www.tisseo.fr/nos-mobilites/transports-en-commun/ligne-l5',
       },
@@ -148,7 +148,7 @@ export const DEPARTS: readonly Depart[] = [
     depuis: 'La gare de Muret',
     itineraire: 'train',
     texte:
-      'Le train te dépose à Portet-Saint-Simon. La L5 part du parvis et t’arrête route d’Espagne.',
+      'Le train te dépose à Portet-Saint-Simon. La L5 part du parvis, et son premier arrêt est « Jean Jaurès », sur la route d’Espagne.',
   },
   {
     depuis: 'Roques',
@@ -161,3 +161,10 @@ export const DEPARTS: readonly Depart[] = [
 /** Le rappel honnête : les horaires appartiennent au réseau. */
 export const AVERTISSEMENT =
   'Les horaires changent d’une saison à l’autre. On te dit quel bus prendre ; pour l’heure exacte, ouvre la fiche Tisséo de la ligne — le lien est juste à côté de chaque étape.';
+
+/** Les nombres en lettres, pour compter depuis les registres sans jamais écrire un chiffre à la main. */
+export const NOMBRES = [
+  'zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix',
+  'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf', 'vingt',
+] as const;
+export const enLettres = (n: number) => NOMBRES[n] ?? String(n);

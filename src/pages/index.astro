@@ -1,60 +1,89 @@
 ---
+/**
+ * L'ACCUEIL — neuf sections, dans l'ordre des questions d'un Muretain.
+ *
+ * Un Muretain qui tape « club de boxe Muret » se pose ses questions dans un
+ * ordre, et cet ordre est celui de la page. À Muret, « c'est où » et « j'y vais
+ * comment » sont UNE SEULE question : un bus dépose dans la rue du club. La
+ * section 02 répond donc aux deux d'un coup, et le plan de l'Éole vit sous ce
+ * titre-là, pas dans le héros.
+ *
+ *   01 Le héros — c'est pour moi ? et je fais quoi tout de suite ?
+ *   02 Le bus et le club — c'est où, j'y vais comment ?
+ *   03 La salle — c'est quoi comme salle, c'est sérieux ?
+ *   04 Les cours — qu'est-ce que je peux y faire, exactement ?
+ *   05 Le moteur — lequel est pour moi, et quand ?
+ *   06 La première fois — je n'ai jamais boxé, qu'est-ce qui va m'arriver ?
+ *   07 Les questions — ce qui me reste à vérifier
+ *   08 Le secteur — j'habite à côté, ça marche pareil ?
+ *   09 Décider — je fais quoi maintenant ?
+ *
+ * Chaque fait revient sous une forme nouvelle, attachée à une chose nouvelle.
+ * Aucun chiffre n'est écrit à la main : tout vient des registres. Chaque
+ * section se referme sur une porte du club dont le libellé n'a pas encore servi.
+ */
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
+import PlanEole from '../components/PlanEole.astro';
 import Seance from '../components/Seance.astro';
 import Photo from '../components/Photo.astro';
-import { SITE, DESTINATION, VILLE, LIMITROPHES, CONTACT } from '../data/verite';
-import { OFFRES } from '../data/offres';
+import { SITE, DESTINATION, VILLE, LIMITROPHES, NOTE_SECTEUR, CONTACT } from '../data/verite';
+import { OFFRES, offresDeLaPage } from '../data/offres';
+import { ROLES } from '../data/medias';
 import { route } from '../data/routes';
-import { ITINERAIRES, MEILLEUR } from '../data/transports';
+import { ITINERAIRES, MEILLEUR, ARRIVEE, enLettres } from '../data/transports';
+
+/** « a, b, c et d » depuis une liste, sans jamais l'écrire à la main. */
+const enumerer = (noms: readonly string[]) =>
+  noms.length > 1 ? `${noms.slice(0, -1).join(', ')} et ${noms[noms.length - 1]}` : noms[0] ?? '';
+
+/** Les cinq portes du site, avec les intitulés exacts du club derrière chacune. */
+const PORTES = [
+  { id: 'boxe-anglaise', nom: 'Boxe anglaise' },
+  { id: 'mma', nom: 'MMA et grappling' },
+  { id: 'kick-boxing', nom: 'Kick-boxing' },
+  { id: 'boxe-enfants', nom: 'Cours enfants' },
+  { id: 'boxing-fitness', nom: 'Boxing fitness' },
+] as const;
+
+const BUS = MEILLEUR.etapes[0];
+const TRAIN = ITINERAIRES.find((i) => i.id !== MEILLEUR.id);
+const COTE = (cle: string) => DESTINATION.faits.find((f) => f.cle === cle)?.valeur ?? '';
+const COMBIEN_COURS = enLettres(OFFRES.length);
+const COMBIEN_COMMUNES = enLettres(LIMITROPHES.length);
+const ROQUES = LIMITROPHES.find((c) => c.note);
+const AUTRES = LIMITROPHES.filter((c) => !c.note).map((c) => c.nom);
 
 /**
- * Les questions que les Muretains tapent réellement, avec la réponse honnête.
- *
- * Elles portent les requêtes locales — mais parce qu'elles y répondent, pas
- * pour les placer. On dit toujours ce qui existe : un club au bout d'une ligne, ce qu'il
- * propose, comment on y va. Jamais ce qui manque.
+ * Les questions telles qu'on les pose. Chaque réponse s'ouvre sur ce qui est
+ * vrai, et c'est ici que vit la preuve : l'adresse, la cage, le train, l'enfant.
  */
 const QUESTIONS = [
   {
-    titre: 'Où est le club de boxe le plus proche de Muret ?',
-    texte:
-      "Au 61 route d’Espagne, à Portet-sur-Garonne. Boxing Center y tient 600 m² avec un ring et une cage MMA. En voiture, tu prends l’A64 direction Toulouse, sortie Portet. En bus, la 117 Express part de la gare de Muret et s’arrête dans la rue du club.",
-  },
-  {
-    titre: 'Qu’est-ce qu’on peut y pratiquer ?',
-    texte:
-      "Neuf cours : boxe anglaise, kick-boxing, MMA, grappling et jiu-jitsu brésilien, Lady Boxing, préparation physique, Baby boxe, boxe éducative et kick-boxing enfants/ados. Tu peux changer en cours d’année.",
-  },
-  {
-    titre: 'Je n’ai jamais fait de sport de combat. Je peux venir ?',
-    texte:
-      "Oui, c’est le cas de la plupart des gens qui s’inscrivent. Pas de test à l’entrée, pas de niveau demandé. Une première séance, c’est de l’échauffement, un geste travaillé lentement, du sac et des pattes d’ours. Tu frappes, personne ne te frappe.",
+    titre: `Où est le club de boxe le plus proche de ${SITE.ville} ?`,
+    texte: `Au ${DESTINATION.adresse}. ${COTE('Surface')}, ${COTE('Équipement')}, ouvert ${DESTINATION.horaires.valeur}. La ${BUS.code} part de la gare de ${SITE.ville} et s’arrête dans cette rue.`,
   },
   {
     titre: 'Il y a une vraie cage pour le MMA ?',
-    texte:
-      "Oui, et l’entraînement se fait dedans. C’est la seule du réseau Boxing Center, donc la salle MMA à viser depuis Muret. Le grappling et le jiu-jitsu brésilien sont des cours à part, sans aucune frappe.",
+    texte: `Oui, et l’entraînement se fait dedans. ${DESTINATION.singularite} Le grappling et le jiu-jitsu brésilien sont des cours à part, en travail au sol.`,
   },
   {
     titre: 'Et la boxe thaï ?',
-    texte:
-      "Le club publie le kick-boxing — la boxe pieds-poings — pour les adultes comme pour les enfants et les ados. La boxe thaï autorise en plus les coudes et les genoux : si c’est bien elle que tu cherches, dis-le dans ton message et on te dit où elle se pratique dans le réseau.",
+    texte: 'Le club publie le kick-boxing — la boxe pieds-poings — pour les adultes comme pour les enfants et les ados. La boxe thaï ajoute les coudes et les genoux : si c’est bien elle que tu cherches, dis-le dans ton message et on te dit où elle se pratique dans le réseau.',
   },
   {
-    titre: 'Comment on y va sans voiture ?',
-    texte:
-      "La 117 Express part de la gare de Muret, suit l’ancienne nationale 117 et s’arrête deux fois sur la route d’Espagne, à Portet. Descends à « Jean Jaurès » : le club est au 61. Il y a aussi le train, avec la gare de Portet-Saint-Simon et la L5 pour finir.",
+    titre: 'Je peux venir en train ?',
+    texte: TRAIN
+      ? `Oui. ${TRAIN.etapes[0].code}, de la gare de ${SITE.ville} à ${TRAIN.etapes[0].a}, puis ${TRAIN.etapes[1].code} depuis le parvis : son premier arrêt est « ${TRAIN.etapes[1].a} », sur la ${ARRIVEE.rue}. La ${BUS.code} reste le trajet le plus simple : un seul bus, sans changement.`
+      : `La ${BUS.code} reste le trajet le plus simple : un seul bus, sans changement.`,
   },
   {
     titre: 'Mon enfant peut s’inscrire ?',
-    texte:
-      "Oui, sur trois niveaux : la Baby boxe pour commencer, la boxe éducative, puis le kick-boxing enfants/ados. Tout se fait en touché contrôlé. Les âges exacts sont sur le planning du club.",
+    texte: `Oui, sur ${enLettres(offresDeLaPage('boxe-enfants').length)} niveaux : ${enumerer(offresDeLaPage('boxe-enfants').map((o) => o.intitule))}. Tout se fait en touché contrôlé, et les âges exacts sont sur le planning du club.`,
   },
   {
-    titre: 'J’habite Seysses, Eaunes ou Roques.',
-    texte:
-      "Ça marche pareil. Les douze communes autour de Muret prennent les mêmes axes, et Roques est sur le parcours de la 117 Express : tu montes en route et tu descends au club.",
+    titre: `J’habite ${enumerer(AUTRES.slice(3, 5))} ou ${ROQUES?.nom ?? ''}.`,
+    texte: `Ça marche pareil. ${NOTE_SECTEUR} Depuis les autres communes, ce sont les mêmes axes et le même club.`,
   },
 ];
 ---
@@ -62,208 +91,170 @@ const QUESTIONS = [
 <Base page="accueil" faq={QUESTIONS}>
   <Hero />
 
-  {/* ─────────── 02 — LA PROXIMITÉ, PROUVÉE PAR L'IMAGE ─────────── */}
-  <section class="section proximite" aria-labelledby="t-proximite">
-    <div class="enveloppe proximite__inner">
-      <div class="proximite__texte">
-        <p class="cartouche"><span class="cartouche__num">02</span><span>Le club</span></p>
-        <h2 id="t-proximite">
-          600 m², un ring,<br />
-          <span class="proximite__accent">une cage.</span>
+  {/* ─────────── 02 — LE BUS ET LE CLUB ─────────── */}
+  <section class="section creuse trajet" id="trajet" aria-labelledby="t-trajet">
+    <div class="enveloppe">
+      <p class="cartouche"><span class="cartouche__num">02</span><span>Y aller</span></p>
+      <div class="trajet__tete">
+        <h2 id="t-trajet">
+          Un seul bus&nbsp;: tu montes à la gare de {SITE.ville},<br />
+          <span class="trajet__accent">tu descends dans la rue du club.</span>
+        </h2>
+        <p class="lead faible trajet__intro">
+          Les cours de boxe accessibles depuis {SITE.ville} tiennent en une
+          ligne&nbsp;: la {BUS.code}, de {BUS.de} à l’arrêt «&nbsp;{ARRIVEE.arret}&nbsp;»,
+          {BUS.jours}. {ARRIVEE.phrase} En voiture, {DESTINATION.acces.replace(/^Par/, 'par').replace(/\.$/, '')}.
+        </p>
+      </div>
+
+      <PlanEole />
+
+      <div class="trajet__actions">
+        <a class="bouton bouton--signal" href={DESTINATION.site} rel="noopener">
+          <span>Ouvrir le site du club</span><span class="fleche" aria-hidden="true">↗</span>
+        </a>
+        <a class="bouton" href={route('transports').chemin}>
+          <span>Le trajet, arrêt par arrêt</span><span class="fleche" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* ─────────── 03 — LA SALLE ─────────── */}
+  <section class="section salle" aria-labelledby="t-salle">
+    <div class="enveloppe salle__inner">
+      <div class="salle__texte">
+        <p class="cartouche"><span class="cartouche__num">03</span><span>La salle</span></p>
+        <h2 id="t-salle">
+          {COTE('Surface')},<br />
+          <span class="salle__accent">{COTE('Équipement')}.</span>
         </h2>
         <p class="lead">
-          <strong>Boxing Center accueille les {SITE.gentile}</strong> dans son club de
-          {DESTINATION.ville}, sur la route d’Espagne — {DESTINATION.horaires.valeur}.
+          Pour un club de MMA près de {SITE.ville}, c’est ici que l’entraînement
+          se fait dans la cage. <strong>{DESTINATION.singularite}</strong>
         </p>
         <p class="faible">
-          C’est un club de sports de combat complet&nbsp;: un ring, une cage MMA, des tatamis, et des
-          coachs qui corrigent au geste près. {DESTINATION.singularite}
+          Un club de sport de combat complet. Sur le ring, les cours de boxe
+          anglaise et de kick-boxing. Dans la
+          cage, le MMA. Sur les tatamis, le grappling et le jiu-jitsu. Aux sacs,
+          la préparation physique et le Lady Boxing. Les coachs corrigent au
+          geste près, et le club accueille {DESTINATION.horaires.valeur}.
         </p>
-        <dl class="proximite__faits">
-          <div><dt class="mono">Adresse</dt><dd>{DESTINATION.adresse}</dd></div>
-          <div><dt class="mono">Depuis Muret</dt><dd>{DESTINATION.acces}</dd></div>
+        <dl class="salle__faits">
+          <div><dt class="mono">Accueil</dt><dd>{COTE('Accueil')}</dd></div>
           <div><dt class="mono">Téléphone</dt><dd><a class="lien" href={`tel:${DESTINATION.telephoneLien}`}>{DESTINATION.telephone}</a></dd></div>
         </dl>
-        <a class="bouton proximite__lien" href={DESTINATION.site} rel="noopener">
-          <span>Ouvrir le site du club</span>
+        <a class="bouton" href={DESTINATION.plannings} rel="noopener">
+          <span>Voir le planning du club</span>
           <span class="fleche" aria-hidden="true">↗</span>
         </a>
       </div>
-
-      {/* Le calque se lève : le plan devient la salle. */}
-      <Photo
-        slug="club-boxe-muret"
-        sizes="(max-width: 62rem) 100vw, 46vw"
-        ratio="4 / 5"
-        class="proximite__image"
-      />
+      <Photo slug={ROLES.signature} sizes="(max-width: 62rem) 100vw, 46vw" ratio="4 / 5" legende class="salle__image" />
     </div>
   </section>
 
-  {/* ─────────── 03 — LE MOTEUR ─────────── */}
-  <Seance />
-
-  {/* ─────────── 04 — LES NEUF DISCIPLINES, DANS LES MOTS DU CLUB ─────────── */}
-  <section class="section encre disciplines" aria-labelledby="t-disciplines">
+  {/* ─────────── 04 — LES COURS ─────────── */}
+  <section class="section encre cours" aria-labelledby="t-cours">
     <div class="enveloppe">
-      <p class="cartouche"><span class="cartouche__num">04</span><span>Neuf disciplines</span></p>
-      <div class="disciplines__tete">
-        <h2 id="t-disciplines">
-          Ce que le club publie,<br />dans ses propres mots.
+      <p class="cartouche"><span class="cartouche__num">04</span><span>Les cours</span></p>
+      <div class="cours__tete">
+        <h2 id="t-cours">
+          {COMBIEN_COURS.charAt(0).toUpperCase() + COMBIEN_COURS.slice(1)} cours, adultes et enfants,<br />
+          avec les noms que tu verras sur le planning.
         </h2>
-        <p class="lead faible disciplines__intro">
-          Pas « boxe et MMA » en bloc&nbsp;: les intitulés exacts, relevés sur
-          la page activités du club. Si un nom ne figure pas ici, c’est qu’il ne
-          figure pas chez eux.
+        <p class="lead faible cours__intro">
+          {COMBIEN_COURS.charAt(0).toUpperCase() + COMBIEN_COURS.slice(1)} cours de sports de combat à proximité de {SITE.ville},
+          sous l’intitulé exact que le club publie. Chaque porte a sa page ici.
         </p>
       </div>
 
-      <ol class="disciplines__liste">
-        {OFFRES.map((o, i) => (
-          <li class="reveler" style={`--retard:${i * 45}ms`}>
-            <span class="mono disc__num">{String(i + 1).padStart(2, '0')}</span>
-            <div class="disc__corps">
-              <h3 class="disc__nom">{o.intitule}</h3>
-              <p class="disc__detail">{o.detail}</p>
-            </div>
-            {o.ages && <span class="mono disc__age">{o.ages}</span>}
-          </li>
-        ))}
+      <ol class="cours__liste">
+        {PORTES.map((p, i) => {
+          const offres = offresDeLaPage(p.id);
+          return (
+            <li class="reveler" style={`--retard:${i * 60}ms`}>
+              <a class="cours__page" href={route(p.id).chemin}>
+                <span class="mono cours__num">{String(i + 1).padStart(2, '0')}</span>
+                <span class="cours__corps">
+                  <span class="cours__nom">{p.nom}</span>
+                  <span class="cours__intitules">
+                    {offres.map((o, j) => (
+                      <>
+                        {j > 0 && <span aria-hidden="true"> · </span>}
+                        <b>{o.intitule}</b>
+                      </>
+                    ))}
+                  </span>
+                  <span class="cours__detail">{offres[0]?.detail}</span>
+                </span>
+                <span class="fleche" aria-hidden="true">→</span>
+              </a>
+            </li>
+          );
+        })}
       </ol>
 
-      <p class="disciplines__source mono">
-        <a class="lien" href={DESTINATION.activites} rel="noopener">Toutes les disciplines chez le club ↗</a>
+      <p class="cours__source mono">
+        <a class="lien" href={DESTINATION.activites} rel="noopener">La page activités du club ↗</a>
       </p>
     </div>
   </section>
 
-  {/* ─────────── 05 — LA PREUVE VISUELLE ─────────── */}
-  <section class="section preuve" aria-labelledby="t-preuve">
-    <div class="enveloppe preuve__tete">
-      <p class="cartouche"><span class="cartouche__num">05</span><span>Sur place</span></p>
-      <h2 id="t-preuve">Voilà la salle.</h2>
-      <p class="lead faible">
-        La cage, un soir de semaine. Toutes les photos de ce site ont été prises
-        au club.
-      </p>
-    </div>
-    <div class="enveloppe">
-      <Photo slug="cage-mma-muret" sizes="100vw" ratio="16 / 9" class="preuve__image" />
-      <p class="mono preuve__legende">Dans la cage — {DESTINATION.nom}</p>
-    </div>
-  </section>
+  {/* ─────────── 05 — LE MOTEUR ─────────── */}
+  <Seance titre={'Tu sais quel bus prendre.\nChoisis ton cours, et le moment.'} numero="05" />
 
-  {/* ─────────── 06 — LA PREMIÈRE SÉANCE ─────────── */}
+  {/* ─────────── 06 — LA PREMIÈRE FOIS ─────────── */}
   <section class="section creuse premiere" aria-labelledby="t-premiere">
     <div class="enveloppe premiere__inner">
       <div class="premiere__image">
-        <Photo slug="pattes-d-ours-muret" sizes="(max-width: 62rem) 100vw, 40vw" ratio="3 / 4" />
+        <Photo slug={ROLES.premiereSeance} sizes="(max-width: 62rem) 100vw, 40vw" ratio="3 / 4" legende />
       </div>
       <div class="premiere__texte">
         <p class="cartouche"><span class="cartouche__num">06</span><span>La première fois</span></p>
-        <h2 id="t-premiere">Tout le monde a commencé par une première séance.</h2>
+        <h2 id="t-premiere">Le premier jour, tu apprends un geste et tu le répètes au sac.</h2>
+        <p class="lead faible">
+          Le débutant complet est le profil le plus fréquent chez les nouveaux
+          inscrits. Voilà ta première séance, pas à pas.
+        </p>
         <ol class="premiere__etapes">
           <li>
             <span class="mono">01</span>
-            <p><strong>Tu apportes une tenue de sport et de l’eau.</strong> Rien de technique. Pour les gants et les bandes, les conditions de prêt appartiennent au club&nbsp;: demande-les en arrivant.</p>
+            <p><strong>Tu apportes une tenue de sport et de l’eau.</strong> Pour les gants et les bandes, tu demandes au club en arrivant.</p>
           </li>
           <li>
             <span class="mono">02</span>
-            <p><strong>Tu frappes, et c’est tout.</strong> Une première séance, c’est de la corde, du geste décomposé, du sac et des pattes d’ours. L’opposition vient bien plus tard, et seulement si tu la veux.</p>
+            <p><strong>Tu t’échauffes à la corde, puis tu apprends un geste.</strong> Décomposé lentement, répété au sac, corrigé aux pattes d’ours par le coach.</p>
           </li>
           <li>
             <span class="mono">03</span>
-            <p><strong>Tu es le débutant du fond, et c’est la place de tout le monde au début.</strong> Chacun l’a été. Chacun est occupé à sa propre séance.</p>
+            <p><strong>Tu frappes, et c’est tout.</strong> L’opposition vient bien plus tard, et seulement si tu la demandes.</p>
           </li>
           <li>
             <span class="mono">04</span>
             <p><strong>Tu repars essoufflé, et content d’être venu.</strong> C’est le seul objectif d’une première séance.</p>
           </li>
         </ol>
-        <a class="lien premiere__lien" href={route('premiere-seance').chemin}>
-          Le déroulé complet, minute par minute →
-        </a>
-      </div>
-    </div>
-  </section>
-
-  {/* ─────────── 07 — L'AMPLITUDE ─────────── */}
-  <section class="section amplitude" aria-labelledby="t-amplitude">
-    <div class="enveloppe amplitude__inner">
-      <div>
-        <p class="cartouche"><span class="cartouche__num">07</span><span>L’amplitude</span></p>
-        <p class="amplitude__grand">
-          <span>{DESTINATION.ouvertureTexte}</span>
-          <span class="amplitude__fleche" aria-hidden="true">→</span>
-          <span>{DESTINATION.fermetureTexte}</span>
-        </p>
-        <p class="mono amplitude__jours">six jours sur sept</p>
-      </div>
-      <div class="amplitude__texte">
-        <h2 id="t-amplitude">Onze heures et demie d’ouverture par jour.</h2>
-        <p class="lead faible">
-          C’est la donnée qui compte le plus quand on vient d’une autre commune&nbsp;:
-          elle veut dire que tu n’as pas à faire coïncider ta vie avec un créneau
-          unique. C’est le créneau qui s’adapte à ta semaine, pas l’inverse.
-        </p>
-        <ul class="amplitude__args">
-          <li><span class="amplitude__tiret" aria-hidden="true"></span>Tu viens quand ta journée te le permet</li>
-          <li><span class="amplitude__tiret" aria-hidden="true"></span>Compatible avec un travail, des études, une famille</li>
-          <li><span class="amplitude__tiret" aria-hidden="true"></span>Un rythme régulier reste tenable toute l’année</li>
-        </ul>
-        <a class="bouton" href={DESTINATION.plannings} rel="noopener">
-          <span>Voir le planning détaillé</span>
-          <span class="fleche" aria-hidden="true">↗</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  {/* ─────────── 08 — Y ALLER SANS VOITURE ─────────── */}
-  <section class="section trajet" aria-labelledby="t-trajet">
-    <div class="enveloppe trajet__inner">
-      <div class="trajet__texte">
-        <p class="cartouche"><span class="cartouche__num">08</span><span>Y aller</span></p>
-        <h2 id="t-trajet">
-          Un seul bus,<br />
-          <span class="trajet__accent">de la gare de Muret au 61.</span>
-        </h2>
-        <p class="lead faible">{MEILLEUR.resume}</p>
-        <div class="trajet__actions">
-          <a class="bouton bouton--signal" href={route('transports').chemin}>
-            <span>Le trajet, arrêt par arrêt</span><span class="fleche" aria-hidden="true">→</span>
+        <div class="premiere__actions">
+          <a class="bouton bouton--signal" href={DESTINATION.tarifs} rel="noopener">
+            <span>Les tarifs et la séance d’essai</span><span class="fleche" aria-hidden="true">↗</span>
           </a>
-          <a class="bouton" href={DESTINATION.plannings} rel="noopener">
-            <span>Le planning du club</span><span class="fleche" aria-hidden="true">↗</span>
+          <a class="lien premiere__lien" href={route('premiere-seance').chemin}>
+            Le déroulé complet, minute par minute →
           </a>
         </div>
       </div>
-
-      <ol class="trajet__lignes">
-        {ITINERAIRES.map((it, i) => (
-          <li class="reveler" style={`--retard:${i * 80}ms`}>
-            <a href={`${route('transports').chemin}?trajet=${it.id}`}>
-              <span class={`trajet__code trajet__code--${it.etapes[0].mode}`}>{it.etapes[0].code}</span>
-              <span class="trajet__parcours">{it.onglet}</span>
-              <span class="mono trajet__jours">
-                {it.etapes.length === 1 ? 'direct' : `correspondance à ${it.etapes[0].a}`}
-              </span>
-            </a>
-          </li>
-        ))}
-      </ol>
     </div>
   </section>
 
-  {/* ─────────── 09 — LES QUESTIONS ─────────── */}
-  <section class="section creuse questions" aria-labelledby="t-questions">
+  {/* ─────────── 07 — LES QUESTIONS ─────────── */}
+  <section class="section questions" aria-labelledby="t-questions">
     <div class="enveloppe questions__inner">
       <div class="questions__tete">
-        <p class="cartouche"><span class="cartouche__num">09</span><span>Ce qu’on nous demande</span></p>
-        <h2 id="t-questions">Les questions qu’on nous pose<br />le plus souvent.</h2>
+        <p class="cartouche"><span class="cartouche__num">07</span><span>Avant de venir</span></p>
+        <h2 id="t-questions">Les questions qui te restent<br />avant de venir.</h2>
         <p class="lead faible">
-          Les réponses sont courtes. Si la tienne n’y est pas, écris-nous&nbsp;:
-          on répond vite.
+          Chaque réponse commence par ce qui existe. Pour le reste, le club
+          répond au <a class="lien" href={`tel:${DESTINATION.telephoneLien}`}>{DESTINATION.telephone}</a>.
         </p>
       </div>
       <div class="questions__liste">
@@ -280,20 +271,19 @@ const QUESTIONS = [
     </div>
   </section>
 
-  {/* ─────────── 10 — LE SECTEUR ─────────── */}
-  <section class="section secteur" aria-labelledby="t-secteur">
+  {/* ─────────── 08 — LE SECTEUR ─────────── */}
+  <section class="section creuse secteur" aria-labelledby="t-secteur">
     <div class="enveloppe">
-      <p class="cartouche"><span class="cartouche__num">10</span><span>Le secteur</span></p>
+      <p class="cartouche"><span class="cartouche__num">08</span><span>Le secteur</span></p>
       <div class="secteur__tete">
         <h2 id="t-secteur">
-          Tu habites une commune à côté&nbsp;?<br />
-          <span class="secteur__accent">On a prévu ça aussi.</span>
+          {COMBIEN_COMMUNES.charAt(0).toUpperCase() + COMBIEN_COMMUNES.slice(1)} communes autour de {SITE.ville},<br />
+          <span class="secteur__accent">et {ROQUES?.nom} sur le parcours de la {BUS.code}.</span>
         </h2>
         <p class="lead faible secteur__intro">
-          {VILLE.statut.valeur.charAt(0).toUpperCase() + VILLE.statut.valeur.slice(1)},
-          {' '}{VILLE.population.valeur}, entre {VILLE.rivieres.valeur}. Le raisonnement de
-          cette page ne s’arrête pas aux limites de la commune&nbsp;: depuis les
-          communes voisines, ce sont les mêmes axes et le même club.
+          Boxing Center accueille les {SITE.gentile} dans son club de
+          {' '}{DESTINATION.ville}, et les habitants des communes voisines par les
+          mêmes axes. {NOTE_SECTEUR}
         </p>
       </div>
       <ul class="secteur__liste">
@@ -304,64 +294,40 @@ const QUESTIONS = [
           </li>
         ))}
       </ul>
-      <p class="secteur__pied">
-        Boxing Center accueille les habitants de Muret et du {SITE.secteur} dans son
-        club de {DESTINATION.ville}, en {SITE.departement}. Accès par
+      <p class="secteur__pied faible">
+        {VILLE.statut.valeur.charAt(0).toUpperCase() + VILLE.statut.valeur.slice(1)},
+        {' '}{VILLE.population.valeur}, entre {VILLE.rivieres.valeur}. Accès par
         {' '}{VILLE.routes.valeur}.
       </p>
+      <a class="bouton" href={route('transports').chemin}>
+        <span>Ton départ, commune par commune</span>
+        <span class="fleche" aria-hidden="true">→</span>
+      </a>
     </div>
   </section>
 
-  {/* ─────────── 11 — ADER, LE FAIT LOCAL ─────────── */}
-  <section class="section encre ader" aria-labelledby="t-ader">
-    <div class="enveloppe ader__inner">
-      <div>
-        <p class="cartouche"><span class="cartouche__num">11</span><span>Muret</span></p>
-        <h2 id="t-ader">Muret, et le club à Portet.</h2>
-        <p class="lead">
-          Muret compte {VILLE.population.valeur.replace(' (2023)', '')} et c’est la
-          sous-préfecture de la Haute-Garonne. Le club, lui, est à
-          Portet-sur-Garonne, sur la route d’Espagne.
-        </p>
-        <p class="faible">
-          En voiture, tu prends l’A64 direction Toulouse et tu sors à Portet. En
-          bus, la 117 Express part de la gare et s’arrête dans la rue du club. En
-          train, la gare de Portet-Saint-Simon est sur la même ligne que celle de
-          Muret. Le club est ouvert du lundi au samedi, de {DESTINATION.ouvertureTexte} à {DESTINATION.fermetureTexte} : tu
-          trouveras un créneau qui rentre dans ta semaine.
-        </p>
-      </div>
-      <div class="ader__photo">
-        <Photo slug="entrainement-boxe-muret" sizes="(max-width: 62rem) 100vw, 42vw" ratio="4 / 3" />
-      </div>
-    </div>
-  </section>
-
-  {/* ─────────── 12 — CONVERGENCE ─────────── */}
+  {/* ─────────── 09 — DÉCIDER ─────────── */}
   <section class="section convergence" aria-labelledby="t-convergence">
     <div class="enveloppe convergence__inner">
-      <p class="cartouche"><span class="cartouche__num">12</span><span>Décider</span></p>
+      <p class="cartouche"><span class="cartouche__num">09</span><span>Décider</span></p>
       <h2 id="t-convergence">
-        Une ligne de bus,<br />
-        <span class="convergence__accent">et tu y es.</span>
+        La {BUS.code} roule {BUS.jours}.<br />
+        <span class="convergence__accent">Choisis ton jour.</span>
       </h2>
       <p class="lead convergence__texte">
-        Si tu sais déjà ce que tu cherches, le planning du club te dira quand venir.
-        Si tu hésites, décris-nous ta semaine en deux lignes — on te répond avec la
-        discipline et le créneau qui tiennent vraiment.
+        La séance d’essai se réserve sur le site du club. Si tu hésites, décris
+        ta semaine en deux lignes et on te répond avec la discipline et le
+        créneau qui tiennent.
       </p>
       <div class="convergence__actions">
-        <a class="bouton bouton--signal" href={route('contact').chemin}>
-          <span>Poser ma question</span>
-          <span class="fleche" aria-hidden="true">→</span>
+        <a class="bouton bouton--signal" href={DESTINATION.tarifs} rel="noopener">
+          <span>Réserver sur le site du club</span><span class="fleche" aria-hidden="true">↗</span>
         </a>
-        <a class="bouton" href={DESTINATION.plannings} rel="noopener">
-          <span>Voir le planning</span>
-          <span class="fleche" aria-hidden="true">↗</span>
+        <a class="bouton" href={route('contact').chemin}>
+          <span>Ma question, par écrit</span><span class="fleche" aria-hidden="true">→</span>
         </a>
         <a class="bouton" href={`tel:${CONTACT.telephoneLien.valeur}`}>
-          <span>{CONTACT.telephone.valeur}</span>
-          <span class="fleche" aria-hidden="true">↗</span>
+          <span>{CONTACT.telephone.valeur}</span><span class="fleche" aria-hidden="true">↗</span>
         </a>
       </div>
     </div>
@@ -369,227 +335,151 @@ const QUESTIONS = [
 </Base>
 
 <style>
-  /* ── 02 Proximité ──────────────────────────────────────────────────── */
-  .proximite__inner {
+  /* ── 02 Le bus et le club ──────────────────────────────────────────── */
+  .trajet__tete {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: var(--e-5) var(--e-8);
+    align-items: end;
+  }
+  @media (max-width: 62rem) { .trajet__tete { grid-template-columns: 1fr; } }
+  .trajet h2 { max-width: 20ch; }
+  .trajet__accent { color: var(--signal-texte); }
+  .trajet__intro { max-width: 52ch; }
+  .trajet__actions { display: flex; flex-wrap: wrap; gap: var(--e-3); margin-top: var(--e-6); }
+
+  /* ── 03 La salle ───────────────────────────────────────────────────── */
+  .salle__inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
     gap: var(--e-8);
     align-items: center;
   }
-  @media (max-width: 62rem) { .proximite__inner { grid-template-columns: 1fr; gap: var(--e-7); } }
-  .proximite h2 { max-width: 12ch; margin-bottom: var(--e-5); }
-  .proximite__accent { color: var(--signal-texte); }
-  .proximite .lead { max-width: 46ch; margin-bottom: var(--e-4); }
-  .proximite .lead strong { font-weight: 600; }
-  .proximite .faible { max-width: 52ch; }
-
-  .proximite__faits { margin: var(--e-6) 0; }
-  .proximite__faits > div {
+  @media (max-width: 62rem) { .salle__inner { grid-template-columns: 1fr; gap: var(--e-7); } }
+  .salle h2 { max-width: 14ch; margin-bottom: var(--e-5); }
+  .salle__accent { color: var(--signal-texte); }
+  .salle .lead { max-width: 46ch; margin-bottom: var(--e-4); }
+  .salle .lead strong { color: var(--encre); font-weight: 600; }
+  .salle .faible { max-width: 52ch; }
+  .salle__faits { margin: var(--e-6) 0; }
+  .salle__faits > div {
     display: grid;
-    grid-template-columns: 9rem 1fr;
+    grid-template-columns: 8rem 1fr;
     gap: var(--e-3);
     padding: var(--e-3) 0;
     border-top: 1px solid var(--trait);
     font-size: var(--t-petit);
   }
-  .proximite__faits > div:last-child { border-bottom: 1px solid var(--trait); }
-  @media (max-width: 34rem) { .proximite__faits > div { grid-template-columns: 1fr; gap: 0.2rem; } }
-  .proximite__faits dt { color: var(--graphite); padding-top: 0.15em; }
-  .proximite__faits dd { margin: 0; }
+  .salle__faits > div:last-child { border-bottom: 1px solid var(--trait); }
+  .salle__faits dt { color: var(--graphite); }
+  .salle__faits dd { margin: 0; font-weight: 600; }
+  @media (max-width: 34rem) { .salle__faits > div { grid-template-columns: 1fr; gap: 0.2rem; } }
 
-  /* ── 04 Disciplines ────────────────────────────────────────────────── */
-  .disciplines__tete {
+  /* ── 04 Les cours ──────────────────────────────────────────────────── */
+  .cours__tete {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--e-5) var(--e-8);
     align-items: end;
     margin-bottom: var(--e-7);
   }
-  @media (max-width: 56rem) { .disciplines__tete { grid-template-columns: 1fr; } }
-  .disciplines__intro { max-width: 46ch; }
-
-  .disciplines__liste { list-style: none; counter-reset: none; }
-  .disciplines__liste li {
+  @media (max-width: 56rem) { .cours__tete { grid-template-columns: 1fr; } }
+  .cours h2 { max-width: 22ch; }
+  .cours__intro { max-width: 48ch; }
+  .cours__liste { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--trait); }
+  .cours__liste > li { border-bottom: 1px solid var(--trait); }
+  .cours__page {
     display: grid;
     grid-template-columns: 3rem 1fr auto;
     gap: var(--e-4);
-    align-items: baseline;
-    padding: var(--e-4) 0;
-    border-top: 1px solid var(--trait);
-    transition: padding-left var(--d-normal) var(--e-sortie);
+    align-items: center;
+    padding: var(--e-5) 0;
+    color: inherit;
+    text-decoration: none;
+    transition: transform var(--d-rapide) var(--e-sortie);
   }
-  .disciplines__liste li:last-child { border-bottom: 1px solid var(--trait); }
-  .disciplines__liste li:hover { padding-left: var(--e-3); }
-  @media (max-width: 44rem) {
-    .disciplines__liste li { grid-template-columns: 2.25rem 1fr; }
-  }
-  .disc__num { color: var(--signal-texte); font-weight: 700; }
-  .disc__nom { font-size: var(--t-h3); margin-bottom: 0.2rem; }
-  .disc__detail { font-size: var(--t-petit); color: var(--texte-faible); max-width: 56ch; }
-  .disc__age { color: var(--graphite); }
+  .cours__page:hover { transform: translateX(6px); }
+  .cours__page .fleche { color: var(--signal-texte); }
+  .cours__num { color: var(--signal-texte); font-weight: 700; }
+  .cours__corps { display: grid; gap: 0.3rem; min-width: 0; }
+  .cours__nom { font-family: var(--police-titre); font-size: var(--t-h3); font-weight: 700; }
+  .cours__intitules { font-size: var(--t-petit); color: var(--texte-faible); }
+  .cours__intitules b { color: var(--texte); font-weight: 600; }
+  .cours__detail { font-size: var(--t-petit); color: var(--texte-faible); }
+  .cours__source { margin-top: var(--e-5); }
+  @media (max-width: 44rem) { .cours__page { grid-template-columns: 2.4rem 1fr auto; } }
 
-  .disciplines__source { margin-top: var(--e-5); color: var(--graphite); text-transform: none; letter-spacing: 0.04em; }
-
-  /* ── 05 Preuve ─────────────────────────────────────────────────────── */
-  .preuve__tete { max-width: 56rem; margin-bottom: var(--e-7); }
-  .preuve h2 { max-width: 18ch; margin-bottom: var(--e-4); }
-  .preuve__legende { margin-top: var(--e-3); color: var(--graphite); text-transform: none; letter-spacing: 0.04em; }
-
-  /* ── 06 Première séance ────────────────────────────────────────────── */
+  /* ── 06 La première fois ───────────────────────────────────────────── */
   .premiere__inner {
     display: grid;
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     gap: var(--e-8);
     align-items: center;
   }
-  @media (max-width: 62rem) { .premiere__inner { grid-template-columns: 1fr; } }
-  .premiere h2 { max-width: 16ch; margin-bottom: var(--e-6); }
-  .premiere__etapes { list-style: none; display: grid; }
+  @media (max-width: 62rem) { .premiere__inner { grid-template-columns: 1fr; gap: var(--e-7); } }
+  .premiere h2 { max-width: 20ch; margin-bottom: var(--e-4); }
+  .premiere .lead { max-width: 46ch; margin-bottom: var(--e-5); }
+  .premiere__etapes { list-style: none; margin: 0 0 var(--e-6); padding: 0; display: grid; gap: var(--e-4); }
   .premiere__etapes li {
     display: grid;
     grid-template-columns: 2.5rem 1fr;
-    gap: var(--e-4);
-    padding: var(--e-4) 0;
-    border-top: 1px solid var(--trait);
+    gap: var(--e-3);
+    padding-bottom: var(--e-4);
+    border-bottom: 1px solid var(--trait);
   }
-  .premiere__etapes .mono { color: var(--signal-texte); padding-top: 0.3em; font-weight: 700; }
-  .premiere__etapes p { font-size: var(--t-petit); color: var(--texte-faible); max-width: 56ch; }
-  .premiere__etapes strong { color: var(--encre); font-weight: 600; }
-  .premiere__lien { display: inline-block; margin-top: var(--e-5); font-size: var(--t-petit); }
+  .premiere__etapes li:last-child { border-bottom: 0; }
+  .premiere__etapes .mono { color: var(--signal-texte); font-weight: 700; }
+  .premiere__etapes p { margin: 0; color: var(--texte-faible); }
+  .premiere__etapes strong { color: var(--texte); font-weight: 600; }
+  .premiere__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-4); }
+  .premiere__lien { font-weight: 600; }
 
-  /* ── 07 Amplitude ──────────────────────────────────────────────────── */
-  .amplitude__inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--e-7) var(--e-8);
-    align-items: center;
-  }
-  @media (max-width: 62rem) { .amplitude__inner { grid-template-columns: 1fr; } }
-  .amplitude__grand {
-    display: flex;
-    align-items: baseline;
-    gap: 0.3em;
-    font-family: var(--police-titre);
-    font-size: var(--t-display);
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -0.05em;
-    font-variant-numeric: tabular-nums;
-    margin: 0;
-  }
-  .amplitude__fleche { color: var(--signal-texte); font-size: 0.45em; }
-  .amplitude__jours { margin-top: var(--e-3); color: var(--signal-texte); letter-spacing: 0.18em; }
-  .amplitude__texte h2 { max-width: 18ch; margin-bottom: var(--e-4); }
-  .amplitude__texte .lead { max-width: 48ch; }
-  .amplitude__args { list-style: none; display: grid; gap: var(--e-3); margin: var(--e-6) 0; }
-  .amplitude__args li { display: flex; align-items: baseline; gap: var(--e-3); font-size: var(--t-petit); }
-  .amplitude__tiret { flex: none; width: 1.25rem; height: 1px; background: var(--signal-texte); }
-
-  /* ── 09 Questions ──────────────────────────────────────────────────── */
+  /* ── 07 Les questions ──────────────────────────────────────────────── */
   .questions__inner {
     display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     gap: var(--e-8);
     align-items: start;
   }
   @media (max-width: 62rem) { .questions__inner { grid-template-columns: 1fr; gap: var(--e-6); } }
-  .questions__tete h2 { max-width: 16ch; margin-bottom: var(--e-4); }
-  .questions__tete .lead { max-width: 40ch; }
+  .questions__tete h2 { margin-bottom: var(--e-4); }
+  .questions__tete .lead { max-width: 36ch; }
 
-  /* ── 08 Y aller ────────────────────────────────────────────────────── */
-  .trajet__inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-    gap: var(--e-8);
-    align-items: center;
-  }
-  @media (max-width: 62rem) { .trajet__inner { grid-template-columns: 1fr; gap: var(--e-6); } }
-  .trajet h2 { max-width: 16ch; margin-bottom: var(--e-4); }
-  .trajet__accent { color: var(--signal-texte); }
-  .trajet .lead { max-width: 50ch; }
-  .trajet__actions { display: flex; flex-wrap: wrap; gap: var(--e-3); margin-top: var(--e-6); }
-
-  .trajet__lignes { list-style: none; display: grid; gap: var(--e-3); }
-  .trajet__lignes a {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-areas: 'code parcours' 'code jours';
-    gap: 0.15rem var(--e-4);
-    align-items: center;
-    padding: var(--e-4) var(--e-5);
-    border: 1px solid var(--trait);
-    border-radius: var(--rayon-1);
-    background: var(--papier-vif);
-    text-decoration: none;
-    transition:
-      border-color var(--d-rapide) var(--e-mecanique),
-      transform var(--d-normal) var(--e-sortie);
-  }
-  .trajet__lignes a:hover { border-color: var(--signal-texte); transform: translateX(4px); }
-  .trajet__code {
-    grid-area: code;
-    display: grid;
-    place-items: center;
-    min-width: 3.2rem;
-    padding: 0.4rem 0.6rem;
-    border-radius: 0.35rem;
-    background: var(--encre);
-    color: var(--papier-vif);
-    font-family: var(--police-mono);
-    font-size: var(--t-petit);
-    font-weight: 700;
-  }
-  .trajet__code--train { background: var(--encre-pale); }
-  .trajet__code--metro { background: var(--signal-texte); }
-  .trajet__parcours { grid-area: parcours; font-weight: 600; font-size: var(--t-petit); }
-  .trajet__jours { grid-area: jours; color: var(--graphite); text-transform: none; letter-spacing: 0.05em; }
-
-  /* ── 10 Secteur ────────────────────────────────────────────────────── */
+  /* ── 08 Le secteur ─────────────────────────────────────────────────── */
   .secteur__tete {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     gap: var(--e-5) var(--e-8);
     align-items: end;
-    margin-bottom: var(--e-7);
+    margin-bottom: var(--e-6);
   }
   @media (max-width: 62rem) { .secteur__tete { grid-template-columns: 1fr; } }
+  .secteur h2 { max-width: 20ch; }
   .secteur__accent { color: var(--signal-texte); }
-  .secteur__intro { max-width: 48ch; }
-
+  .secteur__intro { max-width: 52ch; }
   .secteur__liste {
     list-style: none;
+    margin: 0 0 var(--e-5);
+    padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
-    border-top: 1px solid var(--trait);
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: var(--e-2) var(--e-5);
   }
   .secteur__item {
     display: grid;
-    gap: 0.15rem;
-    padding: var(--e-4) var(--e-4) var(--e-4) 0;
-    border-bottom: 1px solid var(--trait);
+    gap: 0.1rem;
+    padding: var(--e-3) 0;
+    border-top: 1px solid var(--trait);
+    font-size: var(--t-petit);
   }
-  .secteur__nom { font-weight: 600; font-size: var(--t-petit); }
-  .secteur__item--cle .secteur__nom { color: var(--signal-texte); }
-  .secteur__note { font-size: var(--t-micro); color: var(--graphite); }
-  .secteur__pied { margin-top: var(--e-6); max-width: 68ch; font-size: var(--t-petit); color: var(--texte-faible); }
+  .secteur__item--cle .secteur__nom { color: var(--signal-texte); font-weight: 700; }
+  .secteur__note { color: var(--texte-faible); font-size: var(--t-micro); }
+  .secteur__pied { max-width: 60ch; margin-bottom: var(--e-5); font-size: var(--t-petit); }
 
-  /* ── 11 Ader ───────────────────────────────────────────────────────── */
-  .ader__inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    gap: var(--e-8);
-    align-items: center;
-  }
-  @media (max-width: 62rem) { .ader__inner { grid-template-columns: 1fr; } }
-  .ader h2 { max-width: 18ch; margin-bottom: var(--e-5); }
-  .ader .lead { max-width: 48ch; margin-bottom: var(--e-4); }
-  .ader .faible { max-width: 54ch; }
-
-  /* ── 12 Convergence ────────────────────────────────────────────────── */
-  .convergence { background: var(--papier-creuse); }
-  .convergence__inner { max-width: 48rem; }
-  .convergence h2 { margin-bottom: var(--e-5); }
+  /* ── 09 Décider ────────────────────────────────────────────────────── */
+  .convergence__inner { text-align: left; }
+  .convergence h2 { max-width: 18ch; margin-bottom: var(--e-5); }
   .convergence__accent { color: var(--signal-texte); }
-  .convergence__texte { max-width: 52ch; color: var(--texte-faible); }
-  .convergence__actions { display: flex; flex-wrap: wrap; gap: var(--e-3); margin-top: var(--e-7); }
+  .convergence__texte { max-width: 52ch; margin-bottom: var(--e-6); }
+  .convergence__actions { display: flex; flex-wrap: wrap; gap: var(--e-3); }
 </style>
