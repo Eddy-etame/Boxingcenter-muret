@@ -14,6 +14,8 @@ export type Source = 'site-club' | 'wikipedia' | 'cahier-des-charges' | 'a-verif
 
 export type Fait<T = string> = { valeur: T; source: Source; verifie: string };
 
+/** Décidé par le client (Eddy, 2026-09-10) : le numéro et l'adresse que ce site affiche. */
+const CDC = (v: string): Fait => ({ valeur: v, source: 'cahier-des-charges', verifie: '2026-09-10' });
 const CLUB = (v: string): Fait => ({ valeur: v, source: 'site-club', verifie: '2026-09-08' });
 const WIKI = (v: string): Fait => ({ valeur: v, source: 'wikipedia', verifie: '2026-09-08' });
 
@@ -46,9 +48,9 @@ export const SITE = {
 /* ─────────────────────────────  CONTACT  ───────────────────────────── */
 
 export const CONTACT = {
-  telephone: CLUB('05 62 24 46 82'),
-  telephoneLien: CLUB('+33562244682'),
-  email: CLUB('bc.combat31@gmail.com'),
+  telephone: CDC('09 56 65 37 82'),
+  telephoneLien: CDC('+33956653782'),
+  email: CDC('boxingcenterportet@gmail.com'),
 } as const;
 
 /* ─────────────────────────────  LE CLUB  ───────────────────────────── */
@@ -90,8 +92,8 @@ export const CLUBS: readonly Club[] = [
     ville: 'Portet-sur-Garonne',
     codePostal: '31120',
     adresse: "61 route d'Espagne, 31120 Portet-sur-Garonne",
-    telephone: '06 87 90 02 16',
-    telephoneLien: '+33687900216',
+    telephone: '09 56 65 37 82',
+    telephoneLien: '+33956653782',
     site: 'https://boxing-center-portet.fr/',
     activites: 'https://boxing-center-portet.fr/activites/',
     plannings: 'https://boxing-center-portet.fr/plannings/',
