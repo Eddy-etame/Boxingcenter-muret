@@ -19,7 +19,7 @@ import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 import { ROUTES } from '../../data/routes';
 import { SITE, DESTINATION } from '../../data/verite';
-import { MEILLEUR, ARRIVEE } from '../../data/transports';
+import { ITINERAIRES, MEILLEUR, ARRIVEE } from '../../data/transports';
 import { TEINTE as T } from '../../data/teinte';
 
 export const prerender = true;
@@ -50,6 +50,8 @@ const TEXTE = 'Instrument Sans';
 const CLUB = DESTINATION;
 /** Les codes du meilleur trajet, dans l'ordre : « 117 Express », « 60 → B → 59 »… */
 const CODES = MEILLEUR.etapes.map((e) => e.code).join(' → ');
+/** La première ligne de chaque itinéraire du registre, pour les dessins à plusieurs branches. */
+const LIGNES = ITINERAIRES.map((it) => it.etapes[0]?.code ?? '');
 
 /** Le titre, avec le lieu en couleur : la ville du site, sinon la commune de la page. */
 function titreColore(titre: string, lieu: string): unknown[] {
@@ -229,17 +231,18 @@ export const GET: APIRoute = async ({ params }) => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-end',
+          gap: 32,
           paddingTop: 18,
           borderTop: `2px solid ${T.trait}`,
           fontFamily: MONO,
-          fontSize: 17,
+          fontSize: 15,
           letterSpacing: 0.5,
           color: T.graphite,
         },
       },
       h(
         'div',
-        { style: { display: 'flex', flexDirection: 'column', gap: 6 } },
+        { style: { display: 'flex', flexDirection: 'column', gap: 6, flexShrink: 1 } },
         h(
           'div',
           { style: { display: 'flex', gap: 12 } },
@@ -253,7 +256,7 @@ export const GET: APIRoute = async ({ params }) => {
           h('span', {}, `${CODES} · ${ARRIVEE.arret}`)
         )
       ),
-      h('span', { style: { color: T.signalTexte, fontWeight: 700 } }, domaine)
+      h('span', { style: { color: T.signalTexte, fontWeight: 700, whiteSpace: 'nowrap', flexShrink: 0 } }, domaine)
     )
   );
 
