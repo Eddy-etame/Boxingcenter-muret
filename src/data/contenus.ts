@@ -34,7 +34,7 @@ export const CONTENUS: readonly Contenu[] = [
     id: 'boxe-anglaise',
     h1: 'Cours de boxe anglaise à proximité de Muret',
     chapeau:
-      "La boxe anglaise se pratique aux poings, avec des gants, dans un cadre encadré. Aucun niveau n'est demandé pour commencer. Depuis Muret, elle se pratique à Boxing Center Portet-sur-Garonne, au bout de la ligne 117 Express, six jours sur sept de 10h à 21h30.",
+      "Les poings, des gants, un coach : la boxe anglaise se commence sans aucun passé sportif. Depuis Muret, elle se pratique à Boxing Center Portet-sur-Garonne, au bout de la ligne 117 Express, six jours sur sept de 10h à 21h30.",
     photoHero: 'boxe-anglaise-muret',
     photoSecondaire: 'sac-de-frappe-muret',
     promesse: 'Apprendre à boxer pour de vrai, encadré, sans avoir rien à prouver à personne.',
@@ -47,12 +47,12 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'Tu ne prendras pas de coups le premier jour',
         texte:
-          "L'opposition arrive plus tard, et seulement pour celles et ceux qui la souhaitent. Un débutant travaille au sac, à la corde, aux pattes d'ours avec un coach, et sur le déplacement à vide. Beaucoup de pratiquants s'entraînent des mois sans jamais faire d'opposition — et progressent énormément.",
+          "L'opposition arrive plus tard, et seulement pour celles et ceux qui la souhaitent. Au début, tout se fait au sac, à la corde, aux pattes d'ours tenues par un coach et en déplacement à vide. Certains s'entraînent des mois sans jamais choisir l'opposition, et leur boxe avance quand même.",
       },
       {
         titre: 'Ce que ça change dans ta semaine',
         texte:
-          "Deux séances par semaine suffisent à sentir une différence en un mois : sur le souffle d'abord, sur la posture ensuite, sur la façon de gérer la fatigue enfin. La boxe a ceci de particulier qu'elle occupe complètement la tête. Il est très difficile de penser à sa journée de travail pendant un round au sac. Beaucoup viennent au départ pour la forme et restent pour cette raison-là.",
+          "À raison de deux séances par semaine, un mois suffit pour que le souffle change, puis la posture, puis la manière d'encaisser la fatigue. Pendant un round au sac, on pense au geste et à rien d'autre. C'est souvent la forme qui fait venir, et ce moment-là qui fait rester.",
       },
       {
         titre: 'Comment tu y vas',
@@ -62,26 +62,26 @@ export const CONTENUS: readonly Contenu[] = [
     ],
     seance: [
       'Échauffement : corde, mobilité, déplacements à vide',
-      'Technique : un geste, décomposé, répété lentement puis en rythme',
+      'Technique : un coup montré par le coach, puis répété jusqu’au rythme',
       'Sac ou pattes d’ours : l’application, avec correction du coach',
-      'Renforcement : gainage, abdominaux, travail au poids du corps',
+      'Renforcement : gainage et abdominaux, sans charge',
       'Retour au calme et étirements',
     ],
     faq: [
       {
-        titre: 'Il me faut du matériel pour la première séance ?',
+        titre: 'Qu’apporter à la première séance à Portet ?',
         texte:
-          "Une tenue de sport, une bouteille d'eau, et c'est tout pour découvrir. Pour les gants et les bandes, les conditions de prêt sont propres au club : demande-les en arrivant ou par téléphone avant de venir, c'est lui qui a l'information à jour.",
+          "Pour découvrir, une tenue de sport et une bouteille d'eau suffisent. Pour les gants et les bandes, les conditions de prêt sont propres au club : demande-les en arrivant ou par téléphone avant de venir, c'est lui qui a l'information à jour.",
       },
       {
-        titre: 'J’ai plus de 40 ans, c’est trop tard ?',
+        titre: 'Commencer la boxe à 45 ans, c’est possible ?',
         texte:
-          "La boxe se pratique à l'intensité qu'on lui donne. Un coach adapte le volume au pratiquant qu'il a devant lui, et la salle accueille des profils très différents dans la même séance.",
+          "Oui : la boxe se règle à l'intensité que tu lui donnes. Un coach adapte le volume au pratiquant qu'il a devant lui, et la salle accueille des profils très différents dans la même séance.",
       },
       {
         titre: 'Je ne suis vraiment pas en forme. Je vais être ridicule ?',
         texte:
-          "Tout le monde a été le débutant essoufflé du fond de la salle. C'est même la situation la plus banale d'un club de boxe : chacun est occupé à sa propre séance, chacun est occupé à sa propre séance.",
+          "Chaque pratiquant de la salle a connu sa première séance, essoufflé au fond du groupe. Personne ne te regarde : chacun est pris par sa propre séance.",
       },
     ],
   },
@@ -90,15 +90,15 @@ export const CONTENUS: readonly Contenu[] = [
     id: 'mma',
     h1: 'Club de MMA près de Muret : la cage est à Portet',
     chapeau:
-      "Le MMA combine la frappe debout, le corps à corps et le travail au sol. Depuis Muret, il se pratique à Boxing Center Portet-sur-Garonne — et l'entraînement se fait dans la cage. Le club publie aussi le grappling et le jiu-jitsu brésilien, six jours sur sept de 10h à 21h30.",
+      "Frappe, lutte debout, travail au sol : le MMA réunit les trois. Depuis Muret, il se pratique à Boxing Center Portet-sur-Garonne — et l'entraînement se fait dans la cage. Le club publie aussi le grappling et le jiu-jitsu brésilien, six jours sur sept de 10h à 21h30.",
     photoHero: 'cage-mma-muret',
     photoSecondaire: 'boxe-anglaise-muret',
-    promesse: 'La discipline la plus complète, construite étape par étape, même en partant de zéro.',
+    promesse: 'La seule cage du réseau, et un apprentissage par étapes, même en partant de zéro.',
     blocs: [
       {
-        titre: 'Pourquoi le MMA fait peur, et pourquoi c’est un malentendu',
+        titre: 'Le MMA de la télévision, et celui du cours',
         texte:
-          "L'image publique du MMA vient des combats professionnels : une cage, deux athlètes préparés, et une intensité qui n'a rien à voir avec un entraînement. Un cours en club, c'est autre chose : de la technique décomposée, des répétitions à vitesse lente, du travail de placement, et une progression par étapes. Ce qu'on voit à la télévision est le sommet d'une pyramide dont la base est un cours d'apprentissage tout à fait ordinaire.",
+          "Les combats diffusés montrent deux athlètes préparés depuis des années, dans une cage, à pleine intensité. Un cours en club travaille autrement : des techniques décomposées, répétées lentement, un placement corrigé par le coach, et des étapes franchies une à une. La compétition reste une option pour ceux qui la cherchent ; le cours s'adresse à tout le monde.",
       },
       {
         titre: 'La paroi fait partie du jeu',
@@ -108,7 +108,7 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'Les trois zones, et dans quel ordre les apprendre',
         texte:
-          "Debout, c'est la frappe : poings, pieds, genoux, avec la même logique de distance et de garde qu'en boxe. Au corps à corps, c'est le clinch et les projections, le travail de déséquilibre. Au sol, c'est le contrôle, les positions et les soumissions. Un débutant n'attaque pas les trois de front : on construit une zone après l'autre, et beaucoup commencent par le sol.",
+          "Debout, on frappe des poings, des pieds et des genoux, en gardant la distance et la garde apprises en boxe. Au corps à corps, c'est le clinch et les projections, le travail de déséquilibre. Au sol, on contrôle, on change de position, on cherche la soumission. Un débutant n'attaque pas les trois de front : on construit une zone après l'autre, et beaucoup commencent par le sol.",
       },
       {
         titre: 'Le grappling, la porte d’entrée la plus sûre',
@@ -127,7 +127,7 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'Faut-il déjà savoir boxer ou lutter ?',
         texte:
-          "Partir de zéro est même plus simple : il n'y a rien à désapprendre. Ce qu'il faut, c'est accepter de mal faire pendant plusieurs semaines. Le MMA est la discipline où la sensation d'incompétence dure le plus longtemps, parce qu'il y a le plus de choses à intégrer — et c'est aussi celle où les progrès sont les plus visibles une fois le cap passé.",
+          "Partir de zéro est même plus simple : il n'y a rien à désapprendre. La vraie condition, c'est d'accepter quelques semaines de maladresse. Avec trois terrains à apprendre, le MMA démarre lentement, puis les progrès deviennent très visibles.",
       },
       {
         titre: 'Est-ce qu’on se bat vraiment à l’entraînement ?',
@@ -137,7 +137,7 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'Quelle différence entre MMA, grappling et JJB ?',
         texte:
-          "Le grappling est la lutte au sol sans frappe, en short et rashguard. Le jiu-jitsu brésilien travaille le même terrain avec le kimono et un système de ceintures. Le MMA réunit les deux et y ajoute la frappe debout. Le club publie les trois : tu peux commencer par celui qui te rassure et élargir ensuite.",
+          "Le grappling est la lutte au sol sans frappe, en short et rashguard. Le jiu-jitsu brésilien se pratique en kimono, avec une progression par ceintures. Le MMA ajoute à ce travail au sol la frappe debout. Le club publie les trois : tu peux commencer par celui qui te rassure et élargir ensuite.",
       },
     ],
   },
@@ -205,7 +205,7 @@ export const CONTENUS: readonly Contenu[] = [
       "La boxe éducative apprend d'abord le contrôle du geste, la règle, la distance et le respect du partenaire. Le touché est contrôlé, jamais la mise en danger. Depuis Muret, trois niveaux existent à Boxing Center Portet-sur-Garonne : Baby boxe, boxe éducative, et kick-boxing enfants/ados.",
     photoHero: 'pattes-d-ours-muret',
     photoSecondaire: 'club-boxe-muret-2',
-    promesse: 'Un cadre qui apprend le geste, la maîtrise et le respect — et ça se voit hors de la salle.',
+    promesse: 'Le geste, la maîtrise, le respect : ce que l’enfant apprend à Portet, et qu’il rapporte à la maison.',
     blocs: [
       {
         titre: 'Ce qu’un enfant fait vraiment pendant une heure',
@@ -237,7 +237,7 @@ export const CONTENUS: readonly Contenu[] = [
     ],
     faq: [
       {
-        titre: 'À partir de quel âge ?',
+        titre: 'Dès quel âge inscrire un enfant à Portet ?',
         texte:
           "Le club publie la Baby boxe pour les plus jeunes, puis la boxe éducative. Les tranches d'âge exactes changent d'une saison à l'autre : appelle le club avec l'âge de ton enfant, il te dira quel créneau viser. On ne te donnera pas ici un chiffre qui pourrait être faux au moment où tu le lis.",
       },
@@ -258,7 +258,7 @@ export const CONTENUS: readonly Contenu[] = [
     id: 'boxing-fitness',
     h1: 'Boxing fitness et boxe femme à proximité de Muret',
     chapeau:
-      "Le boxing fitness reprend les gestes de la boxe — frappe, déplacement, garde — sans aucune opposition. On ne prend pas de coup et on ne combat pas. Depuis Muret, Boxing Center Portet-sur-Garonne publie le Lady Boxing et la préparation physique, six jours sur sept de 10h à 21h30.",
+      "Frappe, déplacement, garde : le boxing fitness garde les gestes de la boxe et retire l'opposition. Tu ne reçois aucun coup et tu ne combats pas. Depuis Muret, Boxing Center Portet-sur-Garonne publie le Lady Boxing et la préparation physique, six jours sur sept de 10h à 21h30.",
     photoHero: 'preparation-physique-muret',
     photoSecondaire: 'sac-de-frappe-muret',
     promesse: 'Le cardio et le défoulement de la boxe, sans opposition et sans rien avoir à prouver.',
