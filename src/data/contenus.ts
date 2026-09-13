@@ -93,7 +93,7 @@ export const CONTENUS: readonly Contenu[] = [
       "Frappe, lutte debout, travail au sol : le MMA réunit les trois. Depuis Muret, il se pratique à Boxing Center Portet-sur-Garonne — et l'entraînement se fait dans la cage. Le club publie aussi le grappling et le jiu-jitsu brésilien, six jours sur sept de 10h à 21h30.",
     photoHero: 'cage-mma-muret',
     photoSecondaire: 'boxe-anglaise-muret',
-    promesse: 'La seule cage du réseau, et un apprentissage par étapes, même en partant de zéro.',
+    promesse: 'La cage la plus proche de Muret, et un apprentissage par étapes, même en partant de zéro.',
     blocs: [
       {
         titre: 'Le MMA de la télévision, et celui du cours',
@@ -103,7 +103,7 @@ export const CONTENUS: readonly Contenu[] = [
       {
         titre: 'La paroi fait partie du jeu',
         texte:
-          "Elle change la façon dont on travaille. Contre un grillage, il n'y a pas de sortie latérale : on apprend à gérer le dos au mur, les appuis, les relevés. C'est une compétence en soi, et c'est le genre de détail qui sépare un club qui publie « MMA » d'un club qui le pratique vraiment. Portet-sur-Garonne a la seule cage du réseau Boxing Center.",
+          "Elle change la façon dont on travaille. Contre un grillage, il n'y a pas de sortie latérale : on apprend à gérer le dos au mur, les appuis, les relevés. C'est une compétence en soi, et c'est le genre de détail qui sépare un club qui publie « MMA » d'un club qui le pratique vraiment. Depuis Muret, la cage du réseau Boxing Center la plus proche est à Portet-sur-Garonne.",
       },
       {
         titre: 'Les trois zones, et dans quel ordre les apprendre',

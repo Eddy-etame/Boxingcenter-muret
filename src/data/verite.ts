@@ -105,7 +105,7 @@ export const CLUBS: readonly Club[] = [
     ouvertureTexte: '10h',
     fermetureTexte: '21h30',
     acces: "Par l'A64 en direction de Toulouse, sortie Portet, puis la route d'Espagne.",
-    singularite: 'Le seul club du réseau avec une cage MMA.',
+    singularite: 'Une cage MMA, un ring et un mur de sacs sur 600 m², au sud-ouest de Toulouse.',
     faits: [
       { cle: 'Ligne directe', valeur: '117 Express', source: 'Tisséo' },
       { cle: 'Surface', valeur: '600 m²', source: 'boxing-center-portet.fr' },
