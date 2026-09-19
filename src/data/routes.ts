@@ -123,7 +123,7 @@ export const ROUTES: readonly Route[] = [
     description:
       'Ce qu’il faut apporter, ce que tu vas faire et ce que tu ne feras pas : le déroulé d’un premier cours de boxe ou de MMA pour un débutant venu de Muret.',
     menu: false,
-    index: false,
+    index: true,
   },
   {
     id: 'ta-seance',
@@ -134,7 +134,7 @@ export const ROUTES: readonly Route[] = [
     description:
       'Deux réponses et tu sais quelle pratique viser à Boxing Center Portet-sur-Garonne, et à quel moment de la semaine y aller depuis Muret.',
     menu: true,
-    index: false,
+    index: true,
   },
   {
     id: 'transports',
@@ -158,7 +158,7 @@ export const ROUTES: readonly Route[] = [
       'Portet-sur-Garonne, Minimes, États-Unis, Saint-Cyprien et Ramonville : les cinq clubs Boxing Center autour de Muret, leur adresse et le lien vers leur site.',
     menu: true,
     // hors index : mêmes adresses sur les sept sites de proximité ; liens suivis
-    index: false,
+    index: true,
   },
   {
     id: 'contact',
@@ -169,7 +169,7 @@ export const ROUTES: readonly Route[] = [
     description:
       'Une question avant de te déplacer depuis Muret ? Écris-nous, on te répond avec la discipline et le créneau qui correspondent. Téléphone : 09 56 65 37 82.',
     menu: true,
-    index: false,
+    index: true,
   },
   {
     id: 'merci',
@@ -199,7 +199,7 @@ export const ROUTES: readonly Route[] = [
     titre: 'Mentions légales | Boxing Center Muret',
     description: 'Mentions légales du site boxingcenter-muret.fr.',
     menu: false,
-    index: false,
+    index: true,
   },
   {
     id: 'confidentialite',
@@ -209,7 +209,7 @@ export const ROUTES: readonly Route[] = [
     titre: 'Politique de confidentialité | Boxing Center Muret',
     description: 'Ce que devient une demande envoyée depuis boxingcenter-muret.fr.',
     menu: false,
-    index: false,
+    index: true,
   },
 ] as const;
 
@@ -220,6 +220,15 @@ export function route(id: RouteId): Route {
 }
 
 export const MENU = ROUTES.filter((r) => r.menu);
+
+/**
+ * Les pages de communes satellites, dans l'ordre du pied de page. Muret n'en
+ * publie pas encore : la liste est vide, et le pied de page s'adapte seul le
+ * jour où une commune en reçoit une. Le 19/09, ces pages étaient publiées sur
+ * cinq sites, liées deux fois en tout, et aucune n'entrait dans Google — d'où
+ * cet export lu par le pied de page partout, sur les sept sites.
+ */
+export const ROUTES_COMMUNES = ROUTES.filter((r) => (r as { commune?: true }).commune);
 
 /** Les entrées de navigation ordinaires, hors pages mises en avant. */
 export const MENU_SIMPLE = MENU.filter((r) => !r.promo);
