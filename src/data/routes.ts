@@ -23,6 +23,11 @@ export type RouteId =
   | 'ta-seance'
   | 'transports'
   | 'nos-clubs'
+  /* conseils:début */
+  | 'conseils'
+  | 'budget-equipement-boxe'
+  | 'kimono-jjb-debutant'
+  /* conseils:fin */
   | 'contact'
   | 'merci'
   | 'introuvable'
@@ -160,6 +165,41 @@ export const ROUTES: readonly Route[] = [
     // hors index : mêmes adresses sur les sept sites de proximité ; liens suivis
     index: true,
   },
+  /* conseils:routes */
+  {
+    id: 'conseils',
+    chemin: '/conseils/',
+    nav: 'Conseils matériel',
+    question: 'Combien coûte l’équipement de boxe, et quel kimono de JJB choisir ?',
+    titre: 'Budget boxe, kimono de JJB : conseils matériel | Muret',
+    description:
+      'Combien coûte l’équipement de boxe, comment choisir un kimono de JJB : les conseils de Boxing Center pour les Muretains, club à Portet-sur-Garonne.',
+    menu: false,
+    index: true,
+  },
+  {
+    id: 'budget-equipement-boxe',
+    chemin: '/conseils/budget-equipement-boxe/',
+    nav: 'Budget équipement',
+    question: 'Combien coûte l’équipement pour débuter la boxe ?',
+    titre: 'Équipement de boxe : quel budget pour débuter ?',
+    description:
+      'Gants dès 17,90 €, bandes à 6,90 €, protège-dents à 5,90 € : le budget du premier équipement de boxe, prix relevés le 1er octobre 2026, depuis Muret.',
+    menu: false,
+    index: true,
+  },
+  {
+    id: 'kimono-jjb-debutant',
+    chemin: '/conseils/kimono-jjb-debutant/',
+    nav: 'Kimono de JJB',
+    question: 'Quel kimono choisir pour débuter le jiu-jitsu brésilien ?',
+    titre: 'Kimono de JJB : lequel choisir pour débuter ?',
+    description:
+      'Tailles A0 à A4, tissage, couleur, ceinture blanche : choisir son premier kimono de jiu-jitsu brésilien quand on s’entraîne à Portet depuis Muret.',
+    menu: false,
+    index: true,
+  },
+  /* conseils:routes:fin */
   {
     id: 'contact',
     chemin: '/contact/',
