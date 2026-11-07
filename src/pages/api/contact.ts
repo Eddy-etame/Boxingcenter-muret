@@ -17,7 +17,7 @@ import { SITE } from '../../data/verite';
  */
 export const prerender = false;
 
-const INLET = 'https://inlett.vercel.app';
+const INLET = 'https://eam-inlet.vercel.app';
 /** Le formulaire de ce site, lu dans le registre : jamais écrit ici en dur. */
 const FORMULAIRE = SITE.formulaire;
 
